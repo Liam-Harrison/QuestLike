@@ -1,0 +1,177 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C0FDC7E9-505C-4A3C-9A60-202C04AE3CAF}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ZorkLike</RootNamespace>
+    <AssemblyName>ZorkLike</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>ZorkLike.Program</StartupObject>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework, Version=3.7.1.189, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\lib\net45\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="SadConsole, Version=8.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\SadConsole.8.7.1\lib\netstandard2.0\SadConsole.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.0.1\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct2D1, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct2D1.4.0.1\lib\net45\SharpDX.Direct2D1.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.4.0.1\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D9, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D9.4.0.1\lib\net45\SharpDX.Direct3D9.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.0.1\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Mathematics, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Mathematics.4.0.1\lib\net45\SharpDX.Mathematics.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.MediaFoundation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.MediaFoundation.4.0.1\lib\net45\SharpDX.MediaFoundation.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XAudio2, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XAudio2.4.0.1\lib\net45\SharpDX.XAudio2.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.XInput, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.XInput.4.0.1\lib\net45\SharpDX.XInput.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Command\CommandFactory.cs" />
+    <Compile Include="Command\DebugCommand.cs" />
+    <Compile Include="Command\GrabCommand.cs" />
+    <Compile Include="Command\HelpCommand.cs" />
+    <Compile Include="Command\InteractionCommands.cs" />
+    <Compile Include="Command\UseCommand.cs" />
+    <Compile Include="Game\Attack System\Damager.cs" />
+    <Compile Include="Game\Attack System\Effector.cs" />
+    <Compile Include="Game\Attack System\Effects\Burn.cs" />
+    <Compile Include="Game\Attack System\Effects\Reverse.cs" />
+    <Compile Include="Game\Attack System\IDamagable.cs" />
+    <Compile Include="Game\Attack System\IEffectable.cs" />
+    <Compile Include="Game\Attack System\Weapon.cs" />
+    <Compile Include="Game\Attack System\Effect.cs" />
+    <Compile Include="Game\Collection System\IHaveInventory.cs" />
+    <Compile Include="Game\Collection System\Inventory.cs" />
+    <Compile Include="Game\Eatable.cs" />
+    <Compile Include="Game\Entity System\Blueprints\Partial Cybernetic Characters\PartialCyberHuman.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Leg\Foot.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Leg\Lower Leg.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Leg\Upper Leg.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Connections\VesselTypes.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\CyberneticBodyPart.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Major Organs\Brain.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Major Organs\CyberSignalSender.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Major Organs\Stomach.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Arm\CyberHand.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Arm\Hand.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Arm\Lower Arm.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Bone.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Head.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Muscle.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Arm\Upper Arm.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Connections\Nerve.cs" />
+    <Compile Include="Game\Equipment System\BodyEquipable.cs" />
+    <Compile Include="Game\Collection System\Collectable.cs" />
+    <Compile Include="Game\Collection System\Collection.cs" />
+    <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\LookCommand.cs" />
+    <Compile Include="Game\Collection System\CollectionManager.cs" />
+    <Compile Include="Game\Entity System\Blueprints\Partial Cybernetic Characters\PartialCyberHumanoid.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\BodyPart.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Major Organs\Heart.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Major Organs\Lung.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Extremity.cs" />
+    <Compile Include="Game\Entity System\Entity.cs" />
+    <Compile Include="Game\Game.cs" />
+    <Compile Include="Game\GameObject.cs" />
+    <Compile Include="Game\Holdable System\IHoldable.cs" />
+    <Compile Include="Game\Identifiable.cs" />
+    <Compile Include="Game\Collection System\IHaveCollections.cs" />
+    <Compile Include="Game\Collection System\Item.cs" />
+    <Compile Include="Game\Entity System\Player.cs" />
+    <Compile Include="Game\Magic System\Spell.cs" />
+    <Compile Include="Game\States\MainMenu.cs" />
+    <Compile Include="Game\States\PlayingState.cs" />
+    <Compile Include="Game\Useable System\IUseable.cs" />
+    <Compile Include="Game\Collection System\ILocatable.cs" />
+    <Compile Include="Game\Collection System\Locator.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Game\Room.cs" />
+    <Compile Include="Game\Utility\Utilities.cs" />
+    <Compile Include="Game\States\State.cs" />
+    <Compile Include="SadConsole\BackButton.cs" />
+    <Compile Include="SadConsole\CircleBuffer.cs" />
+    <Compile Include="SadConsole\GameScreen.cs" />
+    <Compile Include="SadConsole\GameTextBox.cs" />
+    <Compile Include="SadConsole\GameWindow.cs" />
+    <Compile Include="SadConsole\NavigateButton.cs" />
+    <Compile Include="SadConsole\OptionsScreen.cs" />
+    <Compile Include="SadConsole\ScrollingGameConsole.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Game\Entity System\Blueprints\Cybernetic Characters\" />
+    <Folder Include="Game\Entity System\Blueprints\Normal Characters\" />
+    <Folder Include="Menus\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsDX.3.7.1.189\build\MonoGame.Framework.WindowsDX.targets'))" />
+  </Target>
+</Project>
