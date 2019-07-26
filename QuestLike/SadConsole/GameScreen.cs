@@ -100,6 +100,7 @@ public class GameScreen : SadConsole.ControlsConsole
 
                 if (gameConsole != null) gameConsole.Cursor.Print("\n\r");
                 PrintLine(remainder, false, writeToBuffer, link);
+                UpdateScrollBar();
                 return;
             }
             else if (text[i] == '@')
@@ -131,6 +132,7 @@ public class GameScreen : SadConsole.ControlsConsole
                     string remainder = text.Substring(i + 1);
                     PrintLine(remainder, false, writeToBuffer, link);
                 }
+                UpdateScrollBar();
                 return;
             }
             else if (text[i] == '\r')

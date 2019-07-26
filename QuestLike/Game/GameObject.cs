@@ -90,7 +90,7 @@ namespace ZorkLike
                 if (this is IHoldable)
                 {
                     var casted = this as IHoldable;
-                    if (casted.GetHoldingItemSafe(out Item item))
+                    if (casted.GetHoldingSafe(out Item item))
                     {
                         return $"\n\nHolding a <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@";
                     }
@@ -137,12 +137,25 @@ namespace ZorkLike
             }
         }
 
+        protected virtual string interactionString
+        {
+            get
+            {
+                string text = "";
+
+                if (this is Item) text += $"[<{Color.Cyan.ToInteger()},grab {ID}>Grab@]";
+
+                if (text == "") return text;
+                else return "\n\n" + text;
+            }
+        }
+
         protected string gameobjectString
         {
             get
             {
                 return Name + ((ShortDescription == "") ? "" : " - " + ShortDescription) + ((Description == "") ? "" : "\n" + Description)
-                    + holdingDescription + inventoryDescription + objectsDescription;
+                    + holdingDescription + inventoryDescription + objectsDescription + interactionString;
             }
         }
 

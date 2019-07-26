@@ -11,8 +11,9 @@ namespace ZorkLike.Command
         public GrabCommand()
         {
             keywords = new string[] { "grab", "pickup"};
-            usecases = new string[] { "_ ^ with my ^", "_ ^ with ^", "_ ^" };
+            usecases = new string[] { "_ ^ with my ^", "_ ^ with ^", "grab +", "_ ^" };
             tags = new string[] { "grab", "pickup" };
+            adminCommands = new int[] { 2 };
             commandName = "Grab";
         }
 
@@ -27,74 +28,90 @@ namespace ZorkLike.Command
                     StandardLookAtMe();
                     break;
                 case 2:
+                    if (!admin) return false;
 
-                    Game.LocateSingleObjectOfType<Item>(GetArg(0), (item, b) => {
+                    if (int.TryParse(GetArg(0), out int id))
+                    {
+                        var gameobject = Game.LocateWithGameID(id);
+                        if (gameobject == null) return false;
+                        if (gameobject as Item == null) return false;
 
-                        var holdables = Game.GetPlayer.LocateObjectsWithType<IHoldable>(false);
-                        var inventories = Game.GetPlayer.LocateObjectsWithType<IInventory>(false);
+                        GrabItem(gameobject as Item, false);
+                    }
+                    break;
+                case 3:
 
-                        if (item == null)
-                        {
-                            GameScreen.PrintLine("\nCould not find any items named \"" + GetArg(0) + "\".");
-                            return;
-                        }
+                    Game.LocateSingleObjectOfType<Item>(GetArg(0), GrabItem);
 
-                        if (holdables.Length == 0 && inventories.Length == 0)
-                        {
-                            GameScreen.PrintLine("\nCould not find anywhere to place \"" + item.Name + "\".");
-                            return;
-                        }
-
-                        List<GameObject> options = new List<GameObject>();
-                        options.AddRange(Utilities.CastArray<GameObject, IHoldable>(holdables));
-                        options.AddRange(Utilities.CastArray<GameObject, IInventory>(inventories));
-
-                        for (int i = 0; i < options.Count; i++)
-                        {
-                            if (options[i] is IInventory)
-                            {
-                                // Remove any full inventories.
-                                if (!(options[i] as IInventory).GetInventory.EnoughSpace(item)) options.RemoveAt(i);
-                            }
-                        }
-
-                        if (options.Count == 1)
-                        {
-                            foreach (var holdable in holdables)
-                            {
-                                if (holdable == options[0])
-                                {
-                                    HoldableSafePlace(item, holdable);
-                                }
-                            }
-                            foreach (var inventory in inventories)
-                            {
-                                if (inventory == options[0])
-                                {
-                                    InventorySafePlace(item, inventory);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            Utilities.PromptSelection<GameObject>("Select one of the following destinations", options.ToArray(), (selection, c) => 
-                            {
-                                if (selection is IHoldable)
-                                {
-                                    HoldableSafePlace(item, selection as IHoldable);
-                                }
-                                else if (selection is IInventory)
-                                {
-                                    InventorySafePlace(item, selection as IInventory);
-                                }
-                            });
-                        }
-
-                    });
                     break;
             }
 
             return false;
+        }
+
+        public void GrabItem(Item item, bool canceled)
+        {
+
+            var holdables = Game.GetPlayer.LocateObjectsWithType<IHoldable>(false);
+            var inventories = Game.GetPlayer.LocateObjectsWithType<IInventory>(false);
+
+            if (item == null)
+            {
+                GameScreen.PrintLine("\nCould not find any items named \"" + GetArg(0) + "\".");
+                return;
+            }
+
+            if (holdables.Length == 0 && inventories.Length == 0)
+            {
+                GameScreen.PrintLine("\nCould not find anywhere to place \"" + item.Name + "\".");
+                return;
+            }
+
+            List<GameObject> options = new List<GameObject>();
+            options.AddRange(Utilities.CastArray<GameObject, IHoldable>(holdables));
+            options.AddRange(Utilities.CastArray<GameObject, IInventory>(inventories));
+
+            for (int i = 0; i < options.Count; i++)
+            {
+                if (options[i] is IInventory)
+                {
+                    // Remove any full inventories.
+                    var casted = options[i] as IInventory;
+                    if (!casted.GetInventory.EnoughSpace(item)) options.RemoveAt(i);
+                    if (casted.GetInventory.GetItems.Contains(item)) options.RemoveAt(i);
+                }
+                else if (options[i] is IHoldable)
+                {
+                    var casted = options[i] as IHoldable;
+                    if (casted.HoldingItem == item) options.RemoveAt(i);
+                }
+            }
+
+            if (options.Count == 1)
+            {
+                if (options[0] is IHoldable)
+                {
+                    HoldableSafePlace(item, options[0] as IHoldable);
+                }
+                else if (options[0] is IInventory)
+                {
+                    InventorySafePlace(item, options[0] as IInventory);
+                }
+            }
+            else
+            {
+                Utilities.PromptSelection<GameObject>("Select one of the following destinations", options.ToArray(), (selection, c) =>
+                {
+                    if (selection is IHoldable)
+                    {
+                        HoldableSafePlace(item, selection as IHoldable);
+                    }
+                    else if (selection is IInventory)
+                    {
+                        InventorySafePlace(item, selection as IInventory);
+                    }
+                });
+            }
         }
 
         bool InventorySafePlace(Item item, IInventory inventory)
@@ -103,7 +120,7 @@ namespace ZorkLike.Command
             {
                 var tempItem = item;
                 item.container.GetTypedCollection().RemoveObject(item);
-                inventory.GetInventory.AddItem(item);
+                inventory.GetInventory.AddItem(tempItem);
                 GameScreen.Print("\nMoved \"" + item.Name + "\" to \"" + (inventory as GameObject).Name + "\".");
             }
             else
@@ -117,19 +134,16 @@ namespace ZorkLike.Command
         {
             if (holdable.IsHoldingItem)
             {
-                GameScreen.PrintLine("\nThe item \"" + holdable.GetHoldingItem().Name + "\" is already being held - would you like to swap it for \"" + item.Name + "\"?");
+                GameScreen.PrintLine("\nThe item \"" + holdable.HoldingItem.Name + "\" is already being held - would you like to swap it for \"" + item.Name + "\"?");
 
                 Utilities.PromptYesNo((answer, cancelled) =>
                 {
                     if (answer && !cancelled)
                     {
-                        var container = item.container;
-                        var tempItem = item;
-                        item.container.GetTypedCollection().RemoveObject(item);
-                        var oldItem = holdable.SwitchItems(tempItem);
-                        container.GetTypedCollection().AddObject(oldItem);
-                        GameScreen.PrintLine("\nMoved \"" + tempItem.Name + "\" to \"" + (holdable as GameObject).Name + "\".");
-                        GameScreen.PrintLine("Moved \"" + oldItem.Name + "\" to \"" + container.owner.Name + "\".");
+                        var old = holdable.SwitchItems(item);
+
+                        GameScreen.PrintLine("\nMoved \"" + item.Name + "\" to \"" + (holdable as GameObject).Name + "\".");
+                        GameScreen.PrintLine("Moved \"" + old.Name + "\" to \"" + old.container.GetTypedCollection().owner.Name + "\".");
                     }
                     else
                     {
@@ -139,9 +153,7 @@ namespace ZorkLike.Command
             }
             else
             {
-                var tempItem = item;
-                item.container.GetTypedCollection().RemoveObject(item);
-                holdable.PutItem(tempItem);
+                holdable.PutItem(item);
                 GameScreen.PrintLine("\nMoved \"" + item.Name + "\" to \"" + (holdable as GameObject).Name + "\".");
             }
             return false;

@@ -16,12 +16,6 @@ using SadConsole.Input;
 using ZorkLike;
 
 
-/// TODO
-/// - Add stats
-///     - Make things like looking at vessels contextual and depend on either cybernetics or high intelligence.
-/// - Make steps clearer - tell player when and where things are moved.
-
-
 namespace ZorkLike
 {
     class Program

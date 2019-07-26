@@ -58,7 +58,7 @@ namespace ZorkLike
             if (owner is IHoldable)
             {
                 var casted = owner as IHoldable;
-                if (casted.GetHoldingItemSafe(out Item temp))
+                if (casted.GetHoldingSafe(out Item temp))
                     toReturn.AddRange(temp.Locate(id, true));
             }
 
@@ -91,7 +91,7 @@ namespace ZorkLike
             if (owner is IHoldable)
             {
                 var casted = owner as IHoldable;
-                if (casted.GetHoldingItemSafe(out Item temp))
+                if (casted.GetHoldingSafe(out Item temp))
                     toReturn.AddRange(temp.LocateObjectsWithType<T>(true));
             }
 
@@ -128,7 +128,7 @@ namespace ZorkLike
             if (owner is IHoldable)
             {
                 var casted = owner as IHoldable;
-                if (casted.GetHoldingItemSafe(out Item temp))
+                if (casted.GetHoldingSafe(out Item temp))
                     toReturn.AddRange(temp.LocateObjectsWithType<T>(id, true));
             }
 
@@ -245,7 +245,7 @@ namespace ZorkLike
             if (owner is IHoldable)
             {
                 var casted = owner as IHoldable;
-                if (casted.GetHoldingItemSafe(out Item temp))
+                if (casted.GetHoldingSafe(out Item temp))
                 {
                     var found = temp.LocateWithGameID(gameID);
                     if (found != null) return found;

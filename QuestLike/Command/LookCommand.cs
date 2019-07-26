@@ -45,7 +45,7 @@ namespace ZorkLike.Command
 
                     foreach (var holdable in holdables)
                     {
-                        if (holdable.GetHoldingItemSafe(out Item item)) gameobjects.Add(item);
+                        if (holdable.GetHoldingSafe(out Item item)) gameobjects.Add(item);
                     }
 
                     foreach (var inventory in inventories)

@@ -29,14 +29,11 @@ namespace ZorkLike.Organs
 
         public bool IsHoldingItem => ((IHoldable)holdableManager).IsHoldingItem;
 
-        public Item GetHoldingItem()
-        {
-            return ((IHoldable)holdableManager).GetHoldingItem();
-        }
+        public Item HoldingItem => ((IHoldable)holdableManager).HoldingItem;
 
-        public bool GetHoldingItemSafe(out Item item)
+        public bool GetHoldingSafe(out Item item)
         {
-            return ((IHoldable)holdableManager).GetHoldingItemSafe(out item);
+            return ((IHoldable)holdableManager).GetHoldingSafe(out item);
         }
 
         public Item PutItem(Item item)

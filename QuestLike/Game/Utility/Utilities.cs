@@ -79,7 +79,7 @@ namespace ZorkLike
                     {
                         GameObject j = list[i] as GameObject;
                         GameScreen.PrintLine($"[" + (i + 1) + $"] - <{Color.Cyan.ToInteger()},select " + j.ID + ">" + (j.Name.PadRight(max, ' ')) + "@");
-                        if (j.container != null && !(j.container.owner is Room)) GameScreen.Print("- Attatched to " + (j.container.owner.Name.PadRight(maxContainerName, ' ')));
+                        if (j.container != null && !(j.container.owner is Room)) GameScreen.Print(" - Attatched to " + (j.container.owner.Name.PadRight(maxContainerName, ' ')));
                         if (j.ShortDescription != "") GameScreen.Print(" - " + j.ShortDescription);
                     }
                 }
