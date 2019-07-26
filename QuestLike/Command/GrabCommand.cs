@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace ZorkLike.Command
 {
@@ -121,11 +122,12 @@ namespace ZorkLike.Command
                 var tempItem = item;
                 item.container.GetTypedCollection().RemoveObject(item);
                 inventory.GetInventory.AddItem(tempItem);
-                GameScreen.Print("\nMoved \"" + item.Name + "\" to \"" + (inventory as GameObject).Name + "\".");
+                var casted = inventory as GameObject;
+                GameScreen.Print($"\nMoved <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@ to <{Color.Cyan.ToInteger()},look at {casted.ID}>{casted.Name}@");
             }
             else
             {
-                GameScreen.Print("\nYou do not have enough space in your inventory for \"" + item.Name + "\".");
+                GameScreen.Print($"\nNot enough space in that inventory for <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@");
             }
             return false;
         }
@@ -134,15 +136,15 @@ namespace ZorkLike.Command
         {
             if (holdable.IsHoldingItem)
             {
-                GameScreen.PrintLine("\nThe item \"" + holdable.HoldingItem.Name + "\" is already being held - would you like to swap it for \"" + item.Name + "\"?");
+                GameScreen.PrintLine($"\nThe item <{Color.Cyan.ToInteger()},look at {holdable.HoldingItem.ID}>{holdable.HoldingItem.Name}@ is already being held - would you like to swap it for <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@?");
 
                 Utilities.PromptYesNo((answer, cancelled) =>
                 {
                     if (answer && !cancelled)
                     {
                         var old = holdable.SwitchItems(item);
-
-                        GameScreen.PrintLine("\nMoved \"" + item.Name + "\" to \"" + (holdable as GameObject).Name + "\".");
+                        var casted = holdable as GameObject;
+                        GameScreen.PrintLine($"\nMoved <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@ to <{Color.Cyan.ToInteger()},look at {casted.ID}>{casted.Name}@");
                         GameScreen.PrintLine("Moved \"" + old.Name + "\" to \"" + old.container.GetTypedCollection().owner.Name + "\".");
                     }
                     else
@@ -154,7 +156,7 @@ namespace ZorkLike.Command
             else
             {
                 holdable.PutItem(item);
-                GameScreen.PrintLine("\nMoved \"" + item.Name + "\" to \"" + (holdable as GameObject).Name + "\".");
+                GameScreen.PrintLine("Moved \"" + item.Name + "\" to \"" + (holdable as GameObject).Name + "\".");
             }
             return false;
         }

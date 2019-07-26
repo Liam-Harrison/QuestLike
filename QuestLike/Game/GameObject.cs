@@ -107,7 +107,7 @@ namespace ZorkLike
                 if (this is IInventory)
                 {
                     var casted = this as IInventory;
-                    var text = $"\n\nThese items are in its inventory ({casted.GetInventory.UsedSpace}/{casted.GetInventory.MaxSpace} space used):";
+                    var text = $"\n\nThese items are in this inventory ({casted.GetInventory.UsedSpace}/{casted.GetInventory.MaxSpace} space used):";
                     if (casted.GetInventory.GetItems.Count() > 0)
                     {
                         foreach (var item in casted.GetInventory.GetItems)
@@ -116,7 +116,7 @@ namespace ZorkLike
                         }
                         return text;
                     }
-                    return "\n\nNo items in inventory.";
+                    return "\n\nNo items in this inventory.";
                 }
                 return "";
             }

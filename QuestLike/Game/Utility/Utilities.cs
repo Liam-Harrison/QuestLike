@@ -83,6 +83,7 @@ namespace ZorkLike
                         if (j.ShortDescription != "") GameScreen.Print(" - " + j.ShortDescription);
                     }
                 }
+                GameScreen.NewLine();
             }
         }
 
