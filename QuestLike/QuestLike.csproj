@@ -182,6 +182,7 @@
     <Compile Include="SadConsole\GameScreen.cs" />
     <Compile Include="SadConsole\GameTextBox.cs" />
     <Compile Include="SadConsole\GameWindow.cs" />
+    <Compile Include="SadConsole\InfoScreen.cs" />
     <Compile Include="SadConsole\NavigateButton.cs" />
     <Compile Include="SadConsole\OptionsScreen.cs" />
     <Compile Include="SadConsole\ScrollingGameConsole.cs" />

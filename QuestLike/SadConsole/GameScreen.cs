@@ -166,6 +166,12 @@ public class GameScreen : SadConsole.ControlsConsole
         UpdateScrollBar();
     }
 
+    public static void DrawMiniScreen()
+    {
+        if (miniConsole == null) return;
+        miniConsole.Print(miniConsole.Width / 2, miniConsole.Height / 2, $"{(char) 1}");
+    }
+
     public static (Color, string) ExtractLink(string rawText, int startIndex, out int newIndex)
     {
         newIndex = 0;
@@ -238,6 +244,7 @@ public class GameScreen : SadConsole.ControlsConsole
 
     public static CircleBuffer<string> buffer = new CircleBuffer<string>(200);
     public static ScrollingConsole gameConsole;
+    public static ControlsConsole miniConsole;
     public static SadConsole.Controls.ScrollBar scrollbar;
     public static CircleBuffer<Link> links = new CircleBuffer<Link>(100);
 
@@ -274,19 +281,20 @@ public class GameScreen : SadConsole.ControlsConsole
 
         LoadBuffer();
 
+
         /// Sidebar Construction & Placement
 
         var sidebar = new ControlsConsole(24, Program.Height) { Position = new Point(Program.Width - 24, 0) };
-        sidebar.PrintCentre(sidebar.Width / 2, 12, "Quick Commands");
+        sidebar.PrintCentre(sidebar.Width / 2, 13, "Quick Commands");
 
-        var v = new Console(sidebar.Width, 1) { Position = new Point(0, 10), DefaultBackground = Color.LightGray };
+        var v = new Console(sidebar.Width, 1) { Position = new Point(0, 11), DefaultBackground = Color.LightGray };
         sidebar.Children.Add(v);
 
-        var buttonInv = new SadConsole.Controls.Button(20, 1) { Text = "Inventory", Position = new Point(2, 14), Theme = theme };
+        var buttonInv = new SadConsole.Controls.Button(20, 1) { Text = "Inventory", Position = new Point(2, 15), Theme = theme };
         buttonInv.Click += (sender, e) => { ZorkLike.Game.ProcessInput("look at my items"); };
         sidebar.Add(buttonInv);
 
-        var lookatroom = new SadConsole.Controls.Button(20, 1) { Text = "Look at room", Position = new Point(2, 16), Theme = theme };
+        var lookatroom = new SadConsole.Controls.Button(20, 1) { Text = "Look at room", Position = new Point(2, 17), Theme = theme };
         lookatroom.Click += (sender, e) => { ZorkLike.Game.ProcessInput("look at room"); };
         sidebar.Add(lookatroom);
 
@@ -301,15 +309,18 @@ public class GameScreen : SadConsole.ControlsConsole
 
         Children.Add(sidebar);
 
+        /// Miniscreen Construction
+
+        miniConsole = new ControlsConsole(24, 10) { Position = new Point(Program.Width - 24, 0) };
+        Children.Add(miniConsole);
+
+        DrawMiniScreen();
+
     }
 
     private void Scroll_ValueChanged(object sender, EventArgs e)
     {
         var scroller = sender as SadConsole.Controls.ScrollBar;
-
-        var floatValue = (float)scroller.Value;
-        var floatMax = (float)scroller.Maximum;
-        var heightMax = (float)gameConsole.Height;
 
         int offset = scroller.Value;
         gameConsole.ViewPort = new Rectangle(0, offset + 1, Program.Width - 26, Program.Height - 2);

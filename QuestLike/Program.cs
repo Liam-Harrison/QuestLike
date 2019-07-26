@@ -37,12 +37,11 @@ namespace ZorkLike
             Room testRoom = new Room("Room");
 
             testRoom.AddCollection<GameObject>();
-            testRoom.AddCollection<Item>();
 
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Bear", new string[] { "bear" }));
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Frog", new string[] { "frog" }));
             testRoom.GetCollection<GameObject>().AddObject(new Item("Sword", new string[] { "sword" }));
-            testRoom.GetCollection<GameObject>().AddObject(new Item("Gun", new string[] { "gun" }));
+            testRoom.GetCollection<GameObject>().AddObject(new Item($"Gun", new string[] { "gun" }));
 
             Game.AddRoom(testRoom);
             Game.ChangeRoom(testRoom);
@@ -96,11 +95,22 @@ namespace ZorkLike
                 Position = new Point(Width / 2 - 8, 10)
             });
 
-            console.Add(new SadConsole.Controls.Button(16, 3)
+            console.Add(new NavigateButton<InfoScreen>(16, 3)
             {
                 Text = "Information",
                 Position = new Point(Width / 2 - 8, 14)
             });
+
+            var exit = new SadConsole.Controls.Button(16, 3)
+            {
+                Text = "Exit Game",
+                Position = new Point(Width / 2 - 8, Height - 8)
+            };
+            exit.Click += (a, b) =>
+            {
+                Environment.Exit(0);
+            };
+            console.Add(exit);
 
             console.IsFocused = true;
             SadConsole.Global.CurrentScreen = console;
