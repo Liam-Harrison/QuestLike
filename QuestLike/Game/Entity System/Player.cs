@@ -13,6 +13,8 @@ namespace ZorkLike
 
         public Player() : base("Myself", new string[] { "me", "player", "myself" })
         {
+            screenChar = (char)1;
+            screenposition = new Microsoft.Xna.Framework.Point(12, 5);
         }
 
         public override void Update()

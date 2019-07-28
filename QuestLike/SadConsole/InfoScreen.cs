@@ -14,7 +14,7 @@ using ZorkLike;
 
 class InfoScreen : ControlsConsole
 {
-    public InfoScreen() : base(Program.Width, Program.Height)
+    public InfoScreen() : base(Settings.Width, Settings.Height)
     {
         Generate();
     }
@@ -32,7 +32,7 @@ class InfoScreen : ControlsConsole
         Add(new BackButton(30, 3)
         {
             Text = "Back to Main Menu",
-            Position = new Point(Width / 2 - 15, Program.Height - 8)
+            Position = new Point(Width / 2 - 15, Settings.Height - 8)
         });
 
         this.PrintCentre(Width / 2, 6, "QuestLike");

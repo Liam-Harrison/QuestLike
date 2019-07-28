@@ -145,18 +145,18 @@ namespace ZorkLike.Command
                         var old = holdable.SwitchItems(item);
                         var casted = holdable as GameObject;
                         GameScreen.PrintLine($"\nMoved <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@ to <{Color.Cyan.ToInteger()},look at {casted.ID}>{casted.Name}@");
-                        GameScreen.PrintLine("Moved \"" + old.Name + "\" to \"" + old.container.GetTypedCollection().owner.Name + "\".");
+                        GameScreen.PrintLine($"Moved <{Color.Cyan.ToInteger()},look at {old.ID}>{old.Name}@ to <{Color.Cyan.ToInteger()},look at {old.container.GetTypedCollection().owner.ID}>{ old.container.GetTypedCollection().owner.Name}@");
                     }
                     else
                     {
-                        GameScreen.PrintLine("\nLeft the \"" + item.Name + "\" where it is.");
+                        GameScreen.PrintLine($"\nLeft the <{Color.Cyan.ToInteger()},look at {item.ID}>{ item.Name }@ where it is.");
                     }
                 });
             }
             else
             {
                 holdable.PutItem(item);
-                GameScreen.PrintLine("Moved \"" + item.Name + "\" to \"" + (holdable as GameObject).Name + "\".");
+                GameScreen.PrintLine($"Moved <{Color.Cyan.ToInteger()},look at {item.ID}>{ item.Name }@ to <{Color.Cyan.ToInteger()},look at {(holdable as GameObject).ID}>{ (holdable as GameObject).Name }@");
             }
             return false;
         }
@@ -174,7 +174,7 @@ namespace ZorkLike.Command
                     }
                     else if (holdable == null)
                     {
-                        GameScreen.PrintLine("\nCould anything named \"" + GetArg(1) + "\" that can hold something.");
+                        GameScreen.PrintLine("\nCould not find anything named \"" + GetArg(1) + "\" that can hold something.");
                         return;
                     }
 

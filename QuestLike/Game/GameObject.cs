@@ -18,6 +18,32 @@ namespace ZorkLike
         private int size = 1;
         private static uint nextID = 0;
         private uint id;
+        internal Point screenposition = new Point(-1, -1);
+        internal char screenChar;
+
+        public string ScreenChar
+        {
+            get
+            {
+                return screenChar.ToString();
+            }
+        }
+
+        public bool PrintOnScreen
+        {
+            get
+            {
+                return screenposition.X >= 0 && screenposition.Y >= 0;
+            }
+        }
+
+        public Point ScreenPosition
+        {
+            get
+            {
+                return screenposition;
+            }
+        }
 
         public int ID
         {
@@ -143,7 +169,9 @@ namespace ZorkLike
             {
                 string text = "";
 
-                if (this is Item) text += $"[<{Color.Cyan.ToInteger()},grab {ID}>Grab@]";
+                if (this is Item) text += $"[<{Color.Cyan.ToInteger()},grab {ID}>Grab@] ";
+                if (this is IUseable) text += $"[<{Color.Orange.ToInteger()},use {ID}>Use@] ";
+                if (this is BodyEquipable) text += $"[<{Color.Yellow.ToInteger()},equip {ID}>Equip@] ";
 
                 if (text == "") return text;
                 else return "\n\n" + text;

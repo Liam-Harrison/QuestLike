@@ -159,6 +159,7 @@
     <Compile Include="Game\Entity System\Bodypart System\Major Organs\Lung.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Parts\Extremity.cs" />
     <Compile Include="Game\Entity System\Entity.cs" />
+    <Compile Include="Game\Equipment System\Weapon.cs" />
     <Compile Include="Game\Game.cs" />
     <Compile Include="Game\GameObject.cs" />
     <Compile Include="Game\Holdable System\IHoldable.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="SadConsole\GameTextBox.cs" />
     <Compile Include="SadConsole\GameWindow.cs" />
     <Compile Include="SadConsole\InfoScreen.cs" />
+    <Compile Include="SadConsole\MiniScreen.cs" />
     <Compile Include="SadConsole\NavigateButton.cs" />
     <Compile Include="SadConsole\OptionsScreen.cs" />
     <Compile Include="SadConsole\ScrollingGameConsole.cs" />

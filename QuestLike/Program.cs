@@ -20,14 +20,12 @@ namespace ZorkLike
 {
     class Program
     {
-        public static int Width = 125, Height = 35;
-        public static int MinWidth = 75, MinHeight = 20;
-        public static int MaxWidth = 200, MaxHeight = 60;
-
         static GameState state;
         static void Main(string[] args)
         {
-            SadConsole.Game.Create(Width, Height);
+            Settings.LoadSettings();
+
+            SadConsole.Game.Create(Settings.Width, Settings.Height);
             SadConsole.Game.Instance.Window.Title = "QuestLike";
 
             SadConsole.Game.OnInitialize = Init;
@@ -41,7 +39,13 @@ namespace ZorkLike
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Bear", new string[] { "bear" }));
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Frog", new string[] { "frog" }));
             testRoom.GetCollection<GameObject>().AddObject(new Item("Sword", new string[] { "sword" }));
-            testRoom.GetCollection<GameObject>().AddObject(new Item($"Gun", new string[] { "gun" }));
+
+            testRoom.GetCollection<GameObject>().AddObject(new Weapon("Gun", new string[] { "gun" })
+                { screenChar = 'g', screenposition = new Point(1, 1) });
+
+            testRoom.GetCollection<GameObject>().AddObject(new BodyEquipable("Leather Chestpiece", 
+                new string[] { "leather chestpiece", "chestpiece" })
+                { screenChar = 'l', screenposition = new Point(2, 4) });
 
             Game.AddRoom(testRoom);
             Game.ChangeRoom(testRoom);
@@ -76,35 +80,35 @@ namespace ZorkLike
             SadConsole.Themes.Library.Default.ButtonTheme.EndCharacterLeft = '|';
             SadConsole.Themes.Library.Default.ButtonTheme.EndCharacterRight = '|';
 
-            var console = new SadConsole.ControlsConsole(Width, Height);
+            var console = new SadConsole.ControlsConsole(Settings.Width, Settings.Height);
 
             console.DefaultBackground = Color.Black;
             console.DefaultForeground = Color.White;
 
-            console.PrintCentre(Width / 2, 1, "Main  Screen");
+            console.PrintCentre(Settings.Width / 2, 1, "Main  Screen");
 
             console.Add(new NavigateButton<GameScreen>(16, 3)
             {
                 Text = "Play",
-                Position = new Point(Width / 2 - 8, 6)
+                Position = new Point(Settings.Width / 2 - 8, 6)
             });
 
             console.Add(new NavigateButton<OptionsScreen>(16, 3)
             {
                 Text = "Options",
-                Position = new Point(Width / 2 - 8, 10)
+                Position = new Point(Settings.Width / 2 - 8, 10)
             });
 
             console.Add(new NavigateButton<InfoScreen>(16, 3)
             {
                 Text = "Information",
-                Position = new Point(Width / 2 - 8, 14)
+                Position = new Point(Settings.Width / 2 - 8, 14)
             });
 
             var exit = new SadConsole.Controls.Button(16, 3)
             {
                 Text = "Exit Game",
-                Position = new Point(Width / 2 - 8, Height - 8)
+                Position = new Point(Settings.Width / 2 - 8, Settings.Height - 8)
             };
             exit.Click += (a, b) =>
             {

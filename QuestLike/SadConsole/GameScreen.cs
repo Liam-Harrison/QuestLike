@@ -14,7 +14,7 @@ using ZorkLike;
 
 public class GameScreen : SadConsole.ControlsConsole
 {
-    public GameScreen() : base(ZorkLike.Program.Width, Program.Height)
+    public GameScreen() : base(Settings.Width, Settings.Height)
     {
         Generate();
     }
@@ -89,7 +89,7 @@ public class GameScreen : SadConsole.ControlsConsole
         }
         for (int i = (buffer.Count() > 0 && editLastLine ? lastbuffer.Length : 0); i < text.Length; i++)
         {
-            if (charCounter == Program.Width - 29)
+            if (charCounter == Settings.Width - 29)
             {
                 string printed = text.Substring(0, i);
                 string remainder = text.Substring(i);
@@ -166,12 +166,6 @@ public class GameScreen : SadConsole.ControlsConsole
         UpdateScrollBar();
     }
 
-    public static void DrawMiniScreen()
-    {
-        if (miniConsole == null) return;
-        miniConsole.Print(miniConsole.Width / 2, miniConsole.Height / 2, $"{(char) 1}");
-    }
-
     public static (Color, string) ExtractLink(string rawText, int startIndex, out int newIndex)
     {
         newIndex = 0;
@@ -200,7 +194,7 @@ public class GameScreen : SadConsole.ControlsConsole
     public static void UpdateScrollBar()
     {
         if (scrollbar == null) return;
-        if (buffer.Count() < Program.Height - 2)
+        if (buffer.Count() < Settings.Height - 2)
         {
             scrollbar.IsVisible = false;
             scrollbar.IsEnabled = false;
@@ -210,8 +204,8 @@ public class GameScreen : SadConsole.ControlsConsole
         {
             scrollbar.IsVisible = true;
             scrollbar.IsEnabled = true;
-            scrollbar.Maximum = buffer.Count() - (Program.Height - 3);
-            scrollbar.Value = buffer.Count() - (Program.Height - 3);
+            scrollbar.Maximum = buffer.Count() - (Settings.Height - 3);
+            scrollbar.Value = buffer.Count() - (Settings.Height - 3);
         }
     }
 
@@ -244,7 +238,7 @@ public class GameScreen : SadConsole.ControlsConsole
 
     public static CircleBuffer<string> buffer = new CircleBuffer<string>(200);
     public static ScrollingConsole gameConsole;
-    public static ControlsConsole miniConsole;
+    internal static MiniScreen miniConsole;
     public static SadConsole.Controls.ScrollBar scrollbar;
     public static CircleBuffer<Link> links = new CircleBuffer<Link>(100);
 
@@ -262,17 +256,17 @@ public class GameScreen : SadConsole.ControlsConsole
 
         /// Main Screen Area Construction
 
-        var verticalBar = new Console(1, Program.Height) { Position = new Point(Program.Width - 25, 0), DefaultBackground = Color.LightGray };
+        var verticalBar = new Console(1, Settings.Height) { Position = new Point(Settings.Width - 25, 0), DefaultBackground = Color.LightGray };
         Children.Add(verticalBar);
 
-        Add(new GameTextBox(Program.Width - 25) { Position = new Point(0, Program.Height - 1) });
+        Add(new GameTextBox(Settings.Width - 25) { Position = new Point(0, Settings.Height - 1) });
 
-        scrollbar = new SadConsole.Controls.ScrollBar(Orientation.Vertical, Program.Height - 2) { Position = new Point(Program.Width - 26, 1), Step = 1 };
+        scrollbar = new SadConsole.Controls.ScrollBar(Orientation.Vertical, Settings.Height - 2) { Position = new Point(Settings.Width - 26, 1), Step = 1 };
         scrollbar.ValueChanged += Scroll_ValueChanged;
         Add(scrollbar);
 
-        gameConsole = new ScrollingGameConsole(Program.Width - 25, 200) { Position = new Point(0, 1) };
-        gameConsole.ViewPort = new Rectangle(0, 0, Program.Width - 26, Program.Height - 2);
+        gameConsole = new ScrollingGameConsole(Settings.Width - 25, 200) { Position = new Point(0, 1) };
+        gameConsole.ViewPort = new Rectangle(0, 0, Settings.Width - 26, Settings.Height - 2);
         gameConsole.DefaultBackground = Color.Black;
         Children.Add(gameConsole);
 
@@ -284,7 +278,7 @@ public class GameScreen : SadConsole.ControlsConsole
 
         /// Sidebar Construction & Placement
 
-        var sidebar = new ControlsConsole(24, Program.Height) { Position = new Point(Program.Width - 24, 0) };
+        var sidebar = new ControlsConsole(24, Settings.Height) { Position = new Point(Settings.Width - 24, 0) };
         sidebar.PrintCentre(sidebar.Width / 2, 13, "Quick Commands");
 
         var v = new Console(sidebar.Width, 1) { Position = new Point(0, 11), DefaultBackground = Color.LightGray };
@@ -311,10 +305,10 @@ public class GameScreen : SadConsole.ControlsConsole
 
         /// Miniscreen Construction
 
-        miniConsole = new ControlsConsole(24, 10) { Position = new Point(Program.Width - 24, 0) };
+        miniConsole = new MiniScreen();
         Children.Add(miniConsole);
 
-        DrawMiniScreen();
+        miniConsole.DrawMiniScreen();
 
     }
 
@@ -323,6 +317,6 @@ public class GameScreen : SadConsole.ControlsConsole
         var scroller = sender as SadConsole.Controls.ScrollBar;
 
         int offset = scroller.Value;
-        gameConsole.ViewPort = new Rectangle(0, offset + 1, Program.Width - 26, Program.Height - 2);
+        gameConsole.ViewPort = new Rectangle(0, offset + 1, Settings.Width - 26, Settings.Height - 2);
     }
 }

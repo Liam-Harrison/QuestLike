@@ -19,8 +19,9 @@ namespace ZorkLike.Command
         public UseCommand()
         {
             keywords = new string[] { "use", "activate" };
-            usecases = new string[] { "use + ^ on ^", "_ ^ on ^", "_ ^" };
+            usecases = new string[] { "use +", "use + ^ on ^", "_ ^ on ^", "_ ^" };
             tags = new string[] { "use", "activate" };
+            adminCommands = new int[] { 0 };
             commandName = "Use";
         }
 
@@ -29,12 +30,20 @@ namespace ZorkLike.Command
             switch (usecaseID)
             {
                 case 0:
-                    GameScreen.PrintLine("\nI'm afraid using items on entities hasn't been implemented yet.");
+                    if (!admin) return false;
+                    if (int.TryParse(GetArg(0), out int id))
+                    {
+                        var gameobject = Game.LocateWithGameID(id);
+                        if (gameobject is IUseable) (gameobject as IUseable).Use(null, null);
+                    }
                     break;
                 case 1:
                     GameScreen.PrintLine("\nI'm afraid using items on entities hasn't been implemented yet.");
                     break;
                 case 2:
+                    GameScreen.PrintLine("\nI'm afraid using items on entities hasn't been implemented yet.");
+                    break;
+                case 3:
                     Game.GetPlayer.LocateSingleObject(GetArg(0), (item, b) =>
                     {
                         if (item == null)

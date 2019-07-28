@@ -27,6 +27,13 @@ namespace ZorkLike
             else return a;
         }
 
+        public static int Clamp(int a, int min, int max)
+        {
+            if (a > max) return max;
+            else if (a < min) return min;
+            else return a;
+        }
+
         public static float GetBetweenValues(float a, float b, float percentage)
         {
             return a + (b - a) * percentage;

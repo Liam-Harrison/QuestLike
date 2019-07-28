@@ -38,7 +38,7 @@ class GameTextBox : SadConsole.Controls.TextBox
     {
         foreach (var key in info.KeysPressed)
         {
-            if (allowedList.Contains(key.Character.ToString().ToLower()[0]) && Text.Length <= Program.Width - 28)
+            if (allowedList.Contains(key.Character.ToString().ToLower()[0]) && Text.Length <= Settings.Width - 28)
             {
                 Text += key.Character;
             }
