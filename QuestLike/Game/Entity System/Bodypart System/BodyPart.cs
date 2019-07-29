@@ -74,6 +74,7 @@ namespace QuestLike.Organs
             AddCollection<BodyPart>();
             AddCollection<BloodVessel>();
             AddCollection<Nerve>();
+            grabable = false;
         }
 
         public BodyPart(string name, string desc, string[] ids) : this(name, "", desc, ids)
@@ -228,6 +229,8 @@ namespace QuestLike.Organs
 
                 text += effector.Examine;
 
+                text += interactionString;
+
                 return text;
             }
         }
@@ -269,6 +272,7 @@ namespace QuestLike.Organs
                     item.target = null;
                 }
             }
+            grabable = true;
         }
 
         public bool IsChildOf(BodyPart part)

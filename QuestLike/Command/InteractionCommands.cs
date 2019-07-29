@@ -8,7 +8,7 @@ namespace QuestLike.Command
         public InteractionCommands()
         {
             keywords = new string[] { };
-            usecases = new string[] { "select ^", "answer ^", "+", "yes", "no" };
+            usecases = new string[] { "select ^ uuid ^", "answer ^", "+", "yes", "no" };
             tags = new string[] { "interaction" };
             commandName = "Interaction";
             showInHelp = false;
@@ -22,6 +22,7 @@ namespace QuestLike.Command
                 case 0:
                     if (admin && Utilities.awaitedUserResponse == Utilities.UserResponseType.GameObject)
                     {
+                        if (GetArg(1) != Utilities.uuid) return false;
                         if (!int.TryParse(GetArg(0), out int objectID))
                         {
                             if (Settings.DebugMode) GameScreen.PrintLine($"\n<{Color.Red.ToInteger()},>[Warning] - selection link returned non-integer value@\n");

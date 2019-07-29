@@ -55,6 +55,7 @@ namespace QuestLike
         public static dynamic userResponse = null;
         public static GameObject[] selectableObjects = null;
         public static Type responseType;
+        public static string uuid;
 
         public static void PromptSelection<T>(string showString, GameObject[] list, PromptObjectResponse<T> response) where T: class
         {
@@ -80,12 +81,13 @@ namespace QuestLike
             {
                 GameScreen.NewLine();
                 GameScreen.PrintLine(showString);
+                uuid = System.Guid.NewGuid().ToString();
                 for (int i = 0; i < list.Length; i++)
                 {
                     if (list[i] is GameObject)
                     {
                         GameObject j = list[i] as GameObject;
-                        GameScreen.PrintLine($"[" + (i + 1) + $"] - <{Color.Cyan.ToInteger()},select " + j.ID + ">" + (j.Name.PadRight(max, ' ')) + "@");
+                        GameScreen.PrintLine($"[" + (i + 1) + $"] - <{Color.Cyan.ToInteger()},select " + j.ID + " uuid " + uuid + ">" + (j.Name.PadRight(max, ' ')) + "@");
                         if (j.container != null && !(j.container.owner is Room)) GameScreen.Print(" - Attatched to " + (j.container.owner.Name.PadRight(maxContainerName, ' ')));
                         if (j.ShortDescription != "") GameScreen.Print(" - " + j.ShortDescription);
                     }

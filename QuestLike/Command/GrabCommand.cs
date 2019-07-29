@@ -62,6 +62,12 @@ namespace QuestLike.Command
                 return;
             }
 
+            if (!item.Grabable)
+            {
+                GameScreen.PrintLine("\nYou cannot grab this item.");
+                return;
+            }
+
             if (holdables.Length == 0 && inventories.Length == 0)
             {
                 GameScreen.PrintLine("\nCould not find anywhere to place \"" + item.Name + "\".");
@@ -117,6 +123,11 @@ namespace QuestLike.Command
 
         bool InventorySafePlace(Item item, IInventory inventory)
         {
+            if (!item.Grabable)
+            {
+                GameScreen.PrintLine("\nYou cannot grab this item.");
+                return false;
+            }
             if (inventory.GetInventory.EnoughSpace(item))
             {
                 var tempItem = item;
@@ -134,6 +145,11 @@ namespace QuestLike.Command
 
         bool HoldableSafePlace(Item item, IHoldable holdable)
         {
+            if (!item.Grabable)
+            {
+                GameScreen.PrintLine("\nYou cannot grab this item.");
+                return false;
+            }
             if (holdable.IsHoldingItem)
             {
                 GameScreen.PrintLine($"The item <{Color.Cyan.ToInteger()},look at {holdable.HoldingItem.ID}>{holdable.HoldingItem.Name}@ is already being held - would you like to swap it for <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@?");
@@ -165,6 +181,11 @@ namespace QuestLike.Command
         {
             Game.LocateSingleObjectOfType<Item>(GetArg(0), (item, b) =>
             {
+                if (!item.Grabable)
+                {
+                    GameScreen.PrintLine("\nYou cannot grab this item.");
+                    return;
+                }
                 Game.GetPlayer.LocateSingleObjectOfType<IHoldable>(GetArg(1), (holdable, c) =>
                 {
                     if (item == null)

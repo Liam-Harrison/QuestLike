@@ -146,9 +146,9 @@ namespace QuestLike
                     var casted = this as IHoldable;
                     if (casted.GetHoldingSafe(out Item item))
                     {
-                        return $"\n\nHolding a <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@";
+                        return $"\nHolding a <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@";
                     }
-                    return "Holding no items.";
+                    return "\nHolding no items.";
                 }
                 return "";
             }
@@ -197,7 +197,10 @@ namespace QuestLike
             {
                 string text = "";
 
-                if (this is Item) text += $"[<{Color.Cyan.ToInteger()},grab {ID}>Grab@] ";
+                if (this is Item)
+                {
+                    if ((this as Item).Grabable) text += $"[<{Color.Cyan.ToInteger()},grab {ID}>Grab@] ";
+                }
                 if (this is IUseable) text += $"[<{Color.Orange.ToInteger()},use {ID}>Use@] ";
                 if (this is Equipable) text += $"[<{Color.Yellow.ToInteger()},equip {ID}>Equip@] ";
 

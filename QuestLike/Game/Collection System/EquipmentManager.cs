@@ -62,6 +62,7 @@ namespace QuestLike
         public Item TakeEquipedItem()
         {
             var item = EquipedItem;
+            (item as Equipable).equiped = false;
             GetCollection<Item>().RemoveObject(EquipedItem);
             return item;
         }
@@ -71,6 +72,7 @@ namespace QuestLike
             equipable.container.GetTypedCollection().RemoveObject(equipable);
             if (!HasItemEquiped) GetCollection<Item>().AddObject(equipable);
             GameScreen.miniConsole.DrawMiniScreen();
+            equipable.equiped = true;
             return equipable;
         }
     }

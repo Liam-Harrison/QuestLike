@@ -26,6 +26,8 @@ namespace QuestLike
         public abstract GameObject EquipedTo { get; }
 
         public abstract bool IsEquiped { get; }
+
+        public bool equiped = false;
     }
 
     public class Equipable<T>: Equipable where T: Item
@@ -55,9 +57,7 @@ namespace QuestLike
         {
             get
             {
-                if (container == null) return false;
-                if (container.owner is Room) return false;
-                return true;
+                return equiped;
             }
         }
 

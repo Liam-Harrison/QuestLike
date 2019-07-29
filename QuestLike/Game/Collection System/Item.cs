@@ -8,6 +8,16 @@ namespace QuestLike
 {
     public class Item : GameObject
     {
+        protected bool grabable = true;
+
+        public bool Grabable
+        {
+            get
+            {
+                return grabable;
+            }
+        }
+
         public Item(string name, string[] ids) : base(name, ids)
         {
         }
