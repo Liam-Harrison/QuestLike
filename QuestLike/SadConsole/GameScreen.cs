@@ -55,6 +55,32 @@ public class GameScreen : SadConsole.ControlsConsole
         return length;
     }
 
+    public static string ActualText(string text)
+    {
+        string toReturn = "";
+        bool count = true;
+        for (int i = 0; i < text.Length; i++)
+        {
+            if (text[i] == '\n' || text[i] == '\r') continue;
+            else if (text[i] == '<')
+            {
+                count = false;
+                continue;
+            }
+            else if (text[i] == '>')
+            {
+                count = true;
+                continue;
+            }
+            else if (text[i] == '@')
+            {
+                continue;
+            }
+            if (count) toReturn += text[i];
+        }
+        return toReturn;
+    }
+
     /// <summary>
     /// Prints text to the games scrolling console.
     /// </summary>
@@ -89,18 +115,9 @@ public class GameScreen : SadConsole.ControlsConsole
         }
         for (int i = (buffer.Count() > 0 && editLastLine ? lastbuffer.Length : 0); i < text.Length; i++)
         {
-            if (charCounter == Settings.Width - 29)
+            if (WillNextWordBeCut(charCounter, text.Substring(i)))
             {
-                string printed = text.Substring(0, i);
-                string remainder = text.Substring(i);
-                remainder = remainder.TrimStart(); // remove any overflowing starting whitespaces.
-
-                if (writeToBuffer && editLastLine) buffer.EditLast(printed + (readingLink ? "@" : "") + "\n\r");
-                else if (writeToBuffer) buffer.Push(printed + (readingLink ? "@" : "") + "\n\r");
-
-                if (gameConsole != null) gameConsole.Cursor.Print("\n\r");
-                PrintLine(remainder, false, writeToBuffer, link);
-                UpdateScrollBar();
+                WrapText(text, editLastLine, writeToBuffer, link, readingLink, i);
                 return;
             }
             else if (text[i] == '@')
@@ -148,8 +165,8 @@ public class GameScreen : SadConsole.ControlsConsole
                     links.Last().points.Add(gameConsole.Cursor.Position);
                     gameConsole.Cursor.Print(text[i].ToString());
                     gameConsole.Cursor.PrintAppearance = original;
-                    charCounter++;
                 }
+                charCounter++;
             }
             else if (!readingLink)
             {
@@ -164,6 +181,34 @@ public class GameScreen : SadConsole.ControlsConsole
         else if (writeToBuffer) buffer.Push(text + "\n\r");
 
         UpdateScrollBar();
+    }
+
+    private static void WrapText(string text, bool editLastLine, bool writeToBuffer, (Color, string)? link, bool readingLink, int i)
+    {
+        string printed = text.Substring(0, i);
+        string remainder = text.Substring(i);
+        remainder = remainder.TrimStart(); // remove any overflowing starting whitespaces.
+
+        if (writeToBuffer && editLastLine) buffer.EditLast(printed + (readingLink ? "@" : "") + "\n\r");
+        else if (writeToBuffer) buffer.Push(printed + (readingLink ? "@" : "") + "\n\r");
+
+        if (gameConsole != null) gameConsole.Cursor.Print("\n\r");
+        PrintLine(remainder, false, writeToBuffer, link);
+        UpdateScrollBar();
+        return;
+    }
+
+    public static bool WillNextWordBeCut(int charcounter, string remainingtext)
+    {
+        var text = ActualText(remainingtext);
+        if (text.Length == 0) return false;
+        var split = text.Split(' ');
+        var lookingat = split.FirstOrDefault();
+        for (int i = 0; i < lookingat.Length; i++)
+        {
+            if (i + charcounter >= Settings.Width - 29) return true;
+        }
+        return false;
     }
 
     public static (Color, string) ExtractLink(string rawText, int startIndex, out int newIndex)
@@ -274,7 +319,6 @@ public class GameScreen : SadConsole.ControlsConsole
         Add(new BackButton(17, 1) { Text = "Back to main menu", Position = new Point(Width - 42, 0), Theme = themeNoSides });
 
         LoadBuffer();
-
 
         /// Sidebar Construction & Placement
 

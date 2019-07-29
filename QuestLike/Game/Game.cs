@@ -61,6 +61,7 @@ namespace ZorkLike
         {
             player.Update();
             foreach (var room in rooms) room.Update();
+            GameScreen.miniConsole.DrawMiniScreen();
         }
 
         public static void EndTurn()

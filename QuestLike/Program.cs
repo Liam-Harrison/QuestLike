@@ -22,7 +22,7 @@ namespace ZorkLike
     {
         static GameState state;
         static void Main(string[] args)
-        {
+      {
             Settings.LoadSettings();
 
             SadConsole.Game.Create(Settings.Width, Settings.Height);
