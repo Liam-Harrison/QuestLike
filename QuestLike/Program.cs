@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Organs;
-using ZorkLike.Combat;
-using ZorkLike.State;
+using QuestLike.Organs;
+using QuestLike.Combat;
+using QuestLike.State;
 using SadConsole;
 using Console = SadConsole.Console;
 using Global = SadConsole.Global;
@@ -13,10 +13,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
 
-namespace ZorkLike
+namespace QuestLike
 {
     class Program
     {
@@ -43,7 +43,7 @@ namespace ZorkLike
             testRoom.GetCollection<GameObject>().AddObject(new Weapon("Gun", new string[] { "gun" })
                 { screenChar = 'g', screenposition = new Point(1, 1) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new BodyEquipable("Leather Chestpiece", 
+            testRoom.GetCollection<GameObject>().AddObject(new Equipable<Organs.Chest>("Leather Chestpiece", 
                 new string[] { "leather chestpiece", "chestpiece" })
                 { screenChar = 'l', screenposition = new Point(2, 4) });
 
@@ -76,14 +76,17 @@ namespace ZorkLike
             colors.TitleText = Color.White;
 
             SadConsole.Themes.Library.Default.Colors = colors;
-            SadConsole.Themes.Library.Default.ButtonTheme = new SadConsole.Themes.ButtonLinesTheme();
-            SadConsole.Themes.Library.Default.ButtonTheme.EndCharacterLeft = '|';
-            SadConsole.Themes.Library.Default.ButtonTheme.EndCharacterRight = '|';
+            SadConsole.Themes.Library.Default.ButtonTheme = new SadConsole.Themes.ButtonLinesTheme
+            {
+                EndCharacterLeft = '|',
+                EndCharacterRight = '|'
+            };
 
-            var console = new SadConsole.ControlsConsole(Settings.Width, Settings.Height);
-
-            console.DefaultBackground = Color.Black;
-            console.DefaultForeground = Color.White;
+            var console = new SadConsole.ControlsConsole(Settings.Width, Settings.Height)
+            {
+                DefaultBackground = Color.Black,
+                DefaultForeground = Color.White
+            };
 
             console.PrintCentre(Settings.Width / 2, 1, "Main  Screen");
 

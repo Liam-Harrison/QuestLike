@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Organs;
-using ZorkLike.Combat;
+using QuestLike.Organs;
+using QuestLike.Combat;
 
-namespace ZorkLike
+namespace QuestLike
 {
     class Entity : GameObject, IInventory
     {

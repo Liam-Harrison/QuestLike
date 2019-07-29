@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Combat;
-using ZorkLike.Organs;
+using QuestLike.Combat;
+using QuestLike.Organs;
 
-namespace ZorkLike.Effects
+namespace QuestLike.Effects
 {
     class Burn : Effect
     {

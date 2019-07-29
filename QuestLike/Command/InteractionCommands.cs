@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using System.Linq;
 
-namespace ZorkLike.Command
+namespace QuestLike.Command
 {
     class InteractionCommands : Command
     {

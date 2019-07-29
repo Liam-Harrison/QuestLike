@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
-namespace ZorkLike
+namespace QuestLike
 {
     public delegate void PromptObjectResponse<T>(T selected, bool cancelled) where T : class;
     public delegate void PromptYesNoResponse(bool answer, bool cancelled);

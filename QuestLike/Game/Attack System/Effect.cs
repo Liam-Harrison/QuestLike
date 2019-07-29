@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZorkLike.Effects
+namespace QuestLike.Effects
 {
 
     abstract public class Effect: GameObject, IComparable<Effect>

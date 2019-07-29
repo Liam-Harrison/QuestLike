@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Command;
+using QuestLike.Command;
 
-namespace ZorkLike
+namespace QuestLike
 {
     static class Game
     {

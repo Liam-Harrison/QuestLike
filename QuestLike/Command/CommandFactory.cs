@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZorkLike.Command
+namespace QuestLike.Command
 {
     static class CommandFactory
     {
@@ -15,7 +15,8 @@ namespace ZorkLike.Command
             new HelpCommand(),
             new GrabCommand(),
             new UseCommand(),
-            new InteractionCommands()
+            new InteractionCommands(),
+            new EquipCommand()
         };
 
         public static Command GetCommandWithTag(string tag)

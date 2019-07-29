@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZorkLike.Combat
+namespace QuestLike.Combat
 {
     public class Damager : IDamagable
     {

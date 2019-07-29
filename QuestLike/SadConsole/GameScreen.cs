@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
 public class GameScreen : SadConsole.ControlsConsole
 {
@@ -294,8 +294,10 @@ public class GameScreen : SadConsole.ControlsConsole
 
         /// Theme Setup
 
-        var themeNoSides = new SadConsole.Themes.ButtonTheme();
-        themeNoSides.ShowEnds = false;
+        var themeNoSides = new SadConsole.Themes.ButtonTheme
+        {
+            ShowEnds = false
+        };
 
         var theme = new SadConsole.Themes.ButtonTheme();
 
@@ -329,11 +331,11 @@ public class GameScreen : SadConsole.ControlsConsole
         sidebar.Children.Add(v);
 
         var buttonInv = new SadConsole.Controls.Button(20, 1) { Text = "Inventory", Position = new Point(2, 15), Theme = theme };
-        buttonInv.Click += (sender, e) => { ZorkLike.Game.ProcessInput("look at my items"); };
+        buttonInv.Click += (sender, e) => { QuestLike.Game.ProcessInput("look at my items"); };
         sidebar.Add(buttonInv);
 
         var lookatroom = new SadConsole.Controls.Button(20, 1) { Text = "Look at room", Position = new Point(2, 17), Theme = theme };
-        lookatroom.Click += (sender, e) => { ZorkLike.Game.ProcessInput("look at room"); };
+        lookatroom.Click += (sender, e) => { QuestLike.Game.ProcessInput("look at room"); };
         sidebar.Add(lookatroom);
 
         var clearbutton = new SadConsole.Controls.Button(20) { Text = "Clear Screen", Position = new Point(2, sidebar.Height - 6), Theme = theme };
@@ -342,7 +344,7 @@ public class GameScreen : SadConsole.ControlsConsole
 
         var turn = new SadConsole.Controls.Button(sidebar.Width - 4, 3)
         { Text = "Turn", Position = new Point(2, sidebar.Height - 4), };
-        turn.Click += (sender, e) => { ZorkLike.Game.Update(); };
+        turn.Click += (sender, e) => { QuestLike.Game.Update(); };
         sidebar.Add(turn);
 
         Children.Add(sidebar);

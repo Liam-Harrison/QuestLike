@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Organs;
+using QuestLike.Organs;
 using SadConsole;
 using Console = SadConsole.Console;
 using Global = SadConsole.Global;
@@ -11,9 +11,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
-namespace ZorkLike.Command
+namespace QuestLike.Command
 {
     class LookCommand : Command
     {
@@ -40,8 +40,8 @@ namespace ZorkLike.Command
                 case 1:
 
                     var gameobjects = new List<GameObject>();
-                    var holdables = ZorkLike.Game.GetPlayer.LocateObjectsWithType<IHoldable>(false);
-                    var inventories = ZorkLike.Game.GetPlayer.LocateObjectsWithType<IInventory>(false);
+                    var holdables = QuestLike.Game.GetPlayer.LocateObjectsWithType<IHoldable>(false);
+                    var inventories = QuestLike.Game.GetPlayer.LocateObjectsWithType<IInventory>(false);
 
                     foreach (var holdable in holdables)
                     {

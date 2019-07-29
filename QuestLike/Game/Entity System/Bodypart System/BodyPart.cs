@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Combat;
+using QuestLike.Combat;
 using Microsoft.Xna.Framework;
-using ZorkLike.Effects;
+using QuestLike.Effects;
 
-namespace ZorkLike.Combat
+namespace QuestLike.Combat
 {
     public enum DamageLevel
     {
@@ -20,7 +20,7 @@ namespace ZorkLike.Combat
     }
 }
 
-namespace ZorkLike.Organs
+namespace QuestLike.Organs
 {
     public class BloodData
     {
@@ -34,10 +34,11 @@ namespace ZorkLike.Organs
         public float oxygenUse = 0.5f;
     }
 
-    public class BodyPart : Item, IDamagable, IEffectable
+    public class BodyPart : Item, IDamagable, IEffectable, IEquipable
     {
         protected Damager damager = new Damager();
         protected Effector effector;
+        protected EquipmentManager equipmentManager;
 
         public BodyPart parent;
         public BodyPart Parent { get => parent; set => parent = value; }
@@ -69,6 +70,7 @@ namespace ZorkLike.Organs
         public BodyPart(string name, string shortdesc, string desc, string[] ids) : base(name, shortdesc, desc, ids)
         {
             effector = new Effector(this);
+            equipmentManager = new EquipmentManager(this);
             AddCollection<BodyPart>();
             AddCollection<BloodVessel>();
             AddCollection<Nerve>();
@@ -84,7 +86,7 @@ namespace ZorkLike.Organs
             {
 
                 string text = "";
-                text += "\nTotal blood".Pad(28) + TotalBlood.ToString("0.0") + "ml" + ((bloodData.oxygenatedBlood > bloodData.hyperBloodLevel) ? $" <{Color.Orange.ToInteger()},>(hypertense)@" : "");
+                text += "\n\nTotal blood".Pad(28) + TotalBlood.ToString("0.0") + "ml" + ((bloodData.oxygenatedBlood > bloodData.hyperBloodLevel) ? $" <{Color.Orange.ToInteger()},>(hypertense)@" : "");
                 text += "\nOxygenated blood".Pad(28) + bloodData.oxygenatedBlood.ToString("0.0") + "ml";
                 text += "\nDeoxygenated blood".Pad(28) + bloodData.deoxygenatedBlood.ToString("0.0") + "ml";
                 text += "\nBlood pressure".Pad(28) + BloodPressureState(bloodData.bloodPressure);
@@ -206,7 +208,7 @@ namespace ZorkLike.Organs
             get
             {
                 return Name + ((ShortDescription == "") ? "" : " - " + ShortDescription) + (Settings.DebugMode ? $" [<{Color.Orange.ToInteger()},sever {ID}>Sever Part@]" : "") + ((Description == "") ? "" : "\n" + Description)
-                    + holdingDescription + inventoryDescription + objectsDescription;
+                    + equipedDescription + holdingDescription + inventoryDescription + objectsDescription;
             }
         }
 
@@ -562,6 +564,16 @@ namespace ZorkLike.Organs
             return ((IEffectable)effector).EffectCanBeUsedOn(effect);
         }
 
+        public bool CanEquipItem(Equipable equipable)
+        {
+            return ((IEquipable)equipmentManager).CanEquipItem(equipable);
+        }
+
+        public Item EquipItem(Equipable equipable)
+        {
+            return ((IEquipable)equipmentManager).EquipItem(equipable);
+        }
+
         public DamageLevel DamageLevel => ((IDamagable)damager).DamageLevel;
 
         public float TotalBlood
@@ -571,5 +583,9 @@ namespace ZorkLike.Organs
                 return bloodData.oxygenatedBlood + bloodData.deoxygenatedBlood;
             }
         }
+
+        public bool HasItemEquiped => ((IEquipable)equipmentManager).HasItemEquiped;
+
+        public Item EquipedItem => ((IEquipable)equipmentManager).EquipedItem;
     }
 }

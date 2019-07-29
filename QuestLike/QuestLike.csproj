@@ -52,7 +52,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>ZorkLike.Program</StartupObject>
+    <StartupObject>QuestLike.Program</StartupObject>
   </PropertyGroup>
   <PropertyGroup>
     <ManifestCertificateThumbprint>761875AFE5697CDD5D8DEF5D81B2FA648C4E55A9</ManifestCertificateThumbprint>
@@ -115,6 +115,7 @@
   <ItemGroup>
     <Compile Include="Command\CommandFactory.cs" />
     <Compile Include="Command\DebugCommand.cs" />
+    <Compile Include="Command\EquipCommand.cs" />
     <Compile Include="Command\GrabCommand.cs" />
     <Compile Include="Command\HelpCommand.cs" />
     <Compile Include="Command\InteractionCommands.cs" />
@@ -127,10 +128,13 @@
     <Compile Include="Game\Attack System\IEffectable.cs" />
     <Compile Include="Game\Attack System\Weapon.cs" />
     <Compile Include="Game\Attack System\Effect.cs" />
+    <Compile Include="Game\Collection System\EquipmentManager.cs" />
+    <Compile Include="Game\Collection System\IEquipable.cs" />
     <Compile Include="Game\Collection System\IHaveInventory.cs" />
     <Compile Include="Game\Collection System\Inventory.cs" />
     <Compile Include="Game\Eatable.cs" />
     <Compile Include="Game\Entity System\Blueprints\Partial Cybernetic Characters\PartialCyberHuman.cs" />
+    <Compile Include="Game\Entity System\Bodypart System\Parts\Chest.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Parts\Leg\Foot.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Parts\Leg\Lower Leg.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Parts\Leg\Upper Leg.cs" />

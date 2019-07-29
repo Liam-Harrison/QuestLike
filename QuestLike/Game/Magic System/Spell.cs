@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Combat;
+using QuestLike.Combat;
 
-namespace ZorkLike.Effects
+namespace QuestLike.Effects
 {
     class Spell : GameObject, IUseable
     {

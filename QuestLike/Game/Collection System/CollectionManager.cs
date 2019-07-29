@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZorkLike
+namespace QuestLike
 {
     public class CollectionManager: IHaveCollections
     {
@@ -32,8 +32,10 @@ namespace ZorkLike
         public void AddCollection<T>() where T : Collectable
         {
             if (HasCollection<T>()) return;
-            var collection = new Collection<T>();
-            collection.owner = owner;
+            var collection = new Collection<T>
+            {
+                owner = owner
+            };
             collections.Add(collection);
         }
 

@@ -1,4 +1,4 @@
-﻿namespace ZorkLike
+﻿namespace QuestLike
 {
     interface ILocatable
     {

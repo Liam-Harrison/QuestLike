@@ -10,9 +10,9 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
-namespace ZorkLike.Organs
+namespace QuestLike.Organs
 {
     public class CyberneticConnection : Nerve
     {
@@ -125,7 +125,8 @@ namespace ZorkLike.Organs
             {
                 string text = "";
 
-                text += gameobjectString + "\n";
+                text += Name + ((ShortDescription == "") ? "" : " - " + ShortDescription) + ((Description == "") ? "" : "\n" + Description)
+                    + equipedDescription + holdingDescription + inventoryDescription + objectsDescription + "\n";
 
                 if (energyProduced > 0) text += "\nProducing".Pad(28) + energyProduced + " amps/turn";
 
@@ -141,11 +142,13 @@ namespace ZorkLike.Organs
                 text +="\nHealth".Pad(28) + DamageLevel.ToString();
                 text +="\nConnected to singal sender".Pad(28) + (ConnectedToSignalSender ? "Yes" : "No");
 
-                text +=attatchmentString;
+                text += attatchmentString;
 
-                text +=vesselString;
+                text += vesselString;
 
-                text +=effector.Examine;
+                text += effector.Examine;
+
+                text += interactionString;
 
                 return text;
             }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Organs;
+using QuestLike.Organs;
 
-namespace ZorkLike.Entities
+namespace QuestLike.Entities
 {
     class PartialCyberHuman : PartialCyberHumanoid
     {

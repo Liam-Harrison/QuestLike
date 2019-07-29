@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Organs;
-using ZorkLike.Effects;
+using QuestLike.Organs;
+using QuestLike.Effects;
 
-namespace ZorkLike.Entities
+namespace QuestLike.Entities
 {
     class PartialCyberHumanoid : Entity
     {
@@ -26,7 +26,7 @@ namespace ZorkLike.Entities
             head.AddVessel(new LargeArtery() { capacity = 16 }, brain);
             head.PrefillWithBlood();
 
-            var chest = (Extremity)head.AttatchBodyPart(new Extremity("Chest", "The cavity for which allot of your critical organs reside.", 
+            var chest = (Chest)head.AttatchBodyPart(new Chest("Chest", "The cavity for which allot of your critical organs reside.", 
                 new string[] { "chest", "body" }));
             chest.bloodData.hyperBloodLevel = 1000f;
             chest.PrefillWithBlood();

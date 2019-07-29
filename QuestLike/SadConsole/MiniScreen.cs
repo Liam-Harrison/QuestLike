@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
 class MiniScreen: SadConsole.ControlsConsole
 {
@@ -25,13 +25,13 @@ class MiniScreen: SadConsole.ControlsConsole
         miniscreenObjects.Clear();
         Clear();
 
-        miniscreenObjects.Add(ZorkLike.Game.GetPlayer);
+        miniscreenObjects.Add(QuestLike.Game.GetPlayer);
 
-        Print(ZorkLike.Game.GetPlayer.ScreenPosition.X,
-              ZorkLike.Game.GetPlayer.ScreenPosition.Y,
-              ZorkLike.Game.GetPlayer.ScreenChar);
+        Print(QuestLike.Game.GetPlayer.ScreenPosition.X,
+              QuestLike.Game.GetPlayer.ScreenPosition.Y,
+              QuestLike.Game.GetPlayer.ScreenChar);
 
-        foreach (var gameobject in ZorkLike.Game.GetRoom.LocateObjectsWithType<GameObject>())
+        foreach (var gameobject in QuestLike.Game.GetRoom.LocateObjectsWithType<GameObject>())
         {
             if (!gameobject.PrintOnScreen) continue;
             Print(gameobject.ScreenPosition.X,
@@ -49,7 +49,7 @@ class MiniScreen: SadConsole.ControlsConsole
         {
             if (gameobject.ScreenPosition == state.ConsoleCellPosition)
             {
-                ZorkLike.Game.ProcessInput($"look at {gameobject.ID}", true);
+                QuestLike.Game.ProcessInput($"look at {gameobject.ID}", true);
                 return;
             }
         }

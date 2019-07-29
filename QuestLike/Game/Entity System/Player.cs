@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Organs;
-using ZorkLike.Entities;
+using QuestLike.Organs;
+using QuestLike.Entities;
 
-namespace ZorkLike
+namespace QuestLike
 {
     class Player : PartialCyberHuman
     {

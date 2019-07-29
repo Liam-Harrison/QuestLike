@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZorkLike.Command
+namespace QuestLike.Command
 {
     class HelpCommand : Command
     {

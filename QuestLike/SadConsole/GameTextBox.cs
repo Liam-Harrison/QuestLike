@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
 class GameTextBox : SadConsole.Controls.TextBox
 {
@@ -53,7 +53,7 @@ class GameTextBox : SadConsole.Controls.TextBox
             {
                 if (GameScreen.buffer.Count() > 0) GameScreen.NewLine();
                 GameScreen.PrintLine($"> <{Color.Cyan.ToInteger()},{Text.ToLower()}>{Text.ToLower()}@");
-                ZorkLike.Game.ProcessInput(Text.ToLower());
+                QuestLike.Game.ProcessInput(Text.ToLower());
                 Text = "";
                 GameScreen.UpdateScrollBar();
                 Focused();

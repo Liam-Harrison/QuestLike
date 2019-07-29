@@ -7,7 +7,7 @@ using Global = SadConsole.Global;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
 static class GameWindow
 {

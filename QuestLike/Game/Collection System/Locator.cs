@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Combat;
+using QuestLike.Combat;
 
-namespace ZorkLike
+namespace QuestLike
 {
     public class Locator: ILocatable
     {
@@ -61,6 +61,14 @@ namespace ZorkLike
                 if (casted.GetHoldingSafe(out Item temp))
                     toReturn.AddRange(temp.Locate(id, true));
             }
+            if (owner is IEquipable)
+            {
+                var casted = owner as IEquipable;
+                if (casted.HasItemEquiped)
+                {
+                    toReturn.AddRange(casted.EquipedItem.Locate(id, true));
+                }
+            }
 
             return toReturn.ToArray();
         }
@@ -93,6 +101,14 @@ namespace ZorkLike
                 var casted = owner as IHoldable;
                 if (casted.GetHoldingSafe(out Item temp))
                     toReturn.AddRange(temp.LocateObjectsWithType<T>(true));
+            }
+            if (owner is IEquipable)
+            {
+                var casted = owner as IEquipable;
+                if (casted.HasItemEquiped)
+                {
+                    toReturn.AddRange(casted.EquipedItem.LocateObjectsWithType<T>(true));
+                }
             }
 
             return toReturn.ToArray();
@@ -131,6 +147,14 @@ namespace ZorkLike
                 if (casted.GetHoldingSafe(out Item temp))
                     toReturn.AddRange(temp.LocateObjectsWithType<T>(id, true));
             }
+            if (owner is IEquipable)
+            {
+                var casted = owner as IEquipable;
+                if (casted.HasItemEquiped)
+                {
+                    toReturn.AddRange(casted.EquipedItem.LocateObjectsWithType<T>(id, true));
+                }
+            }
 
             return toReturn.ToArray();
         }
@@ -139,7 +163,7 @@ namespace ZorkLike
         {
             var results = Utilities.CastArray<GameObject, T>(LocateObjectsWithType<T>(false));
 
-            if (results.Length == 0) response.Invoke(default(T), false);
+            if (results.Length == 0) response.Invoke(default, false);
             else if (results.Length == 1) response.Invoke(results[0] as T, false);
             else Utilities.PromptSelection<T>("Select an object from these options", results, response);
         }
@@ -157,7 +181,7 @@ namespace ZorkLike
         {
             var results = Utilities.CastArray<GameObject, T>(LocateObjectsWithType<T>(id, false));
 
-            if (results.Length == 0) response.Invoke(default(T), false);
+            if (results.Length == 0) response.Invoke(default, false);
             else if (results.Length == 1) response.Invoke(results[0] as T, false);
             else Utilities.PromptSelection<T>("Select an object from these options", results, response);
         }
@@ -248,6 +272,15 @@ namespace ZorkLike
                 if (casted.GetHoldingSafe(out Item temp))
                 {
                     var found = temp.LocateWithGameID(gameID);
+                    if (found != null) return found;
+                }
+            }
+            if (owner is IEquipable)
+            {
+                var casted = owner as IEquipable;
+                if (casted.HasItemEquiped)
+                {
+                    var found = casted.EquipedItem.LocateWithGameID(gameID);
                     if (found != null) return found;
                 }
             }

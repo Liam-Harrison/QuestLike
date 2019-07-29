@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZorkLike.Organs
+namespace QuestLike.Organs
 {
     class Upper_Leg : Extremity
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 
-namespace ZorkLike.Command
+namespace QuestLike.Command
 {
     class GrabCommand : Command
     {

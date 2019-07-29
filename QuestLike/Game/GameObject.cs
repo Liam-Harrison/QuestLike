@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZorkLike.Combat;
+using QuestLike.Combat;
 using Microsoft.Xna.Framework;
 
-namespace ZorkLike
+namespace QuestLike
 {
     public abstract class GameObject : Collectable, IHaveCollections, ILocatable
     {
@@ -109,6 +109,34 @@ namespace ZorkLike
             }
         }
 
+        protected string equipedDescription
+        {
+            get
+            {
+                string text = "";
+                bool wrote = false;
+                if (this is Equipable)
+                {
+                    var casted = this as Equipable;
+                    if (casted.IsEquiped)
+                    {
+                        text += $"\n\nEquiped to <{Color.Cyan.ToInteger()},look at {casted.EquipedTo.ID}>{casted.EquipedTo.Name}@";
+                        wrote = true;
+                    }
+                }
+                if (this is IEquipable)
+                {
+                    if (!wrote) text += "\n";
+                    var casted = this as IEquipable;
+                    if (casted.HasItemEquiped)
+                    {
+                        text += $"\nHas <{Color.Cyan.ToInteger()},look at {casted.EquipedItem.ID}>{casted.EquipedItem.Name}@ equiped.";
+                    }
+                }
+                return text;
+            }
+        }
+
         protected string holdingDescription
         {
             get
@@ -171,7 +199,7 @@ namespace ZorkLike
 
                 if (this is Item) text += $"[<{Color.Cyan.ToInteger()},grab {ID}>Grab@] ";
                 if (this is IUseable) text += $"[<{Color.Orange.ToInteger()},use {ID}>Use@] ";
-                if (this is BodyEquipable) text += $"[<{Color.Yellow.ToInteger()},equip {ID}>Equip@] ";
+                if (this is Equipable) text += $"[<{Color.Yellow.ToInteger()},equip {ID}>Equip@] ";
 
                 if (text == "") return text;
                 else return "\n\n" + text;
@@ -183,7 +211,7 @@ namespace ZorkLike
             get
             {
                 return Name + ((ShortDescription == "") ? "" : " - " + ShortDescription) + ((Description == "") ? "" : "\n" + Description)
-                    + holdingDescription + inventoryDescription + objectsDescription + interactionString;
+                    + equipedDescription + holdingDescription + inventoryDescription + objectsDescription + interactionString;
             }
         }
 

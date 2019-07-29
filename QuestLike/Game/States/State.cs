@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ZorkLike.State
+namespace QuestLike.State
 {
     abstract class GameState
     {

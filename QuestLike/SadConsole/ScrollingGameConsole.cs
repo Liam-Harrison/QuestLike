@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
-using ZorkLike;
+using QuestLike;
 
 public class ScrollingGameConsole : SadConsole.ScrollingConsole
 {
@@ -49,6 +49,6 @@ public class ScrollingGameConsole : SadConsole.ScrollingConsole
                 break;
             }
         }
-        if (foundlink != null) ZorkLike.Game.ProcessInput(foundlink.text, true);
+        if (foundlink != null) QuestLike.Game.ProcessInput(foundlink.text, true);
     }
 }
