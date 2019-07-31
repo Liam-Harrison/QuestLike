@@ -71,7 +71,6 @@ namespace QuestLike
         {
             equipable.container.GetTypedCollection().RemoveObject(equipable);
             if (!HasItemEquiped) GetCollection<Item>().AddObject(equipable);
-            GameScreen.miniConsole.DrawMiniScreen();
             equipable.equiped = true;
             return equipable;
         }

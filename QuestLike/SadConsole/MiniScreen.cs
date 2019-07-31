@@ -20,38 +20,74 @@ class MiniScreen: SadConsole.ControlsConsole
     }
 
     private List<GameObject> miniscreenObjects = new List<GameObject>();
-    public void DrawMiniScreen()
+
+    public void UpdateScreen(GameTime time)
+    {
+        Clear();
+        UpdateMiniScreenObjects();
+
+        for (int y = 0; y < Height; y++)
+        {
+            for (int x = 0; x < Width; x++)
+            {
+                var objects = GetAllObjectsAtPoint(new Point(x, y));
+                if (objects.Count == 0) continue;
+                else if (objects.Count == 1) PrintObject(objects.First());
+                else
+                {
+                    var clickrate = objects.Count;
+                    var index = (int) time.TotalGameTime.TotalSeconds % clickrate;
+                    PrintObject(objects[index]);
+                }
+            }
+        }
+    }
+
+    public void PrintObject(GameObject gameObject)
+    {
+        if (miniscreenObjects.Contains(gameObject))
+        {
+            Print(gameObject.ScreenPosition.X,
+                  gameObject.ScreenPosition.Y,
+                  gameObject.ScreenChar);
+        }
+    }
+
+    public void UpdateMiniScreenObjects()
     {
         miniscreenObjects.Clear();
-        Clear();
-
         miniscreenObjects.Add(QuestLike.Game.GetPlayer);
-
-        Print(QuestLike.Game.GetPlayer.ScreenPosition.X,
-              QuestLike.Game.GetPlayer.ScreenPosition.Y,
-              QuestLike.Game.GetPlayer.ScreenChar);
-
         foreach (var gameobject in QuestLike.Game.GetRoom.LocateObjectsWithType<GameObject>())
         {
             if (!gameobject.PrintOnScreen) continue;
-            Print(gameobject.ScreenPosition.X,
-                  gameobject.ScreenPosition.Y,
-                  gameobject.ScreenChar);
             miniscreenObjects.Add(gameobject);
         }
+    }
+
+    public List<GameObject> GetAllObjectsAtPoint(Point point)
+    {
+        List<GameObject> gameobjects = new List<GameObject>();
+        foreach (var gameobject in miniscreenObjects)
+        {
+            if (point == gameobject.ScreenPosition) gameobjects.Add(gameobject);
+        }
+        return gameobjects;
     }
 
     protected override void OnMouseLeftClicked(MouseConsoleState state)
     {
         base.OnMouseLeftClicked(state);
 
-        foreach (var gameobject in miniscreenObjects)
+        var objects = GetAllObjectsAtPoint(state.ConsoleCellPosition);
+
+        if (objects.Count == 1) QuestLike.Game.ProcessInput($"look at {objects.First().ID}", true);
+        else if (objects.Count > 1)
         {
-            if (gameobject.ScreenPosition == state.ConsoleCellPosition)
+            Utilities.PromptSelection<GameObject>($"There are {objects.Count} items at this position, what do you want to look at?", objects.ToArray(), (gameobject, canceled) =>
             {
+                if (canceled) return;
                 QuestLike.Game.ProcessInput($"look at {gameobject.ID}", true);
-                return;
-            }
+            });
         }
     }
 }

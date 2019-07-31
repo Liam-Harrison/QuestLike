@@ -354,8 +354,6 @@ public class GameScreen : SadConsole.ControlsConsole
         miniConsole = new MiniScreen();
         Children.Add(miniConsole);
 
-        miniConsole.DrawMiniScreen();
-
     }
 
     private void Scroll_ValueChanged(object sender, EventArgs e)

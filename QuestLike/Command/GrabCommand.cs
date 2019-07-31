@@ -172,7 +172,7 @@ namespace QuestLike.Command
             else
             {
                 holdable.PutItem(item);
-                GameScreen.PrintLine($"Moved <{Color.Cyan.ToInteger()},look at {item.ID}>{ item.Name }@ to <{Color.Cyan.ToInteger()},look at {(holdable as GameObject).ID}>{ (holdable as GameObject).Name }@");
+                GameScreen.PrintLine($"\nMoved <{Color.Cyan.ToInteger()},look at {item.ID}>{ item.Name }@ to <{Color.Cyan.ToInteger()},look at {(holdable as GameObject).ID}>{ (holdable as GameObject).Name }@");
             }
             return false;
         }

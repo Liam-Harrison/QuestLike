@@ -29,6 +29,7 @@ namespace QuestLike
             SadConsole.Game.Instance.Window.Title = "QuestLike";
 
             SadConsole.Game.OnInitialize = Init;
+            SadConsole.Game.OnUpdate = Update;
 
             SwitchState(new PlayingState());
 
@@ -38,7 +39,8 @@ namespace QuestLike
 
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Bear", new string[] { "bear" }));
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Frog", new string[] { "frog" }));
-            testRoom.GetCollection<GameObject>().AddObject(new Item("Sword", new string[] { "sword" }));
+            testRoom.GetCollection<GameObject>().AddObject(new Item("Sword", new string[] { "sword" })
+                { screenChar = 's', screenposition = new Point(1, 1) });
 
             testRoom.GetCollection<GameObject>().AddObject(new Weapon("Gun", new string[] { "gun" })
                 { screenChar = 'g', screenposition = new Point(1, 1) });
@@ -59,6 +61,11 @@ namespace QuestLike
             if (state != null) state.OnExit();
             state = newState;
             state.OnEnter();
+        }
+
+        private static void Update(GameTime gametime)
+        {
+            if (GameScreen.miniConsole != null) GameScreen.miniConsole.UpdateScreen(gametime);
         }
 
         private static void Init()

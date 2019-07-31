@@ -92,7 +92,6 @@ namespace QuestLike
                         if (j.ShortDescription != "") GameScreen.Print(" - " + j.ShortDescription);
                     }
                 }
-                GameScreen.NewLine();
             }
         }
 
