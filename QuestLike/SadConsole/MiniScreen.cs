@@ -11,12 +11,14 @@ using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
 using QuestLike;
+using Game = QuestLike.Game;
 
 class MiniScreen: SadConsole.ControlsConsole
 {
-    public MiniScreen() : base(24, 10)
+    private static int ScreenWidth = 24, ScreenHeight = 11;
+    public MiniScreen() : base(ScreenWidth, ScreenHeight)
     {
-        Position = new Point(Settings.Width - 24, 0);
+        Position = new Point(Settings.Width - ScreenWidth, 1);
     }
 
     private List<GameObject> miniscreenObjects = new List<GameObject>();
@@ -26,20 +28,52 @@ class MiniScreen: SadConsole.ControlsConsole
         Clear();
         UpdateMiniScreenObjects();
 
-        for (int y = 0; y < Height; y++)
+        for (int y = 0; y < ScreenHeight; y++)
         {
-            for (int x = 0; x < Width; x++)
+            for (int x = 0; x < ScreenWidth; x++)
             {
                 var objects = GetAllObjectsAtPoint(new Point(x, y));
                 if (objects.Count == 0) continue;
                 else if (objects.Count == 1) PrintObject(objects.First());
                 else
                 {
-                    var clickrate = objects.Count;
-                    var index = (int) time.TotalGameTime.TotalSeconds % clickrate;
+                    var switchrate = objects.Count;
+                    var modifier = switchrate - 1;
+                    if (modifier > 3) modifier = 3;
+                    var index = (int) (time.TotalGameTime.TotalSeconds * modifier) % objects.Count;
                     PrintObject(objects[index]);
                 }
             }
+        }
+
+        DrawPlayerMoveArea();
+    }
+
+    public static bool IsValidScreenPosition(Point point, bool honorBlocking = true)
+    {
+        var valid = point.X >= 0 && point.Y >= 0 && point.X < ScreenWidth && point.Y < ScreenHeight;
+        if (!valid) return false;
+        var objects = GameScreen.miniConsole.GetAllObjectsAtPoint(point);
+        foreach (var item in objects)
+        {
+            if (honorBlocking && item.blocking) return false;
+        }
+        return true;
+    }
+
+    public List<RangeWall> rangewalls = new List<RangeWall>();
+    public void DrawPlayerMoveArea()
+    {
+        foreach (var rangewall in rangewalls)
+            miniscreenObjects.Remove(rangewall);
+
+        rangewalls.Clear();
+        var exterior = Pathfinding.GetExteriorPoints(Game.GetPlayer.MoveArea);
+
+        foreach (var item in exterior)
+        {
+            if (GetAllObjectsAtPoint(item).Count == 0)
+                rangewalls.Add(new RangeWall() { position = item });
         }
     }
 
@@ -47,19 +81,26 @@ class MiniScreen: SadConsole.ControlsConsole
     {
         if (miniscreenObjects.Contains(gameObject))
         {
-            Print(gameObject.ScreenPosition.X,
-                  gameObject.ScreenPosition.Y,
+            if (gameObject.ScreenCell == null)
+                Print(gameObject.Position.X,
+                  gameObject.Position.Y,
                   gameObject.ScreenChar);
+            else
+                Print(gameObject.Position.X,
+                  gameObject.Position.Y,
+                  gameObject.ScreenChar,
+                  gameObject.ScreenCell);
         }
     }
 
     public void UpdateMiniScreenObjects()
     {
         miniscreenObjects.Clear();
+        miniscreenObjects.AddRange(rangewalls);
         miniscreenObjects.Add(QuestLike.Game.GetPlayer);
         foreach (var gameobject in QuestLike.Game.GetRoom.LocateObjectsWithType<GameObject>())
         {
-            if (!gameobject.PrintOnScreen) continue;
+            if (!IsValidScreenPosition(gameobject.Position)) continue;
             miniscreenObjects.Add(gameobject);
         }
     }
@@ -69,7 +110,7 @@ class MiniScreen: SadConsole.ControlsConsole
         List<GameObject> gameobjects = new List<GameObject>();
         foreach (var gameobject in miniscreenObjects)
         {
-            if (point == gameobject.ScreenPosition) gameobjects.Add(gameobject);
+            if (point == gameobject.Position) gameobjects.Add(gameobject);
         }
         return gameobjects;
     }

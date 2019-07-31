@@ -42,5 +42,29 @@ namespace QuestLike
 
             foreach (var entity in GetCollection<Entity>().GetAllObjects()) entity.Update();
         }
+
+        public bool IsObjectInRoomDirectly(GameObject gameObject)
+        {
+            foreach (var item in GetCollection<GameObject>().Objects)
+            {
+                if (item == gameObject) return true;
+            }
+            return false;
+        }
+
+        public void PrefillEdgesWithWalls()
+        {
+            for (int y = 0; y <= 10; y++)
+            {
+                GetCollection<GameObject>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(0, y) });
+                GetCollection<GameObject>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(23, y) });
+            }
+
+            for (int x = 0; x <= 23; x++)
+            {
+                GetCollection<GameObject>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(x, 0) });
+                GetCollection<GameObject>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(x, 10) });
+            }
+        }
     }
 }

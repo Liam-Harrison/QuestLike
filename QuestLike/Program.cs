@@ -34,20 +34,44 @@ namespace QuestLike
             SwitchState(new PlayingState());
 
             Room testRoom = new Room("Room");
+            testRoom.PrefillEdgesWithWalls();
 
-            testRoom.AddCollection<GameObject>();
+            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            { position = new Point(1, 5) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new Entity("Bear", new string[] { "bear" }));
-            testRoom.GetCollection<GameObject>().AddObject(new Entity("Frog", new string[] { "frog" }));
-            testRoom.GetCollection<GameObject>().AddObject(new Item("Sword", new string[] { "sword" })
-                { screenChar = 's', screenposition = new Point(1, 1) });
+            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            { position = new Point(2, 5) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new Weapon("Gun", new string[] { "gun" })
-                { screenChar = 'g', screenposition = new Point(1, 1) });
+            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            { position = new Point(3, 5) });
+
+            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            { position = new Point(4, 5) });
+
+            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            { position = new Point(4, 4) });
+
+            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            { position = new Point(4, 3) });
+
+            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            { position = new Point(5, 5) });
+
+            testRoom.GetCollection<GameObject>().AddObject(new Entity("Bear", 
+                new string[] { "bear" })
+                { screenChar = 'B', position = new Point(2, 9) });
+
+            testRoom.GetCollection<GameObject>().AddObject(new Item("Sword", 
+                new string[] { "sword" })
+                { screenChar = 's', position = new Point(1, 1) });
+
+            testRoom.GetCollection<GameObject>().AddObject(new Weapon("Gun", 
+                new string[] { "gun" })
+                { screenChar = 'g', position = new Point(1, 1) });
 
             testRoom.GetCollection<GameObject>().AddObject(new Equipable<Organs.Chest>("Leather Chestpiece", 
                 new string[] { "leather chestpiece", "chestpiece" })
-                { screenChar = 'l', screenposition = new Point(2, 4) });
+                { screenChar = 'l', position = new Point(2, 4) });
 
             Game.AddRoom(testRoom);
             Game.ChangeRoom(testRoom);

@@ -172,11 +172,14 @@
     <Compile Include="Game\Collection System\Item.cs" />
     <Compile Include="Game\Entity System\Player.cs" />
     <Compile Include="Game\Magic System\Spell.cs" />
+    <Compile Include="Game\RangeWall.cs" />
     <Compile Include="Game\States\MainMenu.cs" />
     <Compile Include="Game\States\PlayingState.cs" />
     <Compile Include="Game\Useable System\IUseable.cs" />
     <Compile Include="Game\Collection System\ILocatable.cs" />
     <Compile Include="Game\Collection System\Locator.cs" />
+    <Compile Include="Game\Utility\Pathfinding.cs" />
+    <Compile Include="Game\Wall.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Game\Room.cs" />
@@ -188,6 +191,7 @@
     <Compile Include="SadConsole\GameTextBox.cs" />
     <Compile Include="SadConsole\GameWindow.cs" />
     <Compile Include="SadConsole\InfoScreen.cs" />
+    <Compile Include="SadConsole\KeyboardHandler.cs" />
     <Compile Include="SadConsole\MiniScreen.cs" />
     <Compile Include="SadConsole\NavigateButton.cs" />
     <Compile Include="SadConsole\OptionsScreen.cs" />

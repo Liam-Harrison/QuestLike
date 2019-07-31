@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
 using QuestLike;
+using Game = QuestLike.Game;
 
 public class GameScreen : SadConsole.ControlsConsole
 {
@@ -286,6 +287,7 @@ public class GameScreen : SadConsole.ControlsConsole
     internal static MiniScreen miniConsole;
     public static SadConsole.Controls.ScrollBar scrollbar;
     public static CircleBuffer<Link> links = new CircleBuffer<Link>(100);
+    public static ControlsConsole infoconsole;
 
     private void Generate()
     {
@@ -318,23 +320,42 @@ public class GameScreen : SadConsole.ControlsConsole
         Children.Add(gameConsole);
 
         this.PrintCentre((Width - 25) / 2, 0, "Game Screen");
-        Add(new BackButton(17, 1) { Text = "Back to main menu", Position = new Point(Width - 42, 0), Theme = themeNoSides });
+        Add(new BackButton(17, 1) { Text = "Back to main menu", Position = new Point(0, 0), Theme = themeNoSides });
 
         LoadBuffer();
 
         /// Sidebar Construction & Placement
 
         var sidebar = new ControlsConsole(24, Settings.Height) { Position = new Point(Settings.Width - 24, 0) };
-        sidebar.PrintCentre(sidebar.Width / 2, 13, "Quick Commands");
 
-        var v = new Console(sidebar.Width, 1) { Position = new Point(0, 11), DefaultBackground = Color.LightGray };
+        var v = new Console(sidebar.Width, 1) { Position = new Point(0, 0), DefaultBackground = Color.LightGray };
         sidebar.Children.Add(v);
 
-        var buttonInv = new SadConsole.Controls.Button(20, 1) { Text = "Inventory", Position = new Point(2, 15), Theme = theme };
+        v.PrintCentre(sidebar.Width / 2, 0, "Room Map", new Cell(Color.Black, Color.LightGray));
+
+        var v2 = new Console(sidebar.Width, 1) { Position = new Point(0, 12), DefaultBackground = Color.LightGray };
+        sidebar.Children.Add(v2);
+
+        v2.PrintCentre(sidebar.Width / 2, 0, "Stats", new Cell(Color.Black, Color.LightGray));
+
+        infoconsole = new ControlsConsole(24, 5) { Position = new Point(0, 13) };
+
+        infoconsole.Print(1, 1, $"{"Health".Pad(sidebar.Width - 8)}0", new Cell(Color.White));
+        infoconsole.Print(1, 2, $"{"Mana".Pad(sidebar.Width - 8)}0", new Cell(Color.White));
+        infoconsole.Print(1, 3, $"{"Action Points".Pad(sidebar.Width - 8)}0/0", new Cell(Color.White));
+
+        sidebar.Children.Add(infoconsole);
+
+        var v3 = new Console(sidebar.Width, 1) { Position = new Point(0, 18), DefaultBackground = Color.LightGray };
+        sidebar.Children.Add(v3);
+
+        v3.PrintCentre(sidebar.Width / 2, 0, "Quick Commands", new Cell(Color.Black, Color.LightGray));
+
+        var buttonInv = new SadConsole.Controls.Button(20, 1) { Text = "Inventory", Position = new Point(2, 20), Theme = theme };
         buttonInv.Click += (sender, e) => { QuestLike.Game.ProcessInput("look at my items"); };
         sidebar.Add(buttonInv);
 
-        var lookatroom = new SadConsole.Controls.Button(20, 1) { Text = "Look at room", Position = new Point(2, 17), Theme = theme };
+        var lookatroom = new SadConsole.Controls.Button(20, 1) { Text = "Look at room", Position = new Point(2, 22), Theme = theme };
         lookatroom.Click += (sender, e) => { QuestLike.Game.ProcessInput("look at room"); };
         sidebar.Add(lookatroom);
 
@@ -353,6 +374,8 @@ public class GameScreen : SadConsole.ControlsConsole
 
         miniConsole = new MiniScreen();
         Children.Add(miniConsole);
+
+        Components.Add(new KeyboardHandler());
 
     }
 

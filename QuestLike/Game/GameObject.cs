@@ -5,9 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using QuestLike.Combat;
 using Microsoft.Xna.Framework;
+using SadConsole;
+using Console = SadConsole.Console;
+using Global = SadConsole.Global;
+using Microsoft.Xna.Framework.Design;
+using Microsoft.Xna.Framework.Graphics;
+using SadConsole.Input;
+using QuestLike;
+using Game = QuestLike.Game;
 
 namespace QuestLike
 {
+
     public abstract class GameObject : Collectable, IHaveCollections, ILocatable
     {
         protected CollectionManager collectionManager;
@@ -18,10 +27,40 @@ namespace QuestLike
         private int size = 1;
         private static uint nextID = 0;
         private uint id;
-        internal Point screenposition = new Point(-1, -1);
+        internal Point position = new Point(-1, -1);
+        internal Cell screenCell;
         internal char screenChar;
+        public bool blocking = false;
+        public bool searchable = true;
 
-        public string ScreenChar
+        public GameObject(string name, string[] ids) : base(ids)
+        {
+            locator = new Locator(this);
+            collectionManager = new CollectionManager(this);
+            this.name = name;
+            id = nextID++;
+        }
+
+        public GameObject(string name, string shortdesc, string desc, string[] ids) : this(name, ids)
+        {
+            this.shortDescription = shortdesc;
+            this.description = desc;
+        }
+
+        public GameObject(string name, string desc, string[] ids) : this(name, ids)
+        {
+            this.description = desc;
+        }
+
+        public Cell ScreenCell
+        {
+            get
+            {
+                return screenCell;
+            }
+        }
+
+        public virtual string ScreenChar
         {
             get
             {
@@ -29,19 +68,11 @@ namespace QuestLike
             }
         }
 
-        public bool PrintOnScreen
+        public Point Position
         {
             get
             {
-                return screenposition.X >= 0 && screenposition.Y >= 0;
-            }
-        }
-
-        public Point ScreenPosition
-        {
-            get
-            {
-                return screenposition;
+                return position;
             }
         }
 
@@ -107,6 +138,13 @@ namespace QuestLike
             {
                 return gameobjectString;
             }
+        }
+
+        public virtual void Move(Direction direction)
+        {
+            var move = Pathfinding.DirectionToPoint(direction);
+            var newposition = Position + move;
+            position = newposition;
         }
 
         protected string equipedDescription
@@ -185,7 +223,7 @@ namespace QuestLike
                 if (GetCollection<GameObject>().Objects.Count() == 0) return "\n\nContains nothing.";
                 foreach (var item in GetCollection<GameObject>().Objects)
                 {
-                    text += $"\n - <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@";
+                    if (item.searchable) text += $"\n - <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@";
                 }
                 return text;
             }
@@ -221,25 +259,6 @@ namespace QuestLike
         public virtual void Update()
         {
 
-        }
-
-        public GameObject(string name, string[] ids) : base(ids)
-        {
-            locator = new Locator(this);
-            collectionManager = new CollectionManager(this);
-            this.name = name;
-            id = nextID++;
-        }
-
-        public GameObject(string name, string shortdesc, string desc, string[] ids) : this(name, ids)
-        {
-            this.shortDescription = shortdesc;
-            this.description = desc;
-        }
-
-        public GameObject(string name, string desc, string[] ids) : this(name, ids)
-        {
-            this.description = desc;
         }
 
         public Collection<T> GetCollection<T>() where T : Collectable

@@ -35,7 +35,7 @@ namespace QuestLike
             if (owner is GameObject)
             {
                 GameObject casted = owner as GameObject;
-                if (casted.HasID(id)) toReturn.Add(casted);
+                if (casted.HasID(id) && casted.searchable) toReturn.Add(casted);
             }
 
             if (freezeSearchesBelow && firstcall) return toReturn.ToArray();
@@ -77,7 +77,14 @@ namespace QuestLike
         {
             List<T> toReturn = new List<T>();
 
-            if (owner is T) toReturn.Add(owner as T);
+            bool search = true;
+            if (owner is GameObject)
+            {
+                GameObject casted = owner as GameObject;
+                if (!casted.searchable) search = false;
+            }
+
+            if (owner is T && search) toReturn.Add(owner as T);
 
             if (freezeSearchesBelow && firstcall) return toReturn.ToArray();
             foreach (var collection in owner.GetAllCollections())
@@ -118,7 +125,14 @@ namespace QuestLike
         {
             List<T> toReturn = new List<T>();
 
-            if (owner is Identifiable)
+            var search = true;
+            if (owner is GameObject)
+            {
+                GameObject casted = owner as GameObject;
+                if (!casted.searchable) search = false;
+            }
+
+            if (owner is Identifiable && search)
             {
                 var idOwner = owner as Identifiable;
                 if (idOwner.HasID(id) && owner is T) toReturn.Add(owner as T);
@@ -193,7 +207,7 @@ namespace QuestLike
             if (owner is GameObject && owner is IHoldable)
             {
                 var casted = owner as GameObject;
-                if (casted.HasID(id)) holdables.Add(owner as IHoldable);
+                if (casted.HasID(id) && casted.searchable) holdables.Add(owner as IHoldable);
             }
             if (freezeSearchesBelow && firstcall) return holdables.ToArray();
             var found = Locate(id, false);
@@ -220,7 +234,7 @@ namespace QuestLike
             if (owner is GameObject && owner is IInventory)
             {
                 var casted = owner as GameObject;
-                if (casted.HasID(id)) inventories.Add(owner as IInventory);
+                if (casted.HasID(id) && casted.searchable) inventories.Add(owner as IInventory);
             }
             if (freezeSearchesBelow && firstcall) return inventories.ToArray();
             var found = Locate(id, false);
