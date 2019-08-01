@@ -11,7 +11,7 @@ namespace QuestLike
     {
         protected Type type;
         public GameObject owner;
-        public bool treeSearchable = true;
+        public bool showInLocate = true;
 
         public Type CollectionType
         {

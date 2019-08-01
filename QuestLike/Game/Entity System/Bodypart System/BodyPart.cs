@@ -87,7 +87,7 @@ namespace QuestLike.Organs
             {
 
                 string text = "";
-                text += "\n\nTotal blood".Pad(28) + TotalBlood.ToString("0.0") + "ml" + ((bloodData.oxygenatedBlood > bloodData.hyperBloodLevel) ? $" <{Color.Orange.ToInteger()},>(hypertense)@" : "");
+                text += "\n\nTotal blood".Pad(29) + TotalBlood.ToString("0.0") + "ml" + ((bloodData.oxygenatedBlood > bloodData.hyperBloodLevel) ? $" <{Color.Orange.ToInteger()},>(hypertense)@" : "");
                 text += "\nOxygenated blood".Pad(28) + bloodData.oxygenatedBlood.ToString("0.0") + "ml";
                 text += "\nDeoxygenated blood".Pad(28) + bloodData.deoxygenatedBlood.ToString("0.0") + "ml";
                 text += "\nBlood pressure".Pad(28) + BloodPressureState(bloodData.bloodPressure);

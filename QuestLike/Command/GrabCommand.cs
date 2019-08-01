@@ -68,6 +68,12 @@ namespace QuestLike.Command
                 return;
             }
 
+            if (!Game.GetPlayer.IsInRangeOf(item, Game.GetPlayer.InteractionRanges.grabRange))
+            {
+                GameScreen.PrintLine("\nYou are not close enough to grab this.");
+                return;
+            }
+
             if (holdables.Length == 0 && inventories.Length == 0)
             {
                 GameScreen.PrintLine("\nCould not find anywhere to place \"" + item.Name + "\".");
@@ -128,6 +134,11 @@ namespace QuestLike.Command
                 GameScreen.PrintLine("\nYou cannot grab this item.");
                 return false;
             }
+            else if (!Game.GetPlayer.IsInRangeOf(item, Game.GetPlayer.InteractionRanges.grabRange))
+            {
+                GameScreen.PrintLine("\nYou are not close enough to grab this.");
+                return false;
+            }
             if (inventory.GetInventory.EnoughSpace(item))
             {
                 var tempItem = item;
@@ -148,6 +159,11 @@ namespace QuestLike.Command
             if (!item.Grabable)
             {
                 GameScreen.PrintLine("\nYou cannot grab this item.");
+                return false;
+            }
+            else if (!Game.GetPlayer.IsInRangeOf(item, Game.GetPlayer.InteractionRanges.grabRange))
+            {
+                GameScreen.PrintLine("\nYou are not close enough to grab this.");
                 return false;
             }
             if (holdable.IsHoldingItem)
@@ -184,6 +200,11 @@ namespace QuestLike.Command
                 if (!item.Grabable)
                 {
                     GameScreen.PrintLine("\nYou cannot grab this item.");
+                    return;
+                }
+                else if (!Game.GetPlayer.IsInRangeOf(item, Game.GetPlayer.InteractionRanges.grabRange))
+                {
+                    GameScreen.PrintLine("\nYou are not close enough to grab this.");
                     return;
                 }
                 Game.GetPlayer.LocateSingleObjectOfType<IHoldable>(GetArg(1), (holdable, c) =>

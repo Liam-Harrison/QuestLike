@@ -36,25 +36,25 @@ namespace QuestLike
             Room testRoom = new Room("Room");
             testRoom.PrefillEdgesWithWalls();
 
-            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            testRoom.GetCollection<Wall>().AddObject(new Wall("", new string[] { })
             { position = new Point(1, 5) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            testRoom.GetCollection<Wall>().AddObject(new Wall("", new string[] { })
             { position = new Point(2, 5) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            testRoom.GetCollection<Wall>().AddObject(new Wall("", new string[] { })
             { position = new Point(3, 5) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            testRoom.GetCollection<Wall>().AddObject(new Wall("", new string[] { })
             { position = new Point(4, 5) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            testRoom.GetCollection<Wall>().AddObject(new Wall("", new string[] { })
             { position = new Point(4, 4) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            testRoom.GetCollection<Wall>().AddObject(new Wall("", new string[] { })
             { position = new Point(4, 3) });
 
-            testRoom.GetCollection<GameObject>().AddObject(new Wall("", new string[] { })
+            testRoom.GetCollection<Wall>().AddObject(new Wall("", new string[] { })
             { position = new Point(5, 5) });
 
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Bear", 

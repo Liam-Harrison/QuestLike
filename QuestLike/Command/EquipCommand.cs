@@ -41,6 +41,12 @@ namespace QuestLike.Command
                             }
                         }
 
+                        if (!Game.GetPlayer.IsInRangeOf(gameobject, Game.GetPlayer.InteractionRanges.grabRange))
+                        {
+                            GameScreen.PrintLine("\nYou are not close enough to equip this.");
+                            return false;
+                        }
+
                         if (points.Count == 0)
                         {
                             GameScreen.PrintLine("\nYou have nowhere to equip that item.");

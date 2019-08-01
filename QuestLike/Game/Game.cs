@@ -63,11 +63,6 @@ namespace QuestLike
             foreach (var room in rooms) room.Update();
         }
 
-        public static void EndTurn()
-        {
-            Update();
-        }
-
         public static void AddRoom(Room room)
         {
             rooms.Add(room);

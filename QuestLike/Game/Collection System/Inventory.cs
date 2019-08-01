@@ -105,54 +105,34 @@ namespace QuestLike
             return ((IHaveCollections)manager).HasCollection<T>();
         }
 
-        public GameObject[] Locate(string id, bool firstcall = true)
+        public GameObject[] Locate(string id, bool firstcall = true, bool overrideShow = false)
         {
-            return ((ILocatable)locator).Locate(id, firstcall);
+            return ((ILocatable)locator).Locate(id, firstcall, overrideShow);
         }
 
-        public void LocateSingleObject(string id, PromptObjectResponse<GameObject> response, bool firstcall = true)
+        public void LocateSingleObject(string id, PromptObjectResponse<GameObject> response, bool firstcall = true, bool overrideShow = false)
         {
-            ((ILocatable)locator).LocateSingleObject(id, response, firstcall);
+            ((ILocatable)locator).LocateSingleObject(id, response, firstcall, overrideShow);
         }
 
-        public T[] LocateObjectsWithType<T>(bool firstcall = true) where T : class
+        public T[] LocateObjectsWithType<T>(bool firstcall = true, bool overrideShow = false) where T : class
         {
-            return ((ILocatable)locator).LocateObjectsWithType<T>(firstcall);
+            return ((ILocatable)locator).LocateObjectsWithType<T>(firstcall, overrideShow);
         }
 
-        public void LocateSingleObjectOfType<T>(PromptObjectResponse<T> response, bool firstcall = true) where T : class
+        public void LocateSingleObjectOfType<T>(PromptObjectResponse<T> response, bool firstcall = true, bool overrideShow = false) where T : class
         {
-            ((ILocatable)locator).LocateSingleObjectOfType(response, firstcall);
+            ((ILocatable)locator).LocateSingleObjectOfType(response, firstcall, overrideShow);
         }
 
-        public T[] LocateObjectsWithType<T>(string id, bool firstcall = true) where T : class
+        public T[] LocateObjectsWithType<T>(string id, bool firstcall = true, bool overrideShow = false) where T : class
         {
-            return ((ILocatable)locator).LocateObjectsWithType<T>(id, firstcall);
+            return ((ILocatable)locator).LocateObjectsWithType<T>(id, firstcall, overrideShow);
         }
 
-        public void LocateSingleObjectOfType<T>(string id, PromptObjectResponse<T> response, bool firstcall = true) where T : class
+        public void LocateSingleObjectOfType<T>(string id, PromptObjectResponse<T> response, bool firstcall = true, bool overrideShow = false) where T : class
         {
-            ((ILocatable)locator).LocateSingleObjectOfType(id, response, firstcall);
-        }
-
-        public IHoldable[] LocateHoldables(string id, bool firstcall = true)
-        {
-            return ((ILocatable)locator).LocateHoldables(id, firstcall);
-        }
-
-        public void LocateSingleHoldableObject(string id, PromptObjectResponse<IHoldable> response, bool firstcall = true)
-        {
-            ((ILocatable)locator).LocateSingleHoldableObject(id, response, firstcall);
-        }
-
-        public IInventory[] LocateInventories(string id, bool firstcall = true)
-        {
-            return ((ILocatable)locator).LocateInventories(id, firstcall);
-        }
-
-        public void LocateSingleInventory(string id, PromptObjectResponse<IInventory> response, bool firstcall = true)
-        {
-            ((ILocatable)locator).LocateSingleInventory(id, response, firstcall);
+            ((ILocatable)locator).LocateSingleObjectOfType(id, response, firstcall, overrideShow);
         }
 
         public GameObject LocateWithGameID(int gameID)

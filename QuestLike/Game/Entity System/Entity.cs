@@ -10,11 +10,41 @@ using Microsoft.Xna.Framework;
 
 namespace QuestLike
 {
+    public struct Range
+    {
+        public Range(int x, int y)
+        {
+            X = x;
+            Y = y;
+        }
+        public int X;
+        public int Y;
+    }
+
+    struct InteractionRanges
+    {
+        public Range grabRange;
+        public Range meleeRange;
+        public Range rangeRange;
+        public Range spellRange;
+        public Range delicateRange;
+        public Range useRange;
+    }
+
     class Entity : GameObject, IInventory
     {
         private Inventory inventory;
         public int moveYAxis = 2;
         public int moveXAxis = 4;
+
+        InteractionRanges interactionRanges = new InteractionRanges() {
+            delicateRange = new Range(2, 1),
+            grabRange = new Range(4, 2),
+            meleeRange = new Range(2, 1),
+            rangeRange = new Range(6, 3),
+            spellRange = new Range(4, 2),
+            useRange = new Range(2, 1)
+        };
 
         public Entity(string name, string[] ids) : this(name, "", ids)
         {
@@ -28,7 +58,6 @@ namespace QuestLike
         {
             inventory = new Inventory(this);
             AddCollection<BodyPart>();
-            GetCollection<BodyPart>().treeSearchable = false;
             AddCollection<Item>();
         }
 
@@ -116,5 +145,7 @@ namespace QuestLike
         }
 
         public Inventory GetInventory => inventory.GetInventory;
+
+        internal InteractionRanges InteractionRanges { get => interactionRanges; set => interactionRanges = value; }
     }
 }

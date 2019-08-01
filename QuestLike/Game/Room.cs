@@ -13,6 +13,8 @@ namespace QuestLike
             locator.FreezeSearchesBelow = false;
             AddCollection<Entity>();
             AddCollection<GameObject>();
+            AddCollection<Wall>();
+            GetCollection<Wall>().showInLocate = false;
         }
 
         public Room(string name) : base(name, new string[] { "room", "space" })
@@ -20,6 +22,8 @@ namespace QuestLike
             locator.FreezeSearchesBelow = false;
             AddCollection<Entity>();
             AddCollection<GameObject>();
+            AddCollection<Wall>();
+            GetCollection<Wall>().showInLocate = false;
         }
 
         public Room(string[] ids) : base("The Room", ids)
@@ -27,6 +31,8 @@ namespace QuestLike
             locator.FreezeSearchesBelow = false;
             AddCollection<Entity>();
             AddCollection<GameObject>();
+            AddCollection<Wall>();
+            GetCollection<Wall>().showInLocate = false;
         }
 
         public Room(string name, string[] ids) : base(name, ids)
@@ -34,6 +40,8 @@ namespace QuestLike
             locator.FreezeSearchesBelow = false;
             AddCollection<Entity>();
             AddCollection<GameObject>();
+            AddCollection<Wall>();
+            GetCollection<Wall>().showInLocate = false;
         }
 
         public override void Update()
@@ -56,14 +64,14 @@ namespace QuestLike
         {
             for (int y = 0; y <= 10; y++)
             {
-                GetCollection<GameObject>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(0, y) });
-                GetCollection<GameObject>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(23, y) });
+                GetCollection<Wall>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(0, y) });
+                GetCollection<Wall>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(23, y) });
             }
 
             for (int x = 0; x <= 23; x++)
             {
-                GetCollection<GameObject>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(x, 0) });
-                GetCollection<GameObject>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(x, 10) });
+                GetCollection<Wall>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(x, 0) });
+                GetCollection<Wall>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(x, 10) });
             }
         }
     }

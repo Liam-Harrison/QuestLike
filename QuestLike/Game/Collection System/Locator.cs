@@ -28,7 +28,7 @@ namespace QuestLike
             }
         }
 
-        public GameObject[] Locate(string id, bool firstcall = true)
+        public GameObject[] Locate(string id, bool firstcall = true, bool overrideShow = false)
         {
             List<GameObject> toReturn = new List<GameObject>();
 
@@ -41,10 +41,13 @@ namespace QuestLike
             if (freezeSearchesBelow && firstcall) return toReturn.ToArray();
             foreach (var collection in owner.GetAllCollections())
             {
-                dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
-                foreach (var obj in typed.GetAllObjects())
+                if (collection.showInLocate || (!collection.showInLocate && overrideShow))
                 {
-                    toReturn.AddRange(obj.Locate(id, false));
+                    dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
+                    foreach (var obj in typed.GetAllObjects())
+                    {
+                        toReturn.AddRange(obj.Locate(id, false, overrideShow));
+                    }
                 }
             }
             if (owner is IInventory)
@@ -52,28 +55,28 @@ namespace QuestLike
                 var casted = owner as IInventory;
                 foreach (var obj in casted.GetInventory.GetItems)
                 {
-                    toReturn.AddRange(obj.Locate(id, false));
+                    toReturn.AddRange(obj.Locate(id, false, overrideShow));
                 }
             }
             if (owner is IHoldable)
             {
                 var casted = owner as IHoldable;
                 if (casted.GetHoldingSafe(out Item temp))
-                    toReturn.AddRange(temp.Locate(id, true));
+                    toReturn.AddRange(temp.Locate(id, true, overrideShow));
             }
             if (owner is IEquipable)
             {
                 var casted = owner as IEquipable;
                 if (casted.HasItemEquiped)
                 {
-                    toReturn.AddRange(casted.EquipedItem.Locate(id, true));
+                    toReturn.AddRange(casted.EquipedItem.Locate(id, true, overrideShow));
                 }
             }
 
             return toReturn.ToArray();
         }
 
-        public T[] LocateObjectsWithType<T>(bool firstcall = true) where T : class
+        public T[] LocateObjectsWithType<T>(bool firstcall = true, bool overrideShow = false) where T : class
         {
             List<T> toReturn = new List<T>();
 
@@ -89,10 +92,13 @@ namespace QuestLike
             if (freezeSearchesBelow && firstcall) return toReturn.ToArray();
             foreach (var collection in owner.GetAllCollections())
             {
-                dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
-                foreach (var obj in typed.GetAllObjects())
+                if (collection.showInLocate || (!collection.showInLocate && overrideShow))
                 {
-                    toReturn.AddRange(obj.LocateObjectsWithType<T>(false));
+                    dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
+                    foreach (var obj in typed.GetAllObjects())
+                    {
+                        toReturn.AddRange(obj.LocateObjectsWithType<T>(false, overrideShow));
+                    }
                 }
             }
             if (owner is IInventory)
@@ -100,28 +106,28 @@ namespace QuestLike
                 var casted = owner as IInventory;
                 foreach (var obj in casted.GetInventory.GetItems)
                 {
-                    toReturn.AddRange(obj.LocateObjectsWithType<T>(false));
+                    toReturn.AddRange(obj.LocateObjectsWithType<T>(false, overrideShow));
                 }
             }
             if (owner is IHoldable)
             {
                 var casted = owner as IHoldable;
                 if (casted.GetHoldingSafe(out Item temp))
-                    toReturn.AddRange(temp.LocateObjectsWithType<T>(true));
+                    toReturn.AddRange(temp.LocateObjectsWithType<T>(true, overrideShow));
             }
             if (owner is IEquipable)
             {
                 var casted = owner as IEquipable;
                 if (casted.HasItemEquiped)
                 {
-                    toReturn.AddRange(casted.EquipedItem.LocateObjectsWithType<T>(true));
+                    toReturn.AddRange(casted.EquipedItem.LocateObjectsWithType<T>(true, overrideShow));
                 }
             }
 
             return toReturn.ToArray();
         }
 
-        public T[] LocateObjectsWithType<T>(string id, bool firstcall = true) where T : class
+        public T[] LocateObjectsWithType<T>(string id, bool firstcall = true, bool overrideShow = false) where T : class
         {
             List<T> toReturn = new List<T>();
 
@@ -141,10 +147,13 @@ namespace QuestLike
             if (freezeSearchesBelow && firstcall) return toReturn.ToArray();
             foreach (var collection in owner.GetAllCollections())
             {
-                dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
-                foreach (var obj in typed.GetAllObjects())
+                if (collection.showInLocate || (!collection.showInLocate && overrideShow))
                 {
-                    toReturn.AddRange(obj.LocateObjectsWithType<T>(id, false));
+                    dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
+                    foreach (var obj in typed.GetAllObjects())
+                    {
+                        toReturn.AddRange(obj.LocateObjectsWithType<T>(id, false, overrideShow));
+                    }
                 }
             }
             if (owner is IInventory)
@@ -152,106 +161,52 @@ namespace QuestLike
                 var casted = owner as IInventory;
                 foreach (var obj in casted.GetInventory.GetItems)
                 {
-                    toReturn.AddRange(obj.LocateObjectsWithType<T>(id, false));
+                    toReturn.AddRange(obj.LocateObjectsWithType<T>(id, false, overrideShow));
                 }
             }
             if (owner is IHoldable)
             {
                 var casted = owner as IHoldable;
                 if (casted.GetHoldingSafe(out Item temp))
-                    toReturn.AddRange(temp.LocateObjectsWithType<T>(id, true));
+                    toReturn.AddRange(temp.LocateObjectsWithType<T>(id, true, overrideShow));
             }
             if (owner is IEquipable)
             {
                 var casted = owner as IEquipable;
                 if (casted.HasItemEquiped)
                 {
-                    toReturn.AddRange(casted.EquipedItem.LocateObjectsWithType<T>(id, true));
+                    toReturn.AddRange(casted.EquipedItem.LocateObjectsWithType<T>(id, true, overrideShow));
                 }
             }
 
             return toReturn.ToArray();
         }
 
-        public void LocateSingleObjectOfType<T>(PromptObjectResponse<T> response, bool firstcall = true) where T : class
+        public void LocateSingleObjectOfType<T>(PromptObjectResponse<T> response, bool firstcall = true, bool overrideShow = false) where T : class
         {
-            var results = Utilities.CastArray<GameObject, T>(LocateObjectsWithType<T>(false));
+            var results = Utilities.CastArray<GameObject, T>(LocateObjectsWithType<T>(false, overrideShow));
 
             if (results.Length == 0) response.Invoke(default, false);
             else if (results.Length == 1) response.Invoke(results[0] as T, false);
             else Utilities.PromptSelection<T>("Select an object from these options", results, response);
         }
 
-        public void LocateSingleObject(string id, PromptObjectResponse<GameObject> response, bool firstcall = true)
+        public void LocateSingleObject(string id, PromptObjectResponse<GameObject> response, bool firstcall = true, bool overrideShow = false)
         {
-            var results = Locate(id, firstcall);
+            var results = Locate(id, firstcall, overrideShow);
 
             if (results.Length == 0) response.Invoke(null, false);
             else if (results.Length == 1) response.Invoke(results[0], false);
             else Utilities.PromptSelection<GameObject>("Select an object with the matching tag \"" + id + "\"", results, response);
         }
 
-        public void LocateSingleObjectOfType<T>(string id, PromptObjectResponse<T> response, bool firstcall = true) where T : class
+        public void LocateSingleObjectOfType<T>(string id, PromptObjectResponse<T> response, bool firstcall = true, bool overrideShow = false) where T : class
         {
-            var results = Utilities.CastArray<GameObject, T>(LocateObjectsWithType<T>(id, false));
+            var results = Utilities.CastArray<GameObject, T>(LocateObjectsWithType<T>(id, false, overrideShow));
 
             if (results.Length == 0) response.Invoke(default, false);
             else if (results.Length == 1) response.Invoke(results[0] as T, false);
             else Utilities.PromptSelection<T>("Select an object from these options", results, response);
-        }
-
-        public IHoldable[] LocateHoldables(string id, bool firstcall = true)
-        {
-            List<IHoldable> holdables = new List<IHoldable>();
-
-            if (owner is GameObject && owner is IHoldable)
-            {
-                var casted = owner as GameObject;
-                if (casted.HasID(id) && casted.searchable) holdables.Add(owner as IHoldable);
-            }
-            if (freezeSearchesBelow && firstcall) return holdables.ToArray();
-            var found = Locate(id, false);
-            foreach (var item in found)
-            {
-                if (item is IHoldable) holdables.Add(item as IHoldable);
-            }
-            return holdables.ToArray();
-        }
-
-        public void LocateSingleHoldableObject(string id, PromptObjectResponse<IHoldable> response, bool firstcall = true)
-        {
-            var holdables = LocateHoldables(id, false);
-
-            if (holdables.Length == 0) response.Invoke(null, false);
-            else if (holdables.Length == 1) response.Invoke(holdables[0], false);
-            else Utilities.PromptSelection<IHoldable>("Select one of the following with the matching tag \"" + id + "\"", Utilities.CastArray<GameObject, IHoldable>(holdables), response);
-        }
-
-        public IInventory[] LocateInventories(string id, bool firstcall = true)
-        {
-            List<IInventory> inventories = new List<IInventory>();
-
-            if (owner is GameObject && owner is IInventory)
-            {
-                var casted = owner as GameObject;
-                if (casted.HasID(id) && casted.searchable) inventories.Add(owner as IInventory);
-            }
-            if (freezeSearchesBelow && firstcall) return inventories.ToArray();
-            var found = Locate(id, false);
-            foreach (var item in found)
-            {
-                if (item is IInventory) inventories.Add(item as IInventory);
-            }
-            return inventories.ToArray();
-        }
-
-        public void LocateSingleInventory(string id, PromptObjectResponse<IInventory> response, bool firstcall = true)
-        {
-            var holdables = LocateInventories(id, false);
-
-            if (holdables.Length == 0) response.Invoke(null, false);
-            else if (holdables.Length == 1) response.Invoke(holdables[0], false);
-            else Utilities.PromptSelection("Select one of the following with the matching tag \"" + id + "\"", Utilities.CastArray<GameObject, IInventory>(holdables), response);
         }
 
         public GameObject LocateWithGameID(int gameID)

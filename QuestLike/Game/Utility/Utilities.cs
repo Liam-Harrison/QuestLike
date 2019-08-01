@@ -39,11 +39,6 @@ namespace QuestLike
             return a + (b - a) * percentage;
         }
 
-        public static void SaveScreenBuffer()
-        {
-
-        }
-
         public enum UserResponseType
         {
             None,

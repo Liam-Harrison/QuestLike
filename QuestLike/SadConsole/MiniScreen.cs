@@ -98,7 +98,12 @@ class MiniScreen: SadConsole.ControlsConsole
         miniscreenObjects.Clear();
         miniscreenObjects.AddRange(rangewalls);
         miniscreenObjects.Add(QuestLike.Game.GetPlayer);
-        foreach (var gameobject in QuestLike.Game.GetRoom.LocateObjectsWithType<GameObject>())
+        foreach (var gameobject in QuestLike.Game.GetRoom.LocateObjectsWithType<GameObject>(true, true))
+        {
+            if (!IsValidScreenPosition(gameobject.Position)) continue;
+            miniscreenObjects.Add(gameobject);
+        }
+        foreach (var gameobject in QuestLike.Game.GetRoom.LocateObjectsWithType<Wall>(true, true))
         {
             if (!IsValidScreenPosition(gameobject.Position)) continue;
             miniscreenObjects.Add(gameobject);
