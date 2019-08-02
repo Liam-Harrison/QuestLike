@@ -33,7 +33,13 @@ class MiniScreen: SadConsole.ControlsConsole
             for (int x = 0; x < ScreenWidth; x++)
             {
                 var objects = GetAllObjectsAtPoint(new Point(x, y));
-                if (objects.Count == 0) continue;
+                if (objects.Count == 0)
+                {
+                    if (IsRangeWallAtPoint(new Point(x, y))) {
+                        PrintObject(RangeWallAtPoint(new Point(x, y)));
+                    }
+                    continue;
+                }
                 else if (objects.Count == 1) PrintObject(objects.First());
                 else
                 {
@@ -72,14 +78,13 @@ class MiniScreen: SadConsole.ControlsConsole
 
         foreach (var item in exterior)
         {
-            if (GetAllObjectsAtPoint(item).Count == 0)
-                rangewalls.Add(new RangeWall() { position = item });
+            rangewalls.Add(new RangeWall() { position = item });
         }
     }
 
     public void PrintObject(GameObject gameObject)
     {
-        if (miniscreenObjects.Contains(gameObject))
+        if (miniscreenObjects.Contains(gameObject) || rangewalls.Contains(gameObject))
         {
             if (gameObject.ScreenCell == null)
                 Print(gameObject.Position.X,
@@ -96,7 +101,6 @@ class MiniScreen: SadConsole.ControlsConsole
     public void UpdateMiniScreenObjects()
     {
         miniscreenObjects.Clear();
-        miniscreenObjects.AddRange(rangewalls);
         miniscreenObjects.Add(QuestLike.Game.GetPlayer);
         foreach (var gameobject in QuestLike.Game.GetRoom.LocateObjectsWithType<GameObject>(true, true))
         {
@@ -118,6 +122,24 @@ class MiniScreen: SadConsole.ControlsConsole
             if (point == gameobject.Position) gameobjects.Add(gameobject);
         }
         return gameobjects;
+    }
+
+    public bool IsRangeWallAtPoint(Point point)
+    {
+        foreach (var gameobject in rangewalls)
+        {
+            if (gameobject.Position == point) return true;
+        }
+        return false;
+    }
+
+    public RangeWall RangeWallAtPoint(Point point)
+    {
+        foreach (var gameobject in rangewalls)
+        {
+            if (gameobject.Position == point) return gameobject;
+        }
+        return null;
     }
 
     protected override void OnMouseLeftClicked(MouseConsoleState state)

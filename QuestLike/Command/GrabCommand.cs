@@ -168,7 +168,7 @@ namespace QuestLike.Command
             }
             if (holdable.IsHoldingItem)
             {
-                GameScreen.PrintLine($"The item <{Color.Cyan.ToInteger()},look at {holdable.HoldingItem.ID}>{holdable.HoldingItem.Name}@ is already being held - would you like to swap it for <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@?");
+                GameScreen.PrintLine($"\nThe item <{Color.Cyan.ToInteger()},look at {holdable.HoldingItem.ID}>{holdable.HoldingItem.Name}@ is already being held - would you like to swap it for <{Color.Cyan.ToInteger()},look at {item.ID}>{item.Name}@?");
 
                 Utilities.PromptYesNo((answer, cancelled) =>
                 {

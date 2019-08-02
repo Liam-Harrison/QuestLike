@@ -15,7 +15,7 @@ namespace QuestLike
 {
     class KeyboardHandler : KeyboardConsoleComponent
     {
-        private List<Keys> registeredpresses = new List<Microsoft.Xna.Framework.Input.Keys>();
+        private Dictionary<Keys, double> registeredpresses = new Dictionary<Keys, double>();
 
         public override void ProcessKeyboard(SadConsole.Console console, Keyboard info, out bool handled)
         {
@@ -26,17 +26,18 @@ namespace QuestLike
             RegisterMoveKey(info, Keys.Left, Direction.West);
             RegisterMoveKey(info, Keys.Down, Direction.South);
 
-            foreach (var key in registeredpresses.ToArray())
+            foreach (var register in registeredpresses.ToArray())
             {
-                if (info.IsKeyUp(key)) registeredpresses.Remove(key);
+                if (info.IsKeyUp(register.Key)) registeredpresses.Remove(register.Key);
+                else if (Global.GameTimeUpdate.TotalGameTime.TotalSeconds - register.Value > 0.15f) registeredpresses.Remove(register.Key);
             }
         }
 
         private void RegisterMoveKey(Keyboard info, Keys key, Direction direction)
         {
-            if (info.IsKeyDown(key) && !registeredpresses.Contains(key))
+            if (info.IsKeyDown(key) && !registeredpresses.ContainsKey(key))
             {
-                registeredpresses.Add(key);
+                registeredpresses.Add(key, Global.GameTimeUpdate.TotalGameTime.TotalSeconds);
                 Game.GetPlayer.Move(direction);
             }
         }

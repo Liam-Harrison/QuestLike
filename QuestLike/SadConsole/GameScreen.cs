@@ -288,6 +288,8 @@ public class GameScreen : SadConsole.ControlsConsole
     public static SadConsole.Controls.ScrollBar scrollbar;
     public static CircleBuffer<Link> links = new CircleBuffer<Link>(100);
     public static ControlsConsole infoconsole;
+    public static ControlsConsole sidebarconsole;
+    public static Console roomconsole;
 
     private void Generate()
     {
@@ -326,49 +328,49 @@ public class GameScreen : SadConsole.ControlsConsole
 
         /// Sidebar Construction & Placement
 
-        var sidebar = new ControlsConsole(24, Settings.Height) { Position = new Point(Settings.Width - 24, 0) };
+        sidebarconsole = new ControlsConsole(24, Settings.Height) { Position = new Point(Settings.Width - 24, 0) };
 
-        var v = new Console(sidebar.Width, 1) { Position = new Point(0, 0), DefaultBackground = Color.LightGray };
-        sidebar.Children.Add(v);
+        roomconsole = new Console(sidebarconsole.Width, 1) { Position = new Point(0, 0), DefaultBackground = Color.LightGray };
+        sidebarconsole.Children.Add(roomconsole);
 
-        v.PrintCentre(sidebar.Width / 2, 0, "Room Map", new Cell(Color.Black, Color.LightGray));
+        roomconsole.PrintCentre(sidebarconsole.Width / 2, 0, Game.GetRoom.Name, new Cell(Color.Black, Color.LightGray));
 
-        var v2 = new Console(sidebar.Width, 1) { Position = new Point(0, 12), DefaultBackground = Color.LightGray };
-        sidebar.Children.Add(v2);
+        var v2 = new Console(sidebarconsole.Width, 1) { Position = new Point(0, 12), DefaultBackground = Color.LightGray };
+        sidebarconsole.Children.Add(v2);
 
-        v2.PrintCentre(sidebar.Width / 2, 0, "Stats", new Cell(Color.Black, Color.LightGray));
+        v2.PrintCentre(sidebarconsole.Width / 2, 0, "Stats", new Cell(Color.Black, Color.LightGray));
 
         infoconsole = new ControlsConsole(24, 5) { Position = new Point(0, 13) };
 
-        infoconsole.Print(1, 1, $"{"Health".Pad(sidebar.Width - 8)}0", new Cell(Color.White));
-        infoconsole.Print(1, 2, $"{"Mana".Pad(sidebar.Width - 8)}0", new Cell(Color.White));
-        infoconsole.Print(1, 3, $"{"Action Points".Pad(sidebar.Width - 8)}0/0", new Cell(Color.White));
+        infoconsole.Print(1, 1, $"{"Health".Pad(sidebarconsole.Width - 8)}0", new Cell(Color.White));
+        infoconsole.Print(1, 2, $"{"Mana".Pad(sidebarconsole.Width - 8)}0", new Cell(Color.White));
+        infoconsole.Print(1, 3, $"{"Action Points".Pad(sidebarconsole.Width - 8)}0/0", new Cell(Color.White));
 
-        sidebar.Children.Add(infoconsole);
+        sidebarconsole.Children.Add(infoconsole);
 
-        var v3 = new Console(sidebar.Width, 1) { Position = new Point(0, 18), DefaultBackground = Color.LightGray };
-        sidebar.Children.Add(v3);
+        var v3 = new Console(sidebarconsole.Width, 1) { Position = new Point(0, 18), DefaultBackground = Color.LightGray };
+        sidebarconsole.Children.Add(v3);
 
-        v3.PrintCentre(sidebar.Width / 2, 0, "Quick Commands", new Cell(Color.Black, Color.LightGray));
+        v3.PrintCentre(sidebarconsole.Width / 2, 0, "Quick Commands", new Cell(Color.Black, Color.LightGray));
 
         var buttonInv = new SadConsole.Controls.Button(20, 1) { Text = "Inventory", Position = new Point(2, 20), Theme = theme };
         buttonInv.Click += (sender, e) => { QuestLike.Game.ProcessInput("look at my items"); };
-        sidebar.Add(buttonInv);
+        sidebarconsole.Add(buttonInv);
 
         var lookatroom = new SadConsole.Controls.Button(20, 1) { Text = "Look at room", Position = new Point(2, 22), Theme = theme };
         lookatroom.Click += (sender, e) => { QuestLike.Game.ProcessInput("look at room"); };
-        sidebar.Add(lookatroom);
+        sidebarconsole.Add(lookatroom);
 
-        var clearbutton = new SadConsole.Controls.Button(20) { Text = "Clear Screen", Position = new Point(2, sidebar.Height - 6), Theme = theme };
+        var clearbutton = new SadConsole.Controls.Button(20) { Text = "Clear Screen", Position = new Point(2, sidebarconsole.Height - 6), Theme = theme };
         clearbutton.Click += (a, b) => { ClearScreen(); };
-        sidebar.Add(clearbutton);
+        sidebarconsole.Add(clearbutton);
 
-        var turn = new SadConsole.Controls.Button(sidebar.Width - 4, 3)
-        { Text = "Turn", Position = new Point(2, sidebar.Height - 4), };
+        var turn = new SadConsole.Controls.Button(sidebarconsole.Width - 4, 3)
+        { Text = "Turn", Position = new Point(2, sidebarconsole.Height - 4), };
         turn.Click += (sender, e) => { QuestLike.Game.Update(); };
-        sidebar.Add(turn);
+        sidebarconsole.Add(turn);
 
-        Children.Add(sidebar);
+        Children.Add(sidebarconsole);
 
         /// Miniscreen Construction
 

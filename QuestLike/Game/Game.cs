@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 using QuestLike.Command;
+using SadConsole;
 
 namespace QuestLike
 {
@@ -71,6 +73,10 @@ namespace QuestLike
         public static void ChangeRoom(Room room)
         {
             currentRoom = room;
+            if (GameScreen.roomconsole != null)
+            {
+                GameScreen.roomconsole.PrintCentre(GameScreen.roomconsole.Width / 2, 0, GetRoom.Name, new Cell(Color.Black, Color.LightGray));
+            }
         }
 
         public static IHoldable[] LocateHoldables(string id, bool firstcall = true)

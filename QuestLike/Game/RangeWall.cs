@@ -39,12 +39,7 @@ namespace QuestLike
 
         protected override bool IsWallInDirection(Direction direction)
         {
-            var objects = GameScreen.miniConsole.GetAllObjectsAtPoint(Pathfinding.DirectionToPoint(direction) + Position);
-            foreach (var item in objects)
-            {
-                if (item is RangeWall) return true;
-            }
-            return false;
+            return GameScreen.miniConsole.IsRangeWallAtPoint(Pathfinding.DirectionToPoint(direction) + Position);
         }
 
     }

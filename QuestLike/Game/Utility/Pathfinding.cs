@@ -126,6 +126,22 @@ namespace QuestLike
                     CheckPoint(item, xDistance + Math.Abs(delta.X), yDistance + Math.Abs(delta.Y), xRange, yRange);
                 }
             }
+            else
+            {
+                if (xDistance > xRange) return;
+                if (yDistance > yRange) return;
+                if (xDistance < found.xDistance || yDistance < found.yDistance)
+                {
+                    points.Remove(found);
+                    points.Add(new BFSPoint() { point = position, searched = true, xDistance = xDistance, yDistance = yDistance });
+                    var adjacents = GetValidAdjacentPoints(position, diagonalPathing, honorBlocking);
+                    foreach (var item in adjacents)
+                    {
+                        var delta = item - position;
+                        CheckPoint(item, xDistance + Math.Abs(delta.X), yDistance + Math.Abs(delta.Y), xRange, yRange);
+                    }
+                }
+            }
         }
 
         public static bool IsNextToInvalidPoint(Point point, bool diagonalPathing = true, bool honorBlocking = true)
