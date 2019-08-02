@@ -11,7 +11,7 @@ You can type complex commands or click your way through the screens with intetac
 
 The game also has a complex biological simulation complete with bodyparts, bones, muscles, blood vessels, nerves, major organs and even cybernetics! Major organs preform critical functions entities require to operate, because each bodypart uses some amount of oxygen its important to have lungs large enough to process all the deoxygenated blood the body might generate. The humanoid body alone simulates nearly a hundred different organs, bones, muscles and various extremities. Every bodypart, vessel and nerve can be severed, reattatched & reconfigured at the players will.
 
-In brief these are the features already implemented:
+**In brief these are the features already implemented:**
 - Body simulation.
 - Physicalized objects & interactions.
   - Grabbing items.
@@ -26,7 +26,8 @@ In brief these are the features already implemented:
 - Adjustable screen width & height.
 - Saving & loading.
 
-Planned & in development features.
+
+**Planned & in development features:**
 - Interactable paths to other rooms.
 - Dialogue system.
 - Implement friendly & enemy NPC AI.
