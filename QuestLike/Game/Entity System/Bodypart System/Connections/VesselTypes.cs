@@ -175,7 +175,7 @@ namespace QuestLike.Organs
         }
     }
 
-    public class LargePulmonaryArtery : BloodVessel
+    public class LargePulmonaryArtery : PulmonaryArtery
     {
         public LargePulmonaryArtery() : base("large pulmonary artery", "Transports blood", "", new string[] { "vessel", "artery", "blood vessel", "pulmonary artery", "large pulmonary artery" })
         {
@@ -206,7 +206,7 @@ namespace QuestLike.Organs
         }
     }
 
-    public class SmallPulmonaryArtery : BloodVessel
+    public class SmallPulmonaryArtery : PulmonaryArtery
     {
         public SmallPulmonaryArtery() : base("small pulmonary artery", "Transports blood", "", new string[] { "vessel", "artery", "blood vessel", "pulmonary artery", "small pulmonary artery" })
         {
@@ -277,7 +277,7 @@ namespace QuestLike.Organs
     }
 
 
-    public class LargeVein : BloodVessel
+    public class LargeVein : Vein
     {
         public LargeVein() : base("large vein", "Transports blood", "", new string[] { "vessel", "vein", "blood vessel", "large vein" })
         {
@@ -309,7 +309,7 @@ namespace QuestLike.Organs
     }
 
 
-    public class SmallVein : BloodVessel
+    public class SmallVein : Vein
     {
         public SmallVein() : base("small vein", "Transports blood", "", new string[] { "vessel", "vein", "blood vessel", "small vein" })
         {
@@ -372,7 +372,7 @@ namespace QuestLike.Organs
         }
     }
 
-    public class LargeCapillary : BloodVessel
+    public class LargeCapillary : Capillary
     {
         public LargeCapillary() : base("large capillary", "Transports blood", "", new string[] { "vessel", "capillary", "blood vessel", "large capillary" })
         {
@@ -403,7 +403,7 @@ namespace QuestLike.Organs
         }
     }
 
-    public class SmallCapillary : BloodVessel
+    public class SmallCapillary : Capillary
     {
         public SmallCapillary() : base("small capillary", "Transports blood", "", new string[] { "vessel", "capillary", "blood vessel", "small capillary" })
         {

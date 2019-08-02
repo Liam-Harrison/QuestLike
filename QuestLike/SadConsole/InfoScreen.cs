@@ -39,9 +39,10 @@ class InfoScreen : ControlsConsole
 
         this.PrintCentre(Width / 2, 8, "Developed By: Liam Harrison");
         this.PrintCentre(Width / 2, 10, "https://liamharrison.io/");
+        this.PrintCentre(Width / 2, 12, "https://github.com/Liam-Harrison/QuestLike");
 
-        this.PrintCentre(Width / 2, 16, "Graphics by SadConsole");
-        this.PrintCentre(Width / 2, 18, "SadConsole Developed By: Thraka");
-        this.PrintCentre(Width / 2, 20, "https://sadconsole.com/");
+        this.PrintCentre(Width / 2, 17, "Graphics by SadConsole");
+        this.PrintCentre(Width / 2, 19, "SadConsole Developed By: Thraka");
+        this.PrintCentre(Width / 2, 21, "https://sadconsole.com/");
     }
 }

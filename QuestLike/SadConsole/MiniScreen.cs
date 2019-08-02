@@ -74,7 +74,7 @@ class MiniScreen: SadConsole.ControlsConsole
             miniscreenObjects.Remove(rangewall);
 
         rangewalls.Clear();
-        var exterior = Pathfinding.GetExteriorPoints(Game.GetPlayer.MoveArea);
+        var exterior = Pathfinding.GetExteriorPoints(Game.GetPlayer.MoveArea, false);
 
         foreach (var item in exterior)
         {

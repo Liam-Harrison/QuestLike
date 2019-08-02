@@ -81,13 +81,13 @@ namespace QuestLike
             return larger.ToArray();
         }
 
-        public static Point[] GetExteriorPoints(BFSPoint[] bfspoints)
+        public static Point[] GetExteriorPoints(BFSPoint[] bfspoints, bool honorblockables = true)
         {
             List<Point> points = new List<Point>();
 
             foreach (var point in bfspoints)
             {
-                foreach (var position in GetValidAdjacentPoints(point.point))
+                foreach (var position in GetValidAdjacentPoints(point.point, true, honorblockables))
                 {
                     if (!IsPointInBFSList(position, bfspoints))
                     {

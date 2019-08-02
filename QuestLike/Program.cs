@@ -57,6 +57,43 @@ namespace QuestLike
             testRoom.GetCollection<Wall>().AddObject(new Wall()
             { position = new Point(5, 5) });
 
+
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(1, 7) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(2, 7) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(4, 7) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(5, 7) });
+
+
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(19, 5) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(20, 5) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(21, 5) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(22, 5) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(20, 4) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(20, 3) });
+
+            testRoom.GetCollection<Wall>().AddObject(new Wall()
+            { position = new Point(20, 5) });
+
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Bear", 
                 new string[] { "bear" })
                 { screenChar = 'B', position = new Point(2, 9) });

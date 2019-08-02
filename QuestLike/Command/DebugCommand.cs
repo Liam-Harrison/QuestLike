@@ -174,15 +174,36 @@ namespace QuestLike.Command
         }
 
         float totalBlood = 0;
+        int items = 0;
+        int vessels = 0;
+        int arterys = 0;
+        int veins = 0;
+        int pulmonaries = 0;
+        int capillaries = 0;
+        int nerves = 0;
         public void PrintDetailedBodyPartData(GameObject i)
         {
             totalBlood = 0;
+            items = 0;
+            vessels = 0;
+            nerves = 0;
+            pulmonaries = 0;
+            capillaries = 0;
+
             var collection = i.GetCollection<BodyPart>().ObjectList;
             foreach (var j in collection)
             {
                 PrintBodyData(j);
             }
-            GameScreen.PrintLine("\nTotal blood in system: " + totalBlood.ToString("0.0") + "mL");
+            GameScreen.PrintLine($"\nEntity Summary");
+            GameScreen.PrintLine($"{"Blood".Pad(22)}{totalBlood.ToString("0.0")}mL");
+            GameScreen.PrintLine($"{"Bodyparts".Pad(22)}{items}");
+            GameScreen.PrintLine($"{"Blood vessels".Pad(22)}{vessels}");
+            GameScreen.PrintLine($"   {"Arteries".Pad(19)}{arterys}");
+            GameScreen.PrintLine($"   {"Veins".Pad(19)}{veins}");
+            GameScreen.PrintLine($"   {"Pulmonary Arteries".Pad(19)}{pulmonaries}");
+            GameScreen.PrintLine($"   {"Capillaries".Pad(19)}{capillaries}");
+            GameScreen.PrintLine($"{"Nerves".Pad(22)}{nerves}");
         }
 
         public void PrintBodyData(BodyPart j)
@@ -205,6 +226,16 @@ namespace QuestLike.Command
             }
 
             totalBlood += j.TotalBlood;
+            items++;
+            nerves += j.GetCollection<Nerve>().Objects.Count();
+            vessels += j.GetCollection<BloodVessel>().Objects.Count();
+            foreach (var vessel in j.GetCollection<BloodVessel>().Objects)
+            {
+                if (vessel is Artery) arterys++;
+                else if (vessel is Vein) veins++;
+                else if (vessel is PulmonaryArtery) pulmonaries++;
+                else if (vessel is Capillary) capillaries++;
+            }
 
             foreach (var x in j.Children)
             {
