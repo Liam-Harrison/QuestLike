@@ -8,7 +8,7 @@ namespace QuestLike
 {
     class Room : GameObject
     {
-        public Room() : base("The Room", new string[] { "room", "space" })
+        public Room() : base("Room", new string[] { "room", "space" })
         {
             locator.FreezeSearchesBelow = false;
             AddCollection<Entity>();
@@ -26,7 +26,7 @@ namespace QuestLike
             GetCollection<Wall>().showInLocate = false;
         }
 
-        public Room(string[] ids) : base("The Room", ids)
+        public Room(string[] ids) : base("Room", ids)
         {
             locator.FreezeSearchesBelow = false;
             AddCollection<Entity>();
@@ -44,11 +44,22 @@ namespace QuestLike
             GetCollection<Wall>().showInLocate = false;
         }
 
+        public void SetRoom(char[][] map)
+        {
+            for (int y = 0; y < map.Length; y++)
+            {
+                for (int x = 0; x < map[y].Length; x++)
+                {
+                    if (map[y][x] == '#') GetCollection<Wall>().AddObject(new Wall() { position = new Microsoft.Xna.Framework.Point(x, y)});
+                }
+            }
+        }
+
         public override void Update()
         {
             base.Update();
 
-            foreach (var entity in GetCollection<Entity>().GetAllObjects()) entity.Update();
+            foreach (var gameobject in GetCollection<GameObject>().Objects) gameobject.Update();
         }
 
         public bool IsObjectInRoomDirectly(GameObject gameObject)

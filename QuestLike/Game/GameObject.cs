@@ -241,6 +241,7 @@ namespace QuestLike
                 }
                 if (this is IUseable) text += $"[<{Color.Orange.ToInteger()},use {ID}>Use@] ";
                 if (this is Equipable) text += $"[<{Color.Yellow.ToInteger()},equip {ID}>Equip@] ";
+                if (this is ITalkable) text += $"[<{Color.Orange.ToInteger()},converse {ID}>Converse With@] ";
 
                 if (text == "") return text;
                 else return "\n\n" + text;

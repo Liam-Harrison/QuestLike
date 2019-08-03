@@ -42,5 +42,61 @@ namespace QuestLike
             return GameScreen.miniConsole.IsRangeWallAtPoint(Pathfinding.DirectionToPoint(direction) + Position);
         }
 
+        public override string ScreenChar
+        {
+            get
+            {
+                var northwall = IsWallInDirection(Direction.North);
+                var eastwall = IsWallInDirection(Direction.East);
+                var southwall = IsWallInDirection(Direction.South);
+                var westwall = IsWallInDirection(Direction.West);
+
+                if (northwall && eastwall && southwall && westwall)
+                {
+                    return ((char)197).ToString();
+                }
+                else if (northwall && eastwall && westwall)
+                {
+                    return ((char)193).ToString();
+                }
+                else if (southwall && eastwall && westwall)
+                {
+                    return ((char)194).ToString();
+                }
+                else if (northwall && eastwall && southwall)
+                {
+                    return ((char)195).ToString();
+                }
+                else if (northwall && westwall && southwall)
+                {
+                    return ((char)180).ToString();
+                }
+                else if (northwall && eastwall)
+                {
+                    return ((char)192).ToString();
+                }
+                else if (northwall && westwall)
+                {
+                    return ((char)217).ToString();
+                }
+                else if (eastwall && southwall)
+                {
+                    return ((char)218).ToString();
+                }
+                else if (westwall && southwall)
+                {
+                    return ((char)191).ToString();
+                }
+                else if (northwall || southwall)
+                {
+                    return ((char)179).ToString();
+                }
+                else if (westwall || eastwall)
+                {
+                    return ((char)196).ToString();
+                }
+                return ((char)196).ToString();
+            }
+        }
     }
 }

@@ -14,6 +14,7 @@ using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
 using QuestLike;
+using QuestLike.Entities;
 
 
 namespace QuestLike
@@ -36,63 +37,19 @@ namespace QuestLike
             Room testRoom = new Room("Surgery");
             testRoom.PrefillEdgesWithWalls();
 
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(1, 5) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(2, 5) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(3, 5) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(4, 5) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(4, 4) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(4, 3) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(5, 5) });
-
-
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(1, 7) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(2, 7) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(4, 7) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(5, 7) });
-
-
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(19, 5) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(20, 5) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(21, 5) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(22, 5) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(20, 4) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(20, 3) });
-
-            testRoom.GetCollection<Wall>().AddObject(new Wall()
-            { position = new Point(20, 5) });
+            testRoom.SetRoom(new char[][] {
+                new char[] { },
+                new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {'#', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] { },
+            });
 
             testRoom.GetCollection<GameObject>().AddObject(new Entity("Bear", 
                 new string[] { "bear" })
@@ -109,6 +66,45 @@ namespace QuestLike
             testRoom.GetCollection<GameObject>().AddObject(new Equipable<Organs.Chest>("Leather Chestpiece", 
                 new string[] { "leather chestpiece", "chestpiece" })
                 { screenChar = 'l', position = new Point(2, 4) });
+
+            var npc = new HumanoidNPC("The Surgeon", new string[] { "npc", "the surgeon", "surgeon" })
+                { screenChar = 'S', position = new Point(16, 5), screenCell = new Cell(Color.Red) };
+            npc.SetNPCRoutine(
+                (entity) => {
+                    entity.GetOwner.Move(Pathfinding.RandomDirection());
+                });
+
+            Action<ITalkable> start = null;
+
+            Action<ITalkable> second = (ITalkable entity) =>
+            {
+                entity.Say("Did you misunderstand me or somethin'?");
+                Utilities.PromptSelection<string>("Reponse", new string[] { "yes", "no?" }, (index, canceled) =>
+                {
+                    if (int.TryParse(index, out int result))
+                    {
+                        if (result == 0)
+                        {
+                            entity.Say("... Watch yourself");
+                            entity.SetTalkRoutine(start);
+                        }
+                        else
+                        {
+                            entity.Say("... Idiot");
+                            entity.SetTalkRoutine(start);
+                        }
+                    }
+                });
+            };
+
+            start = (ITalkable first) => {
+                first.Say("Don't distrub me!");
+                first.SetTalkRoutine(second);
+            };
+
+            npc.SetTalkRoutine(start);
+            npc.SetNameColor(Color.Red);
+            testRoom.GetCollection<GameObject>().AddObject(npc);
 
             Game.AddRoom(testRoom);
             Game.ChangeRoom(testRoom);

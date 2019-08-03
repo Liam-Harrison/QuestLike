@@ -29,6 +29,10 @@ namespace QuestLike
 
     public static class Pathfinding
     {
+        public static Direction RandomDirection()
+        {
+            return (Direction) (Global.Random.Next() % 9);
+        }
 
         public static Point DirectionToPoint(Direction direction)
         {

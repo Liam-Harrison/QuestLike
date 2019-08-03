@@ -16,7 +16,8 @@ namespace QuestLike.Command
             new GrabCommand(),
             new UseCommand(),
             new InteractionCommands(),
-            new EquipCommand()
+            new EquipCommand(),
+            new TalkCommand()
         };
 
         public static Command GetCommandWithTag(string tag)

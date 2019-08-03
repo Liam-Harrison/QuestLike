@@ -8,7 +8,7 @@ using QuestLike.Entities;
 
 namespace QuestLike
 {
-    class Player : PartialCyberHuman
+    class Player : PartialCyberHumanoid
     {
 
         public Player() : base("Myself", new string[] { "me", "player", "myself" })

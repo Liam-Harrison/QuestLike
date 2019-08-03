@@ -17,7 +17,7 @@ namespace QuestLike
     public delegate void PromptObjectResponse<T>(T selected, bool cancelled) where T : class;
     public delegate void PromptYesNoResponse(bool answer, bool cancelled);
 
-    class Utilities
+    static class Utilities
     {
 
         public static float Clamp(float a, float min, float max)
@@ -43,28 +43,33 @@ namespace QuestLike
         {
             None,
             GameObject,
+            Index,
             YesNo
         }
 
         public static UserResponseType awaitedUserResponse = UserResponseType.None;
         public static dynamic userResponse = null;
-        public static GameObject[] selectableObjects = null;
+        public static object[] selectableObjects = null;
         public static Type responseType;
         public static string uuid;
 
-        public static void PromptSelection<T>(string showString, GameObject[] list, PromptObjectResponse<T> response) where T: class
+        public static void PromptSelection<T>(string showString, object[] list, PromptObjectResponse<T> response) where T: class
         {
             responseType = typeof(T);
             userResponse = response;
             selectableObjects = list;
             awaitedUserResponse = UserResponseType.GameObject;
-            var listed = new List<GameObject>();
+            var listed = new List<object>();
             listed.AddRange(list);
-            var max = listed.Max((a) => { return a.Name.Length; });
+            var max = listed.Max((a) => { if (a is GameObject) { return (a as GameObject).Name.Length; } else return a.ToString().Length; });
             var maxContainerName = listed.Max((a) => 
             {
-                if (a.container == null || a.container.owner is Room) return 0;
-                return a.container.owner.Name.Length;
+                if (a is GameObject)
+                {
+                    if ((a as GameObject).container == null || (a as GameObject).container.owner is Room) return 0;
+                    return (a as GameObject).container.owner.Name.Length;
+                }
+                return 0;
             });
 
             if (list.Length == 1)
@@ -81,13 +86,25 @@ namespace QuestLike
                 {
                     if (list[i] is GameObject)
                     {
+                        awaitedUserResponse = UserResponseType.GameObject;
                         GameObject j = list[i] as GameObject;
                         GameScreen.PrintLine($"[" + (i + 1) + $"] - <{Color.Cyan.ToInteger()},select " + j.ID + " uuid " + uuid + ">" + (j.Name.PadRight(max, ' ')) + "@");
                         if (j.container != null && !(j.container.owner is Room)) GameScreen.Print(" - Attatched to " + (j.container.owner.Name.PadRight(maxContainerName, ' ')));
                         if (j.ShortDescription != "") GameScreen.Print(" - " + j.ShortDescription);
                     }
+                    else
+                    {
+                        awaitedUserResponse = UserResponseType.Index;
+                        string name = list[i].ToString();
+                        GameScreen.PrintLine($"[" + (i + 1) + $"] - <{Color.Cyan.ToInteger()},index select " + i + " uuid " + uuid + ">" + (name.PadRight(max, ' ')) + "@");
+                    }
                 }
             }
+        }
+
+        public static List<T> AsList<T>(this T[] objects)
+        {
+            return new List<T>(objects);
         }
 
         public static T[] CastArray<T, T2>(T2[] input) where T: class

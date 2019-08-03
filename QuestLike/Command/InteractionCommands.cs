@@ -8,7 +8,7 @@ namespace QuestLike.Command
         public InteractionCommands()
         {
             keywords = new string[] { };
-            usecases = new string[] { "select ^ uuid ^", "answer ^", "+", "yes", "no" };
+            usecases = new string[] { "select ^ uuid ^", "answer ^", "+", "yes", "no", "index select + uuid ^" };
             tags = new string[] { "interaction" };
             commandName = "Interaction";
             showInHelp = false;
@@ -23,6 +23,7 @@ namespace QuestLike.Command
                     if (admin && Utilities.awaitedUserResponse == Utilities.UserResponseType.GameObject)
                     {
                         if (GetArg(1) != Utilities.uuid) return false;
+                        
                         if (!int.TryParse(GetArg(0), out int objectID))
                         {
                             if (Settings.DebugMode) GameScreen.PrintLine($"\n<{Color.Red.ToInteger()},>[Warning] - selection link returned non-integer value@\n");
@@ -77,7 +78,7 @@ namespace QuestLike.Command
 
                     var gameobject = Utilities.selectableObjects[value - 1];
 
-                    if (Settings.DebugMode) GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>[Info] - Selected gameobject {gameobject.Name} (ID {gameobject.ID})@");
+                    if (Settings.DebugMode) GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>[Info] - Selected gameobject {(gameobject as GameObject).Name} (ID {(gameobject as GameObject).ID})@");
                     Utilities.awaitedUserResponse = Utilities.UserResponseType.None;
                     Utilities.userResponse.Invoke(gameobject, false);
 
@@ -96,6 +97,14 @@ namespace QuestLike.Command
                     if (Settings.DebugMode) GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>[Info] - User responded with a yes@");
                     Utilities.awaitedUserResponse = Utilities.UserResponseType.None;
                     Utilities.userResponse.Invoke(false, false);
+
+                    break;
+                case 5:
+                    if (!admin || GetArg(1) != Utilities.uuid) break;
+
+                    if (Utilities.awaitedUserResponse != Utilities.UserResponseType.Index) break;
+                    Utilities.awaitedUserResponse = Utilities.UserResponseType.None;
+                    Utilities.userResponse.Invoke(GetArg(0), false);
 
                     break;
             }

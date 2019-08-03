@@ -119,6 +119,7 @@
     <Compile Include="Command\GrabCommand.cs" />
     <Compile Include="Command\HelpCommand.cs" />
     <Compile Include="Command\InteractionCommands.cs" />
+    <Compile Include="Command\TalkCommand.cs" />
     <Compile Include="Command\UseCommand.cs" />
     <Compile Include="Game\Attack System\Damager.cs" />
     <Compile Include="Game\Attack System\Effector.cs" />
@@ -133,7 +134,7 @@
     <Compile Include="Game\Collection System\IHaveInventory.cs" />
     <Compile Include="Game\Collection System\Inventory.cs" />
     <Compile Include="Game\Eatable.cs" />
-    <Compile Include="Game\Entity System\Blueprints\Partial Cybernetic Characters\PartialCyberHuman.cs" />
+    <Compile Include="Game\Entity System\Blueprints\Normal Characters\Humanoid.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Parts\Chest.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Parts\Leg\Foot.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Parts\Leg\Lower Leg.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="Game\Entity System\Bodypart System\Parts\Muscle.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Parts\Arm\Upper Arm.cs" />
     <Compile Include="Game\Entity System\Bodypart System\Connections\Nerve.cs" />
+    <Compile Include="Game\Entity System\HumanoidNPC.cs" />
     <Compile Include="Game\Equipment System\BodyEquipable.cs" />
     <Compile Include="Game\Collection System\Collectable.cs" />
     <Compile Include="Game\Collection System\Collection.cs" />
@@ -204,7 +206,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Game\Entity System\Blueprints\Cybernetic Characters\" />
-    <Folder Include="Game\Entity System\Blueprints\Normal Characters\" />
     <Folder Include="Menus\" />
   </ItemGroup>
   <ItemGroup>

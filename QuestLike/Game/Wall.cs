@@ -49,49 +49,49 @@ namespace QuestLike
 
                 if (northwall && eastwall && southwall && westwall)
                 {
-                    return ((char)197).ToString();
+                    return ((char)206).ToString();
                 }
                 else if (northwall && eastwall && westwall)
                 {
-                    return ((char)193).ToString();
+                    return ((char)202).ToString();
                 }
                 else if (southwall && eastwall && westwall)
                 {
-                    return ((char)194).ToString();
+                    return ((char)203).ToString();
                 }
                 else if (northwall && eastwall && southwall)
                 {
-                    return ((char)195).ToString();
+                    return ((char)204).ToString();
                 }
                 else if (northwall && westwall && southwall)
                 {
-                    return ((char)180).ToString();
+                    return ((char)185).ToString();
                 }
                 else if (northwall && eastwall)
                 {
-                    return ((char)192).ToString();
+                    return ((char)200).ToString();
                 }
                 else if (northwall && westwall)
                 {
-                    return ((char)217).ToString();
+                    return ((char)188).ToString();
                 }
                 else if (eastwall && southwall)
                 {
-                    return ((char)218).ToString();
+                    return ((char)201).ToString();
                 }
                 else if (westwall && southwall)
                 {
-                    return ((char)191).ToString();
+                    return ((char)187).ToString();
                 }
                 else if (northwall || southwall)
                 {
-                    return ((char)179).ToString();
+                    return ((char)186).ToString();
                 }
                 else if (westwall || eastwall)
                 {
-                    return ((char)196).ToString();
+                    return ((char)205).ToString();
                 }
-                return ((char)196).ToString();
+                return ((char)205).ToString();
             }
         }
     }
