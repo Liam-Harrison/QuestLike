@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using QuestLike.Command;
 using SadConsole;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
@@ -14,6 +16,77 @@ namespace QuestLike
         private static List<Room> rooms = new List<Room>();
         private static Room currentRoom;
         private static Player player = new Player();
+
+        public static bool SaveExistWithName(string savename)
+        {
+            return File.Exists(GetSystemPath(savename));
+        }
+        
+        public static string[] GetAllSaveNames()
+        {
+            List<string> saves = new List<string>();
+            foreach (var file in Directory.GetFiles($"{AppDomain.CurrentDomain.BaseDirectory}/saves/"))
+            {
+                if (TryParse(file, out SaveData save))
+                {
+                    saves.Add(file);
+                }
+            }
+            return saves.ToArray();
+        }
+
+        public static bool TryParse(string path, out SaveData save)
+        {
+            save = null;
+            if (!File.Exists(path)) return false;
+            string json = File.ReadAllText(path);
+            try
+            {
+                save = JsonConvert.DeserializeObject<SaveData>(json);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public class SaveData
+        {
+            public Player player;
+            public List<Room> rooms;
+            public Room currentRoom;
+            public CircleBuffer<string> buffer;
+        }
+
+        public static void LoadGame(string savename)
+        {
+            if (TryParse(GetSystemPath(savename), out SaveData save)) {
+                GameScreen.buffer = save.buffer;
+                rooms = save.rooms;
+                player = save.player;
+                currentRoom = save.currentRoom;
+                GameScreen.LoadBuffer();
+            }
+        }
+
+        public static string GetSystemPath(string savename)
+        {
+            return $"{AppDomain.CurrentDomain.BaseDirectory}/saves/{savename}.save";
+        }
+
+        public static void SaveGame(string savename)
+        {
+            var save = new SaveData()
+            {
+                buffer = GameScreen.buffer,
+                player = GetPlayer,
+                rooms = rooms,
+                currentRoom = currentRoom
+            };
+            var json = JsonConvert.SerializeObject(save);
+            File.WriteAllText(GetSystemPath(savename), json);
+        }
 
         public static int Padding
         {

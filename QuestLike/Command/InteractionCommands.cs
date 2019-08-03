@@ -68,19 +68,32 @@ namespace QuestLike.Command
 
                     break;
                 case 2:
-                    if (Utilities.awaitedUserResponse != Utilities.UserResponseType.GameObject || !int.TryParse(GetArg(0), out int value)) break;
-
-                    if (value <= 0 || value > Utilities.selectableObjects.Count())
+                    if (Utilities.awaitedUserResponse == Utilities.UserResponseType.GameObject && int.TryParse(GetArg(0), out int value))
                     {
-                        GameScreen.PrintLine($"\nYou can only enter a value from 1 - {Utilities.selectableObjects.Count()}");
-                        break;
+                        if (value <= 0 || value > Utilities.selectableObjects.Count())
+                        {
+                            GameScreen.PrintLine($"\nYou can only enter a value from 1 - {Utilities.selectableObjects.Count()}");
+                            break;
+                        }
+
+                        var gameobject = Utilities.selectableObjects[value - 1];
+
+                        if (Settings.DebugMode) GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>[Info] - Selected gameobject {(gameobject as GameObject).Name} (ID {(gameobject as GameObject).ID})@");
+                        Utilities.awaitedUserResponse = Utilities.UserResponseType.None;
+                        Utilities.userResponse.Invoke(gameobject, false);
+                    }
+                    else if (Utilities.awaitedUserResponse == Utilities.UserResponseType.Index && int.TryParse(GetArg(0), out value))
+                    {
+                        if (value <= 0 || value > Utilities.selectableObjects.Count())
+                        {
+                            GameScreen.PrintLine($"\nYou can only enter a value from 1 - {Utilities.selectableObjects.Count()}");
+                            break;
+                        }
+
+                        Utilities.awaitedUserResponse = Utilities.UserResponseType.None;
+                        Utilities.userResponse.Invoke((value - 1).ToString(), false);
                     }
 
-                    var gameobject = Utilities.selectableObjects[value - 1];
-
-                    if (Settings.DebugMode) GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>[Info] - Selected gameobject {(gameobject as GameObject).Name} (ID {(gameobject as GameObject).ID})@");
-                    Utilities.awaitedUserResponse = Utilities.UserResponseType.None;
-                    Utilities.userResponse.Invoke(gameobject, false);
 
                     break;
                 case 3:

@@ -85,7 +85,7 @@ namespace QuestLike
                     {
                         if (result == 0)
                         {
-                            entity.Say("... Watch yourself");
+                            entity.Say("Watch yourself");
                             entity.SetTalkRoutine(start);
                         }
                         else

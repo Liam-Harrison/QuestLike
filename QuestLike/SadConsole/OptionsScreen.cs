@@ -42,7 +42,7 @@ static class Settings
 
     public static GameSettings gameSettings;
     public static int Width = 125, Height = 35;
-    public static int MinWidth = 75, MinHeight = 20;
+    public static int MinWidth = 75, MinHeight = 30;
     public static int MaxWidth = 200, MaxHeight = 60;
     public static bool DebugMode = false;
 }
