@@ -4,11 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuestLike.Organs;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     public abstract class Equipable : Item
     {
+        public Equipable() :base()
+        {
+
+        }
+
         public Equipable(string name, string[] ids) : base(name, ids)
         {
         }
@@ -23,6 +30,7 @@ namespace QuestLike
 
         public abstract bool CanBodyPartEquip(BodyPart part);
 
+        [JsonProperty(IsReference = true)]
         public abstract GameObject EquipedTo { get; }
 
         public abstract bool IsEquiped { get; }
@@ -30,8 +38,14 @@ namespace QuestLike
         public bool equiped = false;
     }
 
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     public class Equipable<T>: Equipable where T: Item
     {
+        public Equipable() : base()
+        {
+
+        }
+
         public Equipable(string name, string[] ids) : base(name, ids)
         {
         }
@@ -49,7 +63,7 @@ namespace QuestLike
             get
             {
                 if (!IsEquiped) return null;
-                return container.owner;
+                return container.Owner;
             }
         }
 

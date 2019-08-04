@@ -5,9 +5,11 @@ using System.Text;
 using System.Threading.Tasks;
 using QuestLike.Organs;
 using QuestLike.Effects;
+using Newtonsoft.Json;
 
 namespace QuestLike.Entities
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     class PartialCyberHumanoid : Entity
     {
 

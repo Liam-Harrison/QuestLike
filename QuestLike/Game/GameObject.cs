@@ -13,25 +13,44 @@ using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
 using QuestLike;
 using Game = QuestLike.Game;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
-
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public abstract class GameObject : Collectable, IHaveCollections, ILocatable
     {
+        [JsonProperty]
         protected CollectionManager collectionManager;
+        [JsonProperty]
         protected Locator locator;
+        [JsonProperty]
         private string name = "";
+        [JsonProperty]
         private string description = "";
+        [JsonProperty]
         private string shortDescription = "";
+        [JsonProperty]
         private int size = 1;
+        [JsonProperty]
         private static uint nextID = 0;
+        [JsonProperty]
         private uint id;
+        [JsonProperty]
         internal Point position = new Point(-1, -1);
-        internal Cell screenCell;
+        [JsonProperty]
+        internal Cell screenCell = new Cell(Color.White);
+        [JsonProperty]
         internal char screenChar;
+        [JsonProperty]
         public bool blocking = false;
+        [JsonProperty]
         public bool searchable = true;
+
+        public GameObject() : base()
+        {
+
+        }
 
         public GameObject(string name, string[] ids) : base(ids)
         {
@@ -52,6 +71,7 @@ namespace QuestLike
             this.description = desc;
         }
 
+        [JsonIgnore]
         public Cell ScreenCell
         {
             get
@@ -60,6 +80,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public virtual string ScreenChar
         {
             get
@@ -68,6 +89,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public Point Position
         {
             get
@@ -76,6 +98,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public int ID
         {
             get
@@ -84,6 +107,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public string Name
         {
             get
@@ -96,6 +120,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public int Size
         {
             get
@@ -108,6 +133,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public string Description
         {
             get
@@ -120,6 +146,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public string ShortDescription
         {
             get
@@ -132,6 +159,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public virtual string Examine
         {
             get
@@ -147,6 +175,7 @@ namespace QuestLike
             position = newposition;
         }
 
+        [JsonIgnore]
         protected string equipedDescription
         {
             get
@@ -175,6 +204,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         protected string holdingDescription
         {
             get
@@ -192,6 +222,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         protected string inventoryDescription
         {
             get
@@ -214,6 +245,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public string objectsDescription
         {
             get
@@ -229,6 +261,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         protected virtual string interactionString
         {
             get
@@ -248,6 +281,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         protected string gameobjectString
         {
             get
@@ -295,7 +329,7 @@ namespace QuestLike
             collectionManager.AddCollection<T>();
         }
 
-        public Collection[] GetAllCollections()
+        public ICollection[] GetAllCollections()
         {
             return collectionManager.GetAllCollections();
         }

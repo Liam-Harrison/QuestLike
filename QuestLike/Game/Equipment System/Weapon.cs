@@ -11,9 +11,16 @@ using Microsoft.Xna.Framework.Design;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
 using QuestLike;
+using Newtonsoft.Json;
 
+[JsonObject(MemberSerialization = MemberSerialization.OptOut)]
 class Weapon : Item, IUseable
 {
+    public Weapon() : base()
+    {
+
+    }
+
     public Weapon(string name, string[] ids) : base(name, ids)
     {
     }

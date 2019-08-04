@@ -10,11 +10,14 @@ using Global = SadConsole.Global;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
+using Newtonsoft.Json;
 
+[JsonObject]
 public class CircleBuffer<T>: IEnumerable<T>, IEnumerable
 {
+    [JsonProperty]
     Queue<T> contents;
-
+    [JsonProperty]
     int size = 0;
     public CircleBuffer(int size)
     {

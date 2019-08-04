@@ -5,11 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using QuestLike.Organs;
 using QuestLike.Effects;
+using Newtonsoft.Json;
 
 namespace QuestLike.Entities
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     class Humanoid : Entity
     {
+
+        public Humanoid() :base()
+        {
+
+        }
 
         public Humanoid(string name, string[] ids) : base(name, ids)
         {

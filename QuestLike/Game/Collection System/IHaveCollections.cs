@@ -10,7 +10,7 @@ namespace QuestLike
     {
         Collection<T> GetCollection<T>() where T : Collectable;
         void AddCollection<T>() where T : Collectable;
-        Collection[] GetAllCollections();
+        ICollection[] GetAllCollections();
         bool HasCollection<T>() where T : Collectable;
     }
 }

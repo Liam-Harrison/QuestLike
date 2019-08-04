@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    public class Inventory: IHaveCollections, ILocatable, IInventory
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    public class Inventory: IHaveCollections, ILocatable
     {
+        [JsonRequired]
         CollectionManager manager = new CollectionManager();
+        [JsonRequired]
         Locator locator;
+        [JsonProperty(IsReference = true)]
         GameObject owner;
+        [JsonRequired]
         int space = 10;
 
         public int MaxSpace
@@ -24,7 +30,7 @@ namespace QuestLike
         public Inventory(GameObject owner)
         {
             this.owner = owner;
-            locator = new Locator(this); ;
+            locator = new Locator(owner);
             manager.AddCollection<Item>();
         }
 
@@ -33,14 +39,6 @@ namespace QuestLike
             get
             {
                 return manager.GetCollection<Item>().Objects;
-            }
-        }
-
-        public Inventory GetInventory
-        {
-            get
-            {
-                return this;
             }
         }
 
@@ -95,7 +93,7 @@ namespace QuestLike
             ((IHaveCollections)manager).AddCollection<T>();
         }
 
-        public Collection[] GetAllCollections()
+        public ICollection[] GetAllCollections()
         {
             return ((IHaveCollections)manager).GetAllCollections();
         }

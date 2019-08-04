@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     class Room : GameObject
     {
         public Room() : base("Room", new string[] { "room", "space" })
         {
             locator.FreezeSearchesBelow = false;
-            AddCollection<Entity>();
             AddCollection<GameObject>();
             AddCollection<Wall>();
             GetCollection<Wall>().showInLocate = false;
@@ -20,7 +21,6 @@ namespace QuestLike
         public Room(string name) : base(name, new string[] { "room", "space" })
         {
             locator.FreezeSearchesBelow = false;
-            AddCollection<Entity>();
             AddCollection<GameObject>();
             AddCollection<Wall>();
             GetCollection<Wall>().showInLocate = false;
@@ -29,7 +29,6 @@ namespace QuestLike
         public Room(string[] ids) : base("Room", ids)
         {
             locator.FreezeSearchesBelow = false;
-            AddCollection<Entity>();
             AddCollection<GameObject>();
             AddCollection<Wall>();
             GetCollection<Wall>().showInLocate = false;
@@ -38,7 +37,6 @@ namespace QuestLike
         public Room(string name, string[] ids) : base(name, ids)
         {
             locator.FreezeSearchesBelow = false;
-            AddCollection<Entity>();
             AddCollection<GameObject>();
             AddCollection<Wall>();
             GetCollection<Wall>().showInLocate = false;

@@ -7,6 +7,7 @@ using QuestLike.Organs;
 using QuestLike;
 using QuestLike.Combat;
 using Microsoft.Xna.Framework;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
@@ -21,7 +22,7 @@ namespace QuestLike
         public int Y;
     }
 
-    struct InteractionRanges
+    public struct InteractionRanges
     {
         public Range grabRange;
         public Range meleeRange;
@@ -31,12 +32,21 @@ namespace QuestLike
         public Range useRange;
     }
 
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     class Entity : GameObject, IInventory
     {
+        [JsonRequired]
         private Inventory inventory;
+        [JsonRequired]
         public int moveYAxis = 2;
+        [JsonRequired]
         public int moveXAxis = 4;
+        [JsonIgnore]
+        public Action<ITalkable> talkaction;
+        [JsonIgnore]
+        public Action<INPC> onupdate;
 
+        [JsonRequired]
         InteractionRanges interactionRanges = new InteractionRanges() {
             delicateRange = new Range(2, 1),
             grabRange = new Range(4, 2),
@@ -45,6 +55,11 @@ namespace QuestLike
             spellRange = new Range(4, 2),
             useRange = new Range(2, 1)
         };
+
+        public Entity() : base()
+        {
+
+        }
 
         public Entity(string name, string[] ids) : this(name, "", ids)
         {
@@ -61,9 +76,12 @@ namespace QuestLike
             AddCollection<Item>();
         }
 
+        [JsonRequired]
         private bool moverun = false;
+        [JsonRequired]
         private Point startpoint;
 
+        [JsonIgnore]
         public Point TurnStartPoint
         {
             get
@@ -73,6 +91,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public Pathfinding.BFSPoint[] MoveArea
         {
             get
@@ -134,6 +153,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public override string Examine
         {
             get
@@ -144,8 +164,10 @@ namespace QuestLike
             }
         }
 
-        public Inventory GetInventory => inventory.GetInventory;
+        [JsonIgnore]
+        public Inventory GetInventory => inventory;
 
+        [JsonIgnore]
         internal InteractionRanges InteractionRanges { get => interactionRanges; set => interactionRanges = value; }
     }
 }

@@ -8,18 +8,19 @@ using QuestLike.Command;
 using SadConsole;
 using System.IO;
 using Newtonsoft.Json;
+using System.Runtime.Serialization.Formatters;
 
 namespace QuestLike
 {
     static class Game
     {
         private static List<Room> rooms = new List<Room>();
-        private static Room currentRoom;
+        private static int roomIndex;
         private static Player player = new Player();
 
         public static bool SaveExistWithName(string savename)
         {
-            return File.Exists(GetSystemPath(savename));
+            return File.Exists(GetSavePath(savename));
         }
         
         public static string[] GetAllSaveNames()
@@ -27,7 +28,7 @@ namespace QuestLike
             List<string> saves = new List<string>();
             foreach (var file in Directory.GetFiles($"{AppDomain.CurrentDomain.BaseDirectory}/saves/"))
             {
-                if (TryParse(file, out SaveData save))
+                if (TryParseSaveFile(file, out SaveData save))
                 {
                     saves.Add(file);
                 }
@@ -35,43 +36,61 @@ namespace QuestLike
             return saves.ToArray();
         }
 
-        public static bool TryParse(string path, out SaveData save)
+        public static bool TryParseSaveFile(string path, out SaveData save)
         {
             save = null;
             if (!File.Exists(path)) return false;
-            string json = File.ReadAllText(path);
             try
             {
-                save = JsonConvert.DeserializeObject<SaveData>(json);
+                JsonSerializerSettings settings = new JsonSerializerSettings()
+                {
+                    //TypeNameHandling = TypeNameHandling.All, <- breaks it?
+                    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full,
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    Formatting = Formatting.Indented
+                };
+
+                var json = File.ReadAllText(path);
+                save = JsonConvert.DeserializeObject<SaveData>(json, settings);
                 return true;
             }
-            catch
+            catch(Exception e)
             {
+                GameScreen.PrintLine($"\n{e.Message}\n");
                 return false;
             }
         }
 
+        [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
         public class SaveData
         {
             public Player player;
-            public List<Room> rooms;
-            public Room currentRoom;
+            public Room[] rooms;
+            [JsonProperty(IsReference = true)]
+            public int roomIndex;
             public CircleBuffer<string> buffer;
         }
 
         public static void LoadGame(string savename)
         {
-            if (TryParse(GetSystemPath(savename), out SaveData save)) {
+            if (TryParseSaveFile(GetSavePath(savename), out SaveData save)) {
                 GameScreen.buffer = save.buffer;
-                rooms = save.rooms;
+                rooms = new List<Room>(save.rooms);
+                roomIndex = save.roomIndex;
                 player = save.player;
-                currentRoom = save.currentRoom;
+                ChangeRoom(rooms[roomIndex]);
                 GameScreen.LoadBuffer();
+                GameScreen.PrintLine("Loaded save!");
+            }
+            else if (Settings.DebugMode)
+            {
+                GameScreen.PrintLine("Could not load savefile.");
             }
         }
 
-        public static string GetSystemPath(string savename)
+        public static string GetSavePath(string savename)
         {
+            if (!Directory.Exists($"{AppDomain.CurrentDomain.BaseDirectory}/saves/")) Directory.CreateDirectory($"{AppDomain.CurrentDomain.BaseDirectory}/saves/");
             return $"{AppDomain.CurrentDomain.BaseDirectory}/saves/{savename}.save";
         }
 
@@ -80,12 +99,27 @@ namespace QuestLike
             var save = new SaveData()
             {
                 buffer = GameScreen.buffer,
+                rooms = rooms.ToArray(),
                 player = GetPlayer,
-                rooms = rooms,
-                currentRoom = currentRoom
+                roomIndex = roomIndex
             };
-            var json = JsonConvert.SerializeObject(save);
-            File.WriteAllText(GetSystemPath(savename), json);
+            try
+            {
+                JsonSerializerSettings settings = new JsonSerializerSettings()
+                {
+                    TypeNameHandling = TypeNameHandling.All,
+                    TypeNameAssemblyFormatHandling = TypeNameAssemblyFormatHandling.Full,
+                    PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+                    Formatting = Formatting.Indented
+                };
+
+                var json = JsonConvert.SerializeObject(save, settings);
+                File.WriteAllText(GetSavePath(savename), json);
+            }
+            catch (Exception e)
+            {
+                GameScreen.PrintLine($"Could not save file.\n\n{e.Message}\n");
+            }
         }
 
         public static int Padding
@@ -128,7 +162,7 @@ namespace QuestLike
         {
             get
             {
-                return currentRoom;
+                return rooms[roomIndex];
             }
         }
 
@@ -145,7 +179,7 @@ namespace QuestLike
 
         public static void ChangeRoom(Room room)
         {
-            currentRoom = room;
+            roomIndex = rooms.IndexOf(room);
             if (GameScreen.roomconsole != null)
             {
                 GameScreen.roomconsole.PrintCentre(GameScreen.roomconsole.Width / 2, 0, GetRoom.Name, new Cell(Color.Black, Color.LightGray));
@@ -183,8 +217,8 @@ namespace QuestLike
         public static T[] LocateObjectsWithType<T>(bool firstcall = true) where T : class
         {
             List<T> results = new List<T>();
-            results.AddRange(player.LocateObjectsWithType<T>(firstcall));
-            results.AddRange(currentRoom.LocateObjectsWithType<T>(firstcall));
+            results.AddRange(GetPlayer.LocateObjectsWithType<T>(firstcall));
+            results.AddRange(GetRoom.LocateObjectsWithType<T>(firstcall));
 
             return results.ToArray();
         }
@@ -192,8 +226,8 @@ namespace QuestLike
         public static T[] LocateObjectsWithType<T>(string id, bool firstcall = true) where T : class
         {
             List<T> results = new List<T>();
-            results.AddRange(player.LocateObjectsWithType<T>(id, firstcall));
-            results.AddRange(currentRoom.LocateObjectsWithType<T>(id, firstcall));
+            results.AddRange(GetPlayer.LocateObjectsWithType<T>(id, firstcall));
+            results.AddRange(GetRoom.LocateObjectsWithType<T>(id, firstcall));
 
             return results.ToArray();
         }
@@ -201,8 +235,8 @@ namespace QuestLike
         public static GameObject[] Locate(string id, bool firstcall = true)
         {
             List<GameObject> results = new List<GameObject>();
-            results.AddRange(player.Locate(id, firstcall));
-            results.AddRange(currentRoom.Locate(id, firstcall));
+            results.AddRange(GetPlayer.Locate(id, firstcall));
+            results.AddRange(GetRoom.Locate(id, firstcall));
 
             return results.ToArray();
         }
@@ -254,9 +288,9 @@ namespace QuestLike
 
         public static GameObject LocateWithGameID(int gameID)
         {
-            var found = player.LocateWithGameID(gameID);
+            var found = GetPlayer.LocateWithGameID(gameID);
             if (found != null) return found;
-            found = currentRoom.LocateWithGameID(gameID);
+            found = GetRoom.LocateWithGameID(gameID);
             if (found != null) return found;
             return null;
         }

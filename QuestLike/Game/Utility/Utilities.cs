@@ -66,8 +66,8 @@ namespace QuestLike
             {
                 if (a is GameObject)
                 {
-                    if ((a as GameObject).container == null || (a as GameObject).container.owner is Room) return 0;
-                    return (a as GameObject).container.owner.Name.Length;
+                    if ((a as GameObject).container == null || (a as GameObject).container.Owner is Room) return 0;
+                    return (a as GameObject).container.Owner.Name.Length;
                 }
                 return 0;
             });
@@ -89,7 +89,7 @@ namespace QuestLike
                         awaitedUserResponse = UserResponseType.GameObject;
                         GameObject j = list[i] as GameObject;
                         GameScreen.PrintLine($"[" + (i + 1) + $"] - <{Color.Cyan.ToInteger()},select " + j.ID + " uuid " + uuid + ">" + (j.Name.PadRight(max, ' ')) + "@");
-                        if (j.container != null && !(j.container.owner is Room)) GameScreen.Print(" - Attatched to " + (j.container.owner.Name.PadRight(maxContainerName, ' ')));
+                        if (j.container != null && !(j.container.Owner is Room)) GameScreen.Print(" - Attatched to " + (j.container.Owner.Name.PadRight(maxContainerName, ' ')));
                         if (j.ShortDescription != "") GameScreen.Print(" - " + j.ShortDescription);
                     }
                     else

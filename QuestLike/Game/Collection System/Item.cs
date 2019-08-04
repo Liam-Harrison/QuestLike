@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     public class Item : GameObject
     {
         protected bool grabable = true;
@@ -16,6 +18,11 @@ namespace QuestLike
             {
                 return grabable;
             }
+        }
+
+        public Item() : base()
+        {
+
         }
 
         public Item(string name, string[] ids) : base(name, ids)

@@ -3,14 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Collectable: Identifiable
     {
-        public Collection container;
+        [JsonProperty(IsReference = true)]
+        public ICollection container;
 
-        public Collection Collection
+        [JsonIgnore]
+        public ICollection Collection
         {
             get
             {
@@ -18,7 +22,7 @@ namespace QuestLike
             }
         }
 
-        public Collectable() : base(new string[] { })
+        public Collectable() : base()
         {
 
         }

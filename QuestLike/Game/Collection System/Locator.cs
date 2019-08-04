@@ -4,18 +4,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuestLike.Combat;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class Locator: ILocatable
     {
-        private IHaveCollections owner;
+        [JsonProperty(IsReference = true)]
+        private GameObject owner;
+        [JsonRequired]
         private bool freezeSearchesBelow = true;
-        public Locator(IHaveCollections owner)
+        public Locator(GameObject owner)
         {
             this.owner = owner;
         }
 
+        [JsonIgnore]
         public bool FreezeSearchesBelow
         {
             get
@@ -41,9 +46,9 @@ namespace QuestLike
             if (freezeSearchesBelow && firstcall) return toReturn.ToArray();
             foreach (var collection in owner.GetAllCollections())
             {
-                if (collection.showInLocate || (!collection.showInLocate && overrideShow))
+                if (collection.ShowInLocate || (!collection.ShowInLocate && overrideShow))
                 {
-                    dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
+                    dynamic typed = collection.GetTypedCollection();
                     foreach (var obj in typed.GetAllObjects())
                     {
                         toReturn.AddRange(obj.Locate(id, false, overrideShow));
@@ -92,9 +97,9 @@ namespace QuestLike
             if (freezeSearchesBelow && firstcall) return toReturn.ToArray();
             foreach (var collection in owner.GetAllCollections())
             {
-                if (collection.showInLocate || (!collection.showInLocate && overrideShow))
+                if (collection.ShowInLocate || (!collection.ShowInLocate && overrideShow))
                 {
-                    dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
+                    dynamic typed =  collection.GetTypedCollection();
                     foreach (var obj in typed.GetAllObjects())
                     {
                         toReturn.AddRange(obj.LocateObjectsWithType<T>(false, overrideShow));
@@ -147,9 +152,9 @@ namespace QuestLike
             if (freezeSearchesBelow && firstcall) return toReturn.ToArray();
             foreach (var collection in owner.GetAllCollections())
             {
-                if (collection.showInLocate || (!collection.showInLocate && overrideShow))
+                if (collection.ShowInLocate || (!collection.ShowInLocate && overrideShow))
                 {
-                    dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
+                    dynamic typed = collection.GetTypedCollection();
                     foreach (var obj in typed.GetAllObjects())
                     {
                         toReturn.AddRange(obj.LocateObjectsWithType<T>(id, false, overrideShow));
@@ -219,7 +224,7 @@ namespace QuestLike
 
             foreach (var collection in owner.GetAllCollections())
             {
-                dynamic typed = Convert.ChangeType(collection, collection.CollectionType);
+                dynamic typed = collection.GetTypedCollection();
                 foreach (var obj in typed.GetAllObjects())
                 {
                     var found = obj.LocateWithGameID(gameID);

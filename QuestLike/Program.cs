@@ -15,7 +15,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SadConsole.Input;
 using QuestLike;
 using QuestLike.Entities;
-
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
@@ -24,6 +24,7 @@ namespace QuestLike
         static GameState state;
         static void Main(string[] args)
       {
+
             Settings.LoadSettings();
 
             SadConsole.Game.Create(Settings.Width, Settings.Height);
@@ -44,8 +45,8 @@ namespace QuestLike
                 new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                 new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', ' ', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                 new char[] {'#', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
-                new char[] {' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
+                new char[] {' ', ' ', ' ', ' ', ' ', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', '#', '#', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                 new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                 new char[] {' ', ' ', ' ', ' ', '#', ' ', ' ', '#', ' ', ' ',' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' '},
                 new char[] { },

@@ -6,13 +6,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QuestLike.Entities
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     class HumanoidNPC : Humanoid, INPC, ITalkable
     {
+        [JsonRequired]
         private DialogueManager dialogueManager;
+        [JsonRequired]
         private NPCManager npcManager;
+
+        public HumanoidNPC() : base()
+        {
+
+        }
 
         public HumanoidNPC(string name, string[] ids) : base(name, ids)
         {
@@ -20,6 +29,7 @@ namespace QuestLike.Entities
             npcManager = new NPCManager(this);
         }
 
+        [JsonIgnore]
         public Entity GetOwner => ((ITalkable)dialogueManager).GetOwner;
 
         public string GetName()
@@ -83,19 +93,25 @@ interface ITalkable
     Entity GetOwner { get; }
 }
 
+[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 class DialogueManager: ITalkable
 {
+    [JsonProperty(IsReference = true)]
     private Entity owner;
     public DialogueManager(Entity owner)
     {
         if (owner as ITalkable == null) throw new Exception("You cannot have this component on an object which does not implement its interface.");
         this.owner = owner;
+        ontalk = owner.talkaction;
     }
 
+    [JsonIgnore]
+    int state = 0;
+    [JsonIgnore]
     Action<ITalkable> ontalk;
-    public void TalkTo()
+    public virtual void TalkTo()
     {
-        if (ontalk != null) ontalk.Invoke(owner as ITalkable);
+
     }
 
     public void SetTalkRoutine(Action<ITalkable> newroutine)
@@ -113,8 +129,10 @@ class DialogueManager: ITalkable
         GameScreen.PrintLine(text);
     }
 
+    [JsonRequired]
     private Color nameColor;
 
+    [JsonIgnore]
     public Entity GetOwner => owner;
 
     public void SetNameColor(Color color)
@@ -128,17 +146,23 @@ class DialogueManager: ITalkable
         return $"<{nameColor.ToInteger()},look at {owner.ID}>{owner.Name}@";
     }
 }
-
+[JsonObject(MemberSerialization = MemberSerialization.OptOut)]
 class NPCManager: INPC
 {
+    [JsonProperty(IsReference = true)]
     private Entity owner;
+
     public NPCManager(Entity owner)
     {
         if (owner as INPC == null) throw new Exception("You cannot have this component on an object which does not implement its interface.");
         this.owner = owner;
+        onupdate = owner.onupdate;
     }
+
+    [JsonIgnore]
     public Entity GetOwner => owner;
 
+    [JsonIgnore]
     Action<INPC> onupdate;
     public void SetNPCRoutine(Action<INPC> newroutine)
     {

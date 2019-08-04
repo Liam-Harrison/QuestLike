@@ -68,8 +68,8 @@ namespace QuestLike.Command
                     foreach (var item in gameobjects)
                     {
                         if (item.Name.Count() > longestname) longestname = item.Name.Count();
-                        if (item.container.owner != null && item.container.owner.Name.Count() > longestcollectionname)
-                            longestcollectionname = item.container.owner.Name.Count();
+                        if (item.container.Owner != null && item.container.Owner.Name.Count() > longestcollectionname)
+                            longestcollectionname = item.container.Owner.Name.Count();
                     }
                     foreach (var item in gameobjects)
                     {

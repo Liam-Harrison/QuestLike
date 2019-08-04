@@ -14,7 +14,7 @@ namespace QuestLike.Command
         public DebugCommand()
         {
             keywords = new string[] { };
-            usecases = new string[] { "debug look at $", "debug simulate $", "debug check signal to ^ on ^", "debug check signal to my ^", "sever my ^", "sever +" };
+            usecases = new string[] { "debug look at $", "debug simulate $", "debug check signal to ^ on ^", "debug check signal to my ^", "sever my ^", "sever +", "save ^", "load ^" };
             tags = new string[] { "debug" };
             commandName = "Debug";
         }
@@ -112,6 +112,14 @@ namespace QuestLike.Command
                         GameScreen.PrintLine($"\nSevered the <{Color.Cyan.ToInteger()},look at {part.ID}>{part.Name}@, all blood vessels, nerves and cyberconections were disconnected.");
                     }
                     
+                    break;
+                case 6:
+                    Game.SaveGame(GetArg(0));
+
+                    break;
+                case 7:
+                    Game.LoadGame(GetArg(0));
+
                     break;
             }
             return false;

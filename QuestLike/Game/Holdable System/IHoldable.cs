@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     class HoldableManager: IHoldable, IHaveCollections
     {
+        [JsonProperty(IsReference = true)]
         private GameObject owner;
         private CollectionManager collectionManager;
         public HoldableManager(GameObject owner)
@@ -30,7 +33,7 @@ namespace QuestLike
             ((IHaveCollections)collectionManager).AddCollection<T>();
         }
 
-        public Collection[] GetAllCollections()
+        public ICollection[] GetAllCollections()
         {
             return ((IHaveCollections)collectionManager).GetAllCollections();
         }

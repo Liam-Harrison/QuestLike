@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using QuestLike.Organs;
 using QuestLike.Entities;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     class Player : PartialCyberHumanoid
     {
-
         public Player() : base("Myself", new string[] { "me", "player", "myself" })
         {
             screenChar = (char)1;

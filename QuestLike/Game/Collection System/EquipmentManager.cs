@@ -4,12 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuestLike.Organs;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class EquipmentManager : IEquipable, IHaveCollections
     {
+        [JsonProperty]
         private CollectionManager collectionManager;
+        [JsonProperty(IsReference = true)]
         private BodyPart owner;
         public EquipmentManager(BodyPart owner)
         {
@@ -18,6 +22,7 @@ namespace QuestLike
             this.owner = owner;
         }
 
+        [JsonIgnore]
         public Item EquipedItem
         {
             get
@@ -36,7 +41,7 @@ namespace QuestLike
             return equipable.CanBodyPartEquip(owner);
         }
 
-        public Collection[] GetAllCollections()
+        public ICollection[] GetAllCollections()
         {
             return ((IHaveCollections)collectionManager).GetAllCollections();
         }
@@ -51,6 +56,7 @@ namespace QuestLike
             return ((IHaveCollections)collectionManager).HasCollection<T>();
         }
 
+        [JsonIgnore]
         public bool HasItemEquiped
         {
             get

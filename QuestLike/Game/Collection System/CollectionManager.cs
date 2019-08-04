@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace QuestLike
 {
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     public class CollectionManager: IHaveCollections
     {
-        List<Collection> collections = new List<Collection>();
+        [JsonProperty]
+        private List<ICollection> collections = new List<ICollection>();
+        [JsonProperty(IsReference = true)]
         private GameObject owner;
 
         public CollectionManager(GameObject owner)
@@ -21,6 +25,7 @@ namespace QuestLike
 
         }
 
+        [JsonIgnore]
         public GameObject Owner
         {
             get
@@ -57,7 +62,7 @@ namespace QuestLike
             return false;
         }
 
-        public Collection[] GetAllCollections()
+        public ICollection[] GetAllCollections()
         {
             return collections.ToArray();
         }

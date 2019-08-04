@@ -3,47 +3,71 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace QuestLike
 {
-
-    public abstract class Collection
+    [JsonObject(IsReference = true, ItemTypeNameHandling = TypeNameHandling.All)]
+    public class ICollection
     {
-        protected Type type;
+        public virtual dynamic GetTypedCollection()
+        {
+            throw new Exception("Should not reach this code.");
+        }
+        [JsonIgnore]
+        public virtual bool ShowInLocate { get; }
+        [JsonIgnore]
+        public virtual GameObject Owner { get; }
+    }
+
+    class CollectionConverter : JsonConverter
+    {
+        public override bool CanConvert(Type objectType)
+        {
+            return (objectType == typeof(ICollection));
+        }
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            return serializer.Deserialize(reader, (existingValue as ICollection).GetType());
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            serializer.Serialize(writer, value, (value as ICollection).GetType());
+        }
+    }
+
+    [JsonObject(MemberSerialization = MemberSerialization.OptIn, ItemTypeNameHandling = TypeNameHandling.All)]
+    public class Collection<T> : ICollection where T : Collectable
+    {
+        [JsonProperty(IsReference = true)]
         public GameObject owner;
+        [JsonProperty]
         public bool showInLocate = true;
+        [JsonProperty]
+        List<T> contents = new List<T>();
 
-        public Type CollectionType
+        public override dynamic GetTypedCollection()
         {
-            get
-            {
-                return type;
-            }
+            return this;
         }
 
-        public dynamic GetTypedCollection()
-        {
-            return Convert.ChangeType(this, type);
-        }
-
-        public GameObject Owner
+        [JsonIgnore]
+        public override GameObject Owner
         {
             get
             {
                 return owner;
             }
         }
-    }
-
-    public class Collection<T> : Collection where T : Collectable
-    {
-        List<T> contents = new List<T>();
 
         public Collection()
         {
-            type = GetType();
         }
 
+        [JsonIgnore]
         public T[] Objects
         {
             get
@@ -52,6 +76,7 @@ namespace QuestLike
             }
         }
 
+        [JsonIgnore]
         public List<T> ObjectList
         {
             get
@@ -59,6 +84,9 @@ namespace QuestLike
                 return contents;
             }
         }
+
+        [JsonIgnore]
+        public override bool ShowInLocate => showInLocate;
 
         public T AddObject(T item)
         {
