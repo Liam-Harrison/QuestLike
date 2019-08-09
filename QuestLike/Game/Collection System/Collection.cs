@@ -8,36 +8,54 @@ using Newtonsoft.Json.Linq;
 
 namespace QuestLike
 {
-    [JsonObject(IsReference = true, ItemTypeNameHandling = TypeNameHandling.All)]
-    public class ICollection
+    [JsonObject(ItemTypeNameHandling = TypeNameHandling.All, ItemConverterType = typeof(CollectionConverter))]
+    public interface ICollection
     {
-        public virtual dynamic GetTypedCollection()
-        {
-            throw new Exception("Should not reach this code.");
-        }
+        dynamic GetTypedCollection();
         [JsonIgnore]
-        public virtual bool ShowInLocate { get; }
+        bool ShowInLocate { get; }
         [JsonIgnore]
-        public virtual GameObject Owner { get; }
+        GameObject Owner { get; }
     }
 
-    class CollectionConverter : JsonConverter
+    public class CollectionConverter : JsonConverter
     {
-        public override bool CanConvert(Type objectType)
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
         {
-            return (objectType == typeof(ICollection));
+
         }
 
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
-            return serializer.Deserialize(reader, (existingValue as ICollection).GetType());
+            if (!CanConvert(objectType))
+                throw new Exception(string.Format("This converter is not for {0}.", objectType));
+
+            var keyType = objectType.GetGenericArguments()[0];
+            var valueType = objectType.GetGenericArguments()[1];
+            var dictionaryType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
+            var result = (ICollection)Activator.CreateInstance(dictionaryType);
+
+            if (reader.TokenType == JsonToken.Null)
+                return null;
+
+            while (reader.Read())
+            {
+                if (reader.TokenType == JsonToken.EndObject)
+                {
+                    return result;
+                }
+            }
+
+            return result;
         }
 
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        public override bool CanConvert(Type objectType)
         {
-            serializer.Serialize(writer, value, (value as ICollection).GetType());
+            return objectType.IsGenericType && (objectType.GetGenericTypeDefinition() == typeof(Collection<>) || objectType.GetGenericTypeDefinition() == typeof(Collection<>));
         }
     }
+
+
 
     [JsonObject(MemberSerialization = MemberSerialization.OptIn, ItemTypeNameHandling = TypeNameHandling.All)]
     public class Collection<T> : ICollection where T : Collectable
@@ -46,16 +64,16 @@ namespace QuestLike
         public GameObject owner;
         [JsonProperty]
         public bool showInLocate = true;
-        [JsonProperty]
+        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
         List<T> contents = new List<T>();
 
-        public override dynamic GetTypedCollection()
+        public dynamic GetTypedCollection()
         {
             return this;
         }
 
         [JsonIgnore]
-        public override GameObject Owner
+        public GameObject Owner
         {
             get
             {
@@ -86,7 +104,7 @@ namespace QuestLike
         }
 
         [JsonIgnore]
-        public override bool ShowInLocate => showInLocate;
+        public bool ShowInLocate => showInLocate;
 
         public T AddObject(T item)
         {
