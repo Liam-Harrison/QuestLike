@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 
 namespace QuestLike.Effects
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    
     public class Effector: IEffectable
     {
         private List<Effect> effects = new List<Effect>();
 
-        [JsonProperty(IsReference = true)]
+        
         private GameObject owner;
         public Effector(GameObject owner)
         {
@@ -32,7 +32,7 @@ namespace QuestLike.Effects
             effect.OnRemoved(owner);
         }
 
-        [JsonIgnore]
+        
         public string Examine
         {
             get

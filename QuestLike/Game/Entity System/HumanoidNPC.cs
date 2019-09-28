@@ -10,12 +10,9 @@ using Newtonsoft.Json;
 
 namespace QuestLike.Entities
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
     class HumanoidNPC : Humanoid, INPC, ITalkable
     {
-        [JsonRequired]
         private DialogueManager dialogueManager;
-        [JsonRequired]
         private NPCManager npcManager;
 
         public HumanoidNPC() : base()
@@ -29,7 +26,6 @@ namespace QuestLike.Entities
             npcManager = new NPCManager(this);
         }
 
-        [JsonIgnore]
         public Entity GetOwner => ((ITalkable)dialogueManager).GetOwner;
 
         public string GetName()
@@ -93,10 +89,8 @@ interface ITalkable
     Entity GetOwner { get; }
 }
 
-[JsonObject(MemberSerialization = MemberSerialization.OptIn)]
 class DialogueManager: ITalkable
 {
-    [JsonProperty(IsReference = true)]
     private Entity owner;
     public DialogueManager(Entity owner)
     {
@@ -105,9 +99,7 @@ class DialogueManager: ITalkable
         ontalk = owner.talkaction;
     }
 
-    [JsonIgnore]
     int state = 0;
-    [JsonIgnore]
     Action<ITalkable> ontalk;
     public virtual void TalkTo()
     {
@@ -129,10 +121,8 @@ class DialogueManager: ITalkable
         GameScreen.PrintLine(text);
     }
 
-    [JsonRequired]
     private Color nameColor;
 
-    [JsonIgnore]
     public Entity GetOwner => owner;
 
     public void SetNameColor(Color color)
@@ -146,10 +136,9 @@ class DialogueManager: ITalkable
         return $"<{nameColor.ToInteger()},look at {owner.ID}>{owner.Name}@";
     }
 }
-[JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+
 class NPCManager: INPC
 {
-    [JsonProperty(IsReference = true)]
     private Entity owner;
 
     public NPCManager(Entity owner)
@@ -159,10 +148,8 @@ class NPCManager: INPC
         onupdate = owner.onupdate;
     }
 
-    [JsonIgnore]
     public Entity GetOwner => owner;
 
-    [JsonIgnore]
     Action<INPC> onupdate;
     public void SetNPCRoutine(Action<INPC> newroutine)
     {

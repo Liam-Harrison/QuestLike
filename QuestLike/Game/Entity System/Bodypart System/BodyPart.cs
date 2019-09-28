@@ -23,7 +23,7 @@ namespace QuestLike.Combat
 
 namespace QuestLike.Organs
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    
     public class BloodData
     {
         public float bloodPressure = 1;
@@ -36,29 +36,29 @@ namespace QuestLike.Organs
         public float oxygenUse = 0.5f;
     }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     public class BodyPart : Item, IDamagable, IEffectable, IEquipable
     {
-        [JsonProperty]
+        
         protected Damager damager = new Damager();
-        [JsonProperty]
+        
         protected Effector effector;
-        [JsonProperty]
+        
         protected EquipmentManager equipmentManager;
 
-        [JsonProperty(IsReference = true)]
+        
         public BodyPart parent;
-        [JsonIgnore]
+        
         public BodyPart Parent { get => parent; set => parent = value; }
 
-        [JsonProperty]
+        
         public BloodData bloodData = new BloodData();
-        [JsonProperty]
+        
         public bool usesBlood = true;
 
-        [JsonProperty]
+        
         protected float damage = 0;
-        [JsonIgnore]
+        
         public float Damage
         {
             get
@@ -67,7 +67,7 @@ namespace QuestLike.Organs
             }
         }
 
-        [JsonIgnore]
+        
         public float BloodPressure
         {
             get
@@ -99,7 +99,7 @@ namespace QuestLike.Organs
         {
         }
 
-        [JsonIgnore]
+        
         protected string specifitcationString
         {
             get
@@ -116,7 +116,7 @@ namespace QuestLike.Organs
             }
         }
 
-        [JsonIgnore]
+        
         protected string attatchmentString
         {
             get
@@ -143,7 +143,7 @@ namespace QuestLike.Organs
             }
         }
 
-        [JsonIgnore]
+        
         protected string vesselString
         {
             get
@@ -225,7 +225,7 @@ namespace QuestLike.Organs
             }
         }
 
-        [JsonIgnore]
+        
         protected string bodypartGameobjectString
         {
             get
@@ -235,7 +235,7 @@ namespace QuestLike.Organs
             }
         }
 
-        [JsonIgnore]
+        
         public override string Examine
         {
             get
@@ -413,7 +413,7 @@ namespace QuestLike.Organs
             damage = Math.Max(damage + amount, 100);
         }
 
-        [JsonIgnore]
+        
         public BodyPart[] Children
         {
             get
@@ -492,7 +492,7 @@ namespace QuestLike.Organs
             bloodData.deoxygenatedBlood += toUse;
         }
 
-        [JsonIgnore]
+        
         public float InversedNormalizedDamage
         {
             get
@@ -502,7 +502,7 @@ namespace QuestLike.Organs
             }
         }
 
-        [JsonIgnore]
+        
         public float NormalizedDamage
         {
             get
@@ -615,10 +615,10 @@ namespace QuestLike.Organs
             }
         }
 
-        [JsonIgnore]
+        
         public bool HasItemEquiped => ((IEquipable)equipmentManager).HasItemEquiped;
 
-        [JsonIgnore]
+        
         public Item EquipedItem => ((IEquipable)equipmentManager).EquipedItem;
     }
 }

@@ -3,68 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace QuestLike
 {
-    [JsonObject(ItemTypeNameHandling = TypeNameHandling.All, ItemConverterType = typeof(CollectionConverter))]
     public interface ICollection
     {
         dynamic GetTypedCollection();
-        [JsonIgnore]
         bool ShowInLocate { get; }
-        [JsonIgnore]
         GameObject Owner { get; }
     }
 
-    public class CollectionConverter : JsonConverter
-    {
-        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-        {
-
-        }
-
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-        {
-            if (!CanConvert(objectType))
-                throw new Exception(string.Format("This converter is not for {0}.", objectType));
-
-            var keyType = objectType.GetGenericArguments()[0];
-            var valueType = objectType.GetGenericArguments()[1];
-            var dictionaryType = typeof(Dictionary<,>).MakeGenericType(keyType, valueType);
-            var result = (ICollection)Activator.CreateInstance(dictionaryType);
-
-            if (reader.TokenType == JsonToken.Null)
-                return null;
-
-            while (reader.Read())
-            {
-                if (reader.TokenType == JsonToken.EndObject)
-                {
-                    return result;
-                }
-            }
-
-            return result;
-        }
-
-        public override bool CanConvert(Type objectType)
-        {
-            return objectType.IsGenericType && (objectType.GetGenericTypeDefinition() == typeof(Collection<>) || objectType.GetGenericTypeDefinition() == typeof(Collection<>));
-        }
-    }
-
-
-
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn, ItemTypeNameHandling = TypeNameHandling.All)]
     public class Collection<T> : ICollection where T : Collectable
     {
-        [JsonProperty(IsReference = true)]
         public GameObject owner;
-        [JsonProperty]
         public bool showInLocate = true;
-        [JsonProperty(ItemTypeNameHandling = TypeNameHandling.All)]
         List<T> contents = new List<T>();
 
         public dynamic GetTypedCollection()
@@ -72,7 +24,6 @@ namespace QuestLike
             return this;
         }
 
-        [JsonIgnore]
         public GameObject Owner
         {
             get
@@ -85,7 +36,6 @@ namespace QuestLike
         {
         }
 
-        [JsonIgnore]
         public T[] Objects
         {
             get
@@ -94,7 +44,6 @@ namespace QuestLike
             }
         }
 
-        [JsonIgnore]
         public List<T> ObjectList
         {
             get
@@ -103,7 +52,6 @@ namespace QuestLike
             }
         }
 
-        [JsonIgnore]
         public bool ShowInLocate => showInLocate;
 
         public T AddObject(T item)

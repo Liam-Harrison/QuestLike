@@ -7,13 +7,13 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     public class Collectable: Identifiable
     {
-        [JsonProperty(IsReference = true)]
+        
         public ICollection container;
 
-        [JsonIgnore]
+        
         public ICollection Collection
         {
             get

@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    
     public class Item : GameObject
     {
         protected bool grabable = true;

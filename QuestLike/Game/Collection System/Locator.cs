@@ -8,10 +8,10 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     public class Locator: ILocatable
     {
-        [JsonProperty(IsReference = true)]
+        
         private GameObject owner;
         [JsonRequired]
         private bool freezeSearchesBelow = true;
@@ -20,7 +20,7 @@ namespace QuestLike
             this.owner = owner;
         }
 
-        [JsonIgnore]
+        
         public bool FreezeSearchesBelow
         {
             get

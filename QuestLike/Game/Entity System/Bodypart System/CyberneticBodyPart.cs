@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 
 namespace QuestLike.Organs
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+
     public class CyberneticConnection : Nerve
     {
         public float powerTransfer = 20;
@@ -39,7 +39,7 @@ namespace QuestLike.Organs
         {
         }
 
-        [JsonIgnore]
+
         public override string Examine
         {
             get
@@ -49,7 +49,7 @@ namespace QuestLike.Organs
         }
     }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+
     public class CyberneticBodyPart : BodyPart
     {
         public float energyRequired = 2;
@@ -123,7 +123,6 @@ namespace QuestLike.Organs
             }
         }
 
-        [JsonIgnore]
         public override string Examine
         {
             get

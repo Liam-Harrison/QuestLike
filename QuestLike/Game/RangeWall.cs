@@ -16,7 +16,7 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     class RangeWall : Wall
     {
         public RangeWall() : base("", new string[] { })
@@ -44,7 +44,7 @@ namespace QuestLike
             return GameScreen.miniConsole.IsRangeWallAtPoint(Pathfinding.DirectionToPoint(direction) + Position);
         }
 
-        [JsonIgnore]
+        
         public override string ScreenChar
         {
             get

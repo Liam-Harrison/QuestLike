@@ -7,14 +7,14 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     public class Inventory: IHaveCollections, ILocatable
     {
         [JsonRequired]
         CollectionManager manager = new CollectionManager();
         [JsonRequired]
         Locator locator;
-        [JsonProperty(IsReference = true)]
+        
         GameObject owner;
         [JsonRequired]
         int space = 10;

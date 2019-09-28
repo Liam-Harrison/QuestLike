@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    
     public abstract class Equipable : Item
     {
         public Equipable() :base()
@@ -30,7 +30,7 @@ namespace QuestLike
 
         public abstract bool CanBodyPartEquip(BodyPart part);
 
-        [JsonProperty(IsReference = true)]
+        
         public abstract GameObject EquipedTo { get; }
 
         public abstract bool IsEquiped { get; }
@@ -38,7 +38,7 @@ namespace QuestLike
         public bool equiped = false;
     }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    
     public class Equipable<T>: Equipable where T: Item
     {
         public Equipable() : base()

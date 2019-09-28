@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    
     class HoldableManager: IHoldable, IHaveCollections
     {
-        [JsonProperty(IsReference = true)]
+        
         private GameObject owner;
         private CollectionManager collectionManager;
         public HoldableManager(GameObject owner)

@@ -13,7 +13,7 @@ using SadConsole.Input;
 using QuestLike;
 using Newtonsoft.Json;
 
-[JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+
 class Weapon : Item, IUseable
 {
     public Weapon() : base()

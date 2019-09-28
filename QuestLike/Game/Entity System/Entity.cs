@@ -32,7 +32,7 @@ namespace QuestLike
         public Range useRange;
     }
 
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     class Entity : GameObject, IInventory
     {
         [JsonRequired]
@@ -41,9 +41,9 @@ namespace QuestLike
         public int moveYAxis = 2;
         [JsonRequired]
         public int moveXAxis = 4;
-        [JsonIgnore]
+        
         public Action<ITalkable> talkaction;
-        [JsonIgnore]
+        
         public Action<INPC> onupdate;
 
         [JsonRequired]
@@ -81,7 +81,7 @@ namespace QuestLike
         [JsonRequired]
         private Point startpoint;
 
-        [JsonIgnore]
+        
         public Point TurnStartPoint
         {
             get
@@ -91,7 +91,7 @@ namespace QuestLike
             }
         }
 
-        [JsonIgnore]
+        
         public Pathfinding.BFSPoint[] MoveArea
         {
             get
@@ -153,7 +153,7 @@ namespace QuestLike
             }
         }
 
-        [JsonIgnore]
+        
         public override string Examine
         {
             get
@@ -164,10 +164,10 @@ namespace QuestLike
             }
         }
 
-        [JsonIgnore]
+        
         public Inventory GetInventory => inventory;
 
-        [JsonIgnore]
+        
         internal InteractionRanges InteractionRanges { get => interactionRanges; set => interactionRanges = value; }
     }
 }

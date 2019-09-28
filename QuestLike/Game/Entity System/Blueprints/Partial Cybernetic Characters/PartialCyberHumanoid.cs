@@ -9,7 +9,6 @@ using Newtonsoft.Json;
 
 namespace QuestLike.Entities
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
     class PartialCyberHumanoid : Entity
     {
 

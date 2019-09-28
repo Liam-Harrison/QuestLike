@@ -7,10 +7,10 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    
     public class Identifiable
     {
-        [JsonProperty]
+        
         private string[] ids;
 
         public Identifiable()

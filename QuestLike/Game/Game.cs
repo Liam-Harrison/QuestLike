@@ -61,12 +61,12 @@ namespace QuestLike
             }
         }
 
-        [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+        
         public class SaveData
         {
             public Player player;
             public Room[] rooms;
-            [JsonProperty(IsReference = true)]
+            
             public int roomIndex;
             public CircleBuffer<string> buffer;
         }

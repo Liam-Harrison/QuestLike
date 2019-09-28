@@ -7,19 +7,19 @@ using Newtonsoft.Json;
 
 namespace QuestLike.Combat
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     public class Damager : IDamagable
     {
-        [JsonProperty]
+        
         private float damage = 0;
-        [JsonProperty]
+        
         private List<DamageInfo> history = new List<DamageInfo>();
 
         public Damager()
         {
         }
 
-        [JsonIgnore]
+        
         public float Damage
         {
             get
@@ -28,7 +28,7 @@ namespace QuestLike.Combat
             }
         }
 
-        [JsonIgnore]
+        
         public DamageLevel DamageLevel
         {
             get

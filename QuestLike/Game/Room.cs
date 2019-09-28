@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptOut)]
+    
     class Room : GameObject
     {
         public Room() : base("Room", new string[] { "room", "space" })

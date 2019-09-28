@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     class Wall : GameObject
     {
         public Wall(): base("", new string[] { })
@@ -40,7 +40,7 @@ namespace QuestLike
             return false;
         }
 
-        [JsonIgnore]
+        
         public override string ScreenChar
         {
             get

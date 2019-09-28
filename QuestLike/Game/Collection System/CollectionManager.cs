@@ -7,12 +7,12 @@ using Newtonsoft.Json;
 
 namespace QuestLike
 {
-    [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
+    
     public class CollectionManager: IHaveCollections
     {
-        [JsonProperty]
+        
         private List<ICollection> collections = new List<ICollection>();
-        [JsonProperty(IsReference = true)]
+        
         private GameObject owner;
 
         public CollectionManager(GameObject owner)
@@ -25,7 +25,7 @@ namespace QuestLike
 
         }
 
-        [JsonIgnore]
+        
         public GameObject Owner
         {
             get
