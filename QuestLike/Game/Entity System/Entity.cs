@@ -41,10 +41,6 @@ namespace QuestLike
         public int moveYAxis = 2;
         [JsonRequired]
         public int moveXAxis = 4;
-        
-        public Action<ITalkable> talkaction;
-        
-        public Action<INPC> onupdate;
 
         [JsonRequired]
         InteractionRanges interactionRanges = new InteractionRanges() {

@@ -70,45 +70,40 @@ namespace QuestLike
 
             var npc = new HumanoidNPC("The Surgeon", new string[] { "npc", "the surgeon", "surgeon" })
                 { screenChar = 'S', position = new Point(16, 5), screenCell = new Cell(Color.Red) };
-            npc.SetNPCRoutine(
-                (entity) => {
-                    entity.GetOwner.Move(Pathfinding.RandomDirection());
-                });
 
-            Action<ITalkable> start = null;
-
-            Action<ITalkable> second = (ITalkable entity) =>
+            npc.SetNPCRoutine((entity) => 
             {
-                entity.Say("Did you misunderstand me or somethin'?");
-                Utilities.PromptSelection<string>("Reponse", new string[] { "yes", "no?" }, (index, canceled) =>
-                {
-                    if (int.TryParse(index, out int result))
-                    {
-                        if (result == 0)
-                        {
-                            entity.Say("Watch yourself");
-                            entity.SetTalkRoutine(start);
-                        }
-                        else
-                        {
-                            entity.Say("... Idiot");
-                            entity.SetTalkRoutine(start);
-                        }
-                    }
-                });
-            };
+                entity.GetOwner.Move(Pathfinding.RandomDirection());
+            });
 
-            start = (ITalkable first) => {
-                first.Say("Don't distrub me!");
-                first.SetTalkRoutine(second);
-            };
-
-            npc.SetTalkRoutine(start);
             npc.SetNameColor(Color.Red);
+
+            npc.SetTalkRoutine((ITalkable first) => 
+            {
+                first.Say("Are you after something?");
+            });
+
+            npc.AddResponse("I need some surgery", (ITalkable i) => 
+            {
+                i.Say("What kind of surgery are you after?");
+
+                i.ClearResponses();
+
+                foreach (var lung in Game.GetPlayer.LocateObjectsWithType<Lung>(false))
+                {
+                    i.AddResponse($"My {lung.Name}", (_) => 
+                    {
+                        lung.SeverPart(i.GetOwner);
+                    });
+                }
+
+                i.DrawResponses();
+
+            });
+
             testRoom.GetCollection<GameObject>().AddObject(npc);
 
-            Game.AddRoom(testRoom);
-            Game.ChangeRoom(testRoom);
+            Game.AddSetRoom(testRoom);
 
             SadConsole.Game.Instance.Run();
             SadConsole.Game.Instance.Dispose();
@@ -189,7 +184,7 @@ namespace QuestLike
 
             GameScreen.PrintLine($"\nNeed some help? You can type <{Color.Cyan.ToInteger()},help>Help@ at any time to see all the commands you can use.");
             GameScreen.Print($" You can also enable <{Color.Orange.ToInteger()},>[info]@ messages and debug commands by enabling debug mode in the options menu.");
-            GameScreen.PrintLine($"\nWhen you see a link <{Color.Cyan.ToInteger()},>like this@ you can click on it to quickly interact with objects or repeat commands.");
+            GameScreen.PrintLine($"\nWhen you see a link <{Color.Cyan.ToInteger()},say you pressed a link!>like this@ you can click on it to quickly interact with objects or repeat commands.");
         }
     }
 }

@@ -262,21 +262,18 @@ namespace QuestLike.Organs
         {
             if (parent != null) parent.GetCollection<BodyPart>().RemoveObject(this);
             parent = null;
-            collection.GetCollection<Item>().AddObject(this);
+            collection.GetCollection<GameObject>().AddObject(this);
+
+            int vessels = 0;
+            float cap = 0;
             foreach (var item in GetVesselsAttatchedToMe())
             {
                 if (!item.source.IsChildOf(this))
                 {
                     item.hanging = true;
                     item.target = null;
-                }
-            }
-            foreach (var item in GetNervesAttatchedToMe())
-            {
-                if (!item.source.IsChildOf(this))
-                {
-                    item.hanging = true;
-                    item.target = null;
+                    vessels++;
+                    cap += item.capacity;
                 }
             }
             foreach (var item in GetCollection<BloodVessel>().Objects)
@@ -285,6 +282,17 @@ namespace QuestLike.Organs
                 {
                     item.hanging = true;
                     item.target = null;
+                    vessels++;
+                    cap += item.capacity;
+                }
+            }
+            foreach (var item in GetNervesAttatchedToMe())
+            {
+                if (!item.source.IsChildOf(this))
+                {
+                    item.hanging = true;
+                    item.target = null;
+                    vessels++;
                 }
             }
             foreach (var item in GetCollection<Nerve>().Objects)
@@ -296,6 +304,9 @@ namespace QuestLike.Organs
                 }
             }
             grabable = true;
+
+            GameScreen.PrintLine($"\nYour <{Color.Cyan.ToInteger()},look at {ID}>{Name}@ was severed, {vessels} blood vessels were cut in the process for allowing {cap}mL per turn to bleed.");
+
         }
 
         public bool IsChildOf(BodyPart part)
@@ -553,9 +564,10 @@ namespace QuestLike.Organs
             foreach (var vessel in vessels.Objects)
             {
                 float bloodToMove = Utilities.Clamp((vessel.movesOxygenated ? oxygenated : deoxygenated) * (vessel.capacity / (vessel.movesOxygenated ? arteryCapacity : veinCapacity)) * bloodData.bloodPressure * InversedNormalizedDamage, 0, vessel.capacity);
+
                 if (vessel.movesOxygenated)
                 {
-                    if (vessel.target.bloodData.oxygenatedBlood > vessel.target.bloodData.hyperBloodLevel) bloodToMove *= 0.25f;
+                    if (!vessel.hanging && vessel.target != null && vessel.target.bloodData.oxygenatedBlood > vessel.target.bloodData.hyperBloodLevel) bloodToMove *= 0.25f;
                     bloodData.oxygenatedBlood -= bloodToMove;
                     if (vessel.target == null && vessel.hanging) continue;
                     vessel.target.bloodData.oxygenatedBlood += bloodToMove;

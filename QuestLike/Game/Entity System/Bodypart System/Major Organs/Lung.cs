@@ -59,7 +59,7 @@ namespace QuestLike.Organs
 
                 string text = "";
 
-                text += gameobjectString;
+                text += Name + ((ShortDescription == "") ? "" : " - " + ShortDescription) + ((Description == "") ? "" : "\n" + Description);
 
                 text += "\n";
 
@@ -75,6 +75,8 @@ namespace QuestLike.Organs
                 text += vesselString;
 
                 text += effector.Examine;
+
+                text += interactionString;
 
                 return text;
             }

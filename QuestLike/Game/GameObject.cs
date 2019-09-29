@@ -280,7 +280,6 @@ namespace QuestLike
                 else return "\n\n" + text;
             }
         }
-
         
         protected string gameobjectString
         {

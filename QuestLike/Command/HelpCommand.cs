@@ -11,7 +11,8 @@ namespace QuestLike.Command
         public HelpCommand()
         {
             keywords = new string[] { };
-            usecases = new string[] { "help", "help ^" };
+            usecases = new string[] { "help", "help ^", "say ^" };
+            adminCommands = new int[] { 2 };
             tags = new string[] { "help" };
             commandName = "Help";
         }
@@ -44,6 +45,11 @@ namespace QuestLike.Command
                     }
 
                     GameScreen.PrintLine(found.HelpString);
+
+                    break;
+                case 2:
+
+                    GameScreen.PrintLine("\n" + GetArg(0));
 
                     break;
             }

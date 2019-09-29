@@ -14,7 +14,7 @@ namespace QuestLike.Command
         public DebugCommand()
         {
             keywords = new string[] { };
-            usecases = new string[] { "debug look at $", "debug simulate $", "debug check signal to ^ on ^", "debug check signal to my ^", "sever my ^", "sever +", "save ^", "load ^" };
+            usecases = new string[] { "debug look at $", "debug simulate $", "debug check signal to ^ on ^", "debug check signal to my ^", "sever my ^", "sever +" };
             tags = new string[] { "debug" };
             commandName = "Debug";
         }
@@ -113,14 +113,6 @@ namespace QuestLike.Command
                     }
                     
                     break;
-                case 6:
-                    Game.SaveGame(GetArg(0));
-
-                    break;
-                case 7:
-                    Game.LoadGame(GetArg(0));
-
-                    break;
             }
             return false;
         }
@@ -140,26 +132,24 @@ namespace QuestLike.Command
             {
                 if ((part.bloodData.oxygenatedBlood < part.bloodData.hypoBloodLevel) && part.usesBlood)
                 {
-                    GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>low oxygenated blood in " + part.Name + "@");
+                    if (part.Damage == 0) GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>low oxygenated blood in " + part.Name + "@");
+                    else GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>low oxygenated blood & damage in " + part.Name + "@");
+
                     GameScreen.PrintLine("Oxygenated Blood".Pad(18) + part.bloodData.oxygenatedBlood.ToString("0.00ml"));
                     GameScreen.PrintLine("Deoxygenated Blood".Pad(18) + part.bloodData.deoxygenatedBlood.ToString("0.00ml"));
+                    if (part.Damage > 0) GameScreen.PrintLine("Damage".Pad(18) + part.Damage + " (" + part.DamageLevel + ")");
                     errors++;
                 }
 
                 if ((part.bloodData.oxygenatedBlood > part.bloodData.hyperBloodLevel) && part.usesBlood)
                 {
-                    GameScreen.PrintLine($"\n<{Color.LightGreen.ToInteger()},>high oxygenated blood in " + part.Name + "@");
-                    GameScreen.PrintLine("Oxygenated Blood".Pad(18) + part.bloodData.oxygenatedBlood.ToString("0.00ml"));
-                    GameScreen.PrintLine("Deoxygenated Blood".Pad(18) + part.bloodData.deoxygenatedBlood.ToString("0.00ml"));
-                }
+                    if (part.Damage == 0) GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>high oxygenated blood in " + part.Name + "@");
+                    else GameScreen.PrintLine($"\n<{Color.Yellow.ToInteger()},>high oxygenated blood & damage in " + part.Name + "@");
 
-                if (part.Damage > 0)
-                {
-                    GameScreen.PrintLine($"\n<{Color.Cyan.ToInteger()},>damage found in " + part.Name + "@");
                     GameScreen.PrintLine("Oxygenated Blood".Pad(18) + part.bloodData.oxygenatedBlood.ToString("0.00ml"));
                     GameScreen.PrintLine("Deoxygenated Blood".Pad(18) + part.bloodData.deoxygenatedBlood.ToString("0.00ml"));
-                    GameScreen.PrintLine("Damage".Pad(18) + part.Damage + " (" + part.DamageLevel + ")");
-                    errors++;
+                    if (part.Damage > 0) GameScreen.PrintLine("Damage".Pad(18) + part.Damage + " (" + part.DamageLevel + ")");
+                    if (part.Damage > 0) errors++;
                 }
             }
 
@@ -169,7 +159,7 @@ namespace QuestLike.Command
             }
             else
             {
-                GameScreen.PrintLine($"\n<{Color.LightGreen.ToInteger()},>Found no issues! Stable anatomy achieved!@");
+                GameScreen.PrintLine($"\n<{Color.LightGreen.ToInteger()},>Found no major issues! Stable anatomy achieved!@");
             }
         }
 
