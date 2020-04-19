@@ -54,7 +54,7 @@
   <PropertyGroup>
     <StartupObject>QuestLike.Program</StartupObject>
   </PropertyGroup>
-  <PropertyGroup>
+  <!-- <PropertyGroup>
     <ManifestCertificateThumbprint>761875AFE5697CDD5D8DEF5D81B2FA648C4E55A9</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
@@ -65,7 +65,7 @@
   </PropertyGroup>
   <PropertyGroup>
     <SignManifests>true</SignManifests>
-  </PropertyGroup>
+  </PropertyGroup>-->
   <PropertyGroup>
     <ApplicationIcon>frame_v4s_icon.ico</ApplicationIcon>
   </PropertyGroup>
